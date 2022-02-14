@@ -9,7 +9,7 @@
 UnkRumbleStruct g_Rumble;
 
 void Rumble_Init(PadMgr* a, s32 b) {
-    FindRumblePack(&g_Rumble);
+    Rumble_Update(&g_Rumble);
     PadMgr_RumbleSet(a, g_Rumble.rumbleEnable);
 }
 
@@ -60,9 +60,9 @@ void Rumble_Shake(f32 a, u8 b, u8 c, u8 d) {
         strength = b - (distance_decay * 255) / 1000;
 
         for (i = 0; i < 0x40; i++) {
-            if (g_Rumble.stengthList[i] == 0) {
+            if (g_Rumble.strengthList[i] == 0) {
                 if (strength > 0) {
-                    g_Rumble.stengthList[i] = strength;
+                    g_Rumble.strengthList[i] = strength;
                     g_Rumble.lengthList[i]  = c;
                     g_Rumble.decayList[i]   = d;
                 }

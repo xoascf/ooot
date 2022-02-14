@@ -581,7 +581,7 @@ u64* SysUcode_GetUCodeBoot(void);
 u64 SysUcode_GetUCodeBootSize(void);
 u64* SysUcode_GetUCode(void);
 u64* SysUcode_GetUCodeData(void);
-void FindRumblePack(UnkRumbleStruct* arg0);
+void Rumble_Update(UnkRumbleStruct* arg0);
 void func_800D3140(UnkRumbleStruct* arg0);
 void func_800D3178(UnkRumbleStruct* arg0);
 void func_800D31A0(void);

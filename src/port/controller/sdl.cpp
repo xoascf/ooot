@@ -362,6 +362,8 @@ namespace sm64::hid
 			{
 				if (strength <= 20)
 					return;
+				if (decay <= 0)
+					decay = 1;
 
 				auto current_time = timeGetTime();
 				//uint32_t strengthScaled  = strength * 257;
