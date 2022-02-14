@@ -27,6 +27,11 @@
 #define RDEADZONE 0
 #endif
 
+extern "C" {
+	bool gfx_is_highres_enabled();
+	void gfx_highres_enable(bool enable);
+}
+
 static bool init_ok;
 
 #define INITIAL_PEAK 0x8000
@@ -351,6 +356,8 @@ namespace sm64::hid
 					return;
 				}
 
+				u8 previousButtonState[SDL_CONTROLLER_BUTTON_MAX];
+
 				bool walk = false;
 				SDL_GameControllerUpdate();
 
@@ -362,6 +369,7 @@ namespace sm64::hid
 
 				for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
 				{
+					previousButtonState[i] = m_buttonState[i];
 					m_buttonState[i] = SDL_GameControllerGetButton(m_context, (SDL_GameControllerButton)i);
 				}
 
@@ -482,6 +490,12 @@ namespace sm64::hid
 				//When the back button is pressed. Mark all dpad button as pressed. Used to open map select
 				if (m_buttonState[SDL_CONTROLLER_BUTTON_BACK])
 					m_state.button |= U_JPAD | D_JPAD | L_JPAD | R_JPAD;
+				
+
+				//Enable/disable highres
+				if (!previousButtonState[SDL_CONTROLLER_BUTTON_LEFTSHOULDER] && !previousButtonState[SDL_CONTROLLER_BUTTON_RIGHTSHOULDER])
+					if (m_buttonState[SDL_CONTROLLER_BUTTON_LEFTSHOULDER] && m_buttonState[SDL_CONTROLLER_BUTTON_RIGHTSHOULDER])
+						gfx_highres_enable(!gfx_is_highres_enabled());
 			}
 
 			protected:

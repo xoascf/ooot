@@ -2,6 +2,9 @@
 #define ENABLE_OPENGL
 #define USE_GLIDEN64
 #include "window.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 static std::unique_ptr<platform::window::Base> gWindow;
 
@@ -284,6 +287,20 @@ void audio_thread()
 void main_func(void)
 {
 	sm64::log("initializing app\n");
+
+	//Check if texture packs exist
+	FILE* file1;
+	FILE* file2;
+	fopen_s(&file1, "THE LEGEND OF ZELDA_HIRESTEXTURES.hts", "r");
+	fopen_s(&file2, "THE LEGEND OF ZELDA_HIRESTEXTURES.htc", "r");
+	if (!file1 && !file2)
+	{
+		MessageBox(NULL, L"Thank You for testing the hd-textures branch!\n\nNo Texture Pack found :-(\n\nPlease put 'THE LEGEND OF ZELDA_HIRESTEXTURES.hts' next to OOT.exe!", L"Open Ocarina Team", MB_OK | MB_ICONEXCLAMATION);
+	}
+	if (file1)
+		fclose(file1);
+	if (file2)
+		fclose(file2);
 
 #ifndef BUILD_NSO
 	if(!verifyIntegrity())
