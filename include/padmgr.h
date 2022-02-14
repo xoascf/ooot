@@ -45,15 +45,17 @@ struct UnkRumbleStruct {
     /* 0x004 */ u8 strengthList[0x40];//rumble pattern
     /* 0x044 */ u8 lengthList[0x40];//rumble pattern
     /* 0x084 */ u8 decayList[0x40];//rumble pattern
-    /* 0x0C4 */ u8 unk_C4[0x40];
-    /* 0x104 */ u8 unk_104;
-    /* 0x105 */ u8 unk_105;
-    /* 0x106 */ u16 unk_106;
-    /* 0x108 */ u16 unk_108;
+    /* 0x0C4 */ u8 strengthList_easing[0x40];//Used internally to make the decay in more quadratic instead of linear
+
+    /* 0x104 */ u8 state;//set to 0 for a clear of all rumble data (rumble stops), set to 1 to continue operation, set to 2 for a full rumble device clear
+    /* 0x105 */ u8 reset;//set to zero to reset pakType of pad manager
+    /* 0x106 */ u16 timer1;//Counts up for each frame there is rumble, after 7200 frames ~ 6 minutes clears the rumble data
+    /* 0x108 */ u16 timer2;//Resets timer1 when there is no rumble
+
     /* 0x10A */ u8 strength;
     /* 0x10B */ u8 length;
     /* 0x10C */ u8 decay;
-    /* 0x10D */ u8 unk_10D;
+    /* 0x10D */ u8 strength_easing;
 }; // size = 0x10E
 
 extern PadMgr gPadMgr;

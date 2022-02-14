@@ -4,110 +4,111 @@
 #include <string.h>
 #include "def/code_800D2E30.h"
 
-void Rumble_Update(UnkRumbleStruct* arg0) {
-    static u8 D_8012DBB0 = 1;
+void Rumble_Update(UnkRumbleStruct* rumbleCtx) {
+    static u8 reset_needed = 1;
     s32 i;
-    s32 unk_a3;
-    s32 index = -1;
+    s32 temp;
+    s32 index = -1;//Index into the list with the most rumble
 
     for (i = 0; i < 4; i++) {
-        arg0->rumbleEnable[i] = 0;
+        rumbleCtx->rumbleEnable[i] = 0;
     }
 
-    if (arg0->unk_105 == 0) {
-        if (D_8012DBB0 != 0) {
+    if (rumbleCtx->reset == 0) {
+        if (reset_needed != 0) {
             for (i = 0; i < 4; i++) {
                 gPadMgr.pakType[i] = 0;
             }
         }
-        D_8012DBB0 = arg0->unk_105;
+        reset_needed = rumbleCtx->reset;//Don't reset again next frame
         return;
     }
 
-    D_8012DBB0 = arg0->unk_105;
+    reset_needed = rumbleCtx->reset;//Allow resetting
 
-    if (arg0->unk_104 == 2) {
+    if (rumbleCtx->state == 2) {//Perform full clear of all data
         for (i = 0; i < 4; ++i) {
             gPadMgr.pakType[i] = 0;
         }
 
         for (i = 0; i < 0x40; i++) {
-            arg0->unk_C4[i]       = 0;
-            arg0->decayList[i]    = 0;
-            arg0->lengthList[i]   = 0;
-            arg0->strengthList[i] = 0;
+            rumbleCtx->strengthList_easing[i]       = 0;
+            rumbleCtx->decayList[i]    = 0;
+            rumbleCtx->lengthList[i]   = 0;
+            rumbleCtx->strengthList[i] = 0;
         }
-        arg0->unk_106 = arg0->unk_108 = arg0->strength = arg0->length = arg0->decay = arg0->unk_10D = 0;
-        arg0->unk_104 = 1;
+        rumbleCtx->timer1 = rumbleCtx->timer2 = rumbleCtx->strength = rumbleCtx->length = rumbleCtx->decay = rumbleCtx->strength_easing = 0;
+        rumbleCtx->state = 1;//Normal operation mode
     }
-    if (arg0->unk_104 != 0) {
+    if (rumbleCtx->state != 0) {
         for (i = 0; i < 0x40; i++) {
-            if (arg0->strengthList[i] != 0) {
-                if (arg0->lengthList[i] > 0) {
-                    arg0->lengthList[i]--;
+            if (rumbleCtx->strengthList[i] != 0) {
+                if (rumbleCtx->lengthList[i] > 0) {
+                    rumbleCtx->lengthList[i]--;
                 } else {
-                    unk_a3 = arg0->strengthList[i] - arg0->decayList[i];
-                    if (unk_a3 > 0) {
-                        arg0->strengthList[i] = unk_a3;
+                    temp = rumbleCtx->strengthList[i] - rumbleCtx->decayList[i];
+                    if (temp > 0) {
+                        rumbleCtx->strengthList[i] = temp;
                     } else {
-                        arg0->strengthList[i] = 0;
+                        rumbleCtx->strengthList[i] = 0;
                     }
                 }
 
-                unk_a3 = arg0->unk_C4[i] + arg0->strengthList[i];
-                arg0->unk_C4[i] = unk_a3;
+                temp = rumbleCtx->strengthList_easing[i] + rumbleCtx->strengthList[i];
+                rumbleCtx->strengthList_easing[i] = temp;
                 if (index == -1) {
                     index = i;
-                    arg0->rumbleEnable[0] = (unk_a3 >= 0x100);
-                } else if (arg0->strengthList[index] < arg0->strengthList[i]) {
+                    rumbleCtx->rumbleEnable[0] = (temp >= 0x100);
+                } else if (rumbleCtx->strengthList[index] < rumbleCtx->strengthList[i]) {
                     index = i;
-                    arg0->rumbleEnable[0] = (unk_a3 >= 0x100);
+                    rumbleCtx->rumbleEnable[0] = (temp >= 0x100);
                 }
             }
         }
-        if (arg0->strength != 0) {
-            if (arg0->length > 0) {
-                arg0->length--;
+        if (rumbleCtx->strength != 0) {
+            if (rumbleCtx->length > 0) {
+                rumbleCtx->length--;
             } else {
-                unk_a3 = arg0->strength - arg0->decay;
-                if (unk_a3 > 0) {
-                    arg0->strength = unk_a3;
+                temp = rumbleCtx->strength - rumbleCtx->decay;
+                if (temp > 0) {
+                    rumbleCtx->strength = temp;
                 } else {
-                    arg0->strength = 0;
+                    rumbleCtx->strength = 0;
                 }
             }
-            unk_a3 = arg0->unk_10D + arg0->strength;
-            arg0->unk_10D = unk_a3;
-            arg0->rumbleEnable[0] = (unk_a3 >= 0x100);
+            temp = rumbleCtx->strength_easing + rumbleCtx->strength;
+            rumbleCtx->strength_easing = temp;
+            rumbleCtx->rumbleEnable[0] = (temp >= 0x100);
         }
-        if (arg0->strength != 0) {
-            unk_a3 = arg0->strength;
+        if (rumbleCtx->strength != 0) {
+            temp = rumbleCtx->strength;
         } else {
+            //Write the largest rumble value in temp
             if (index == -1) {
-                unk_a3 = 0;
+                temp = 0;
             } else {
-                unk_a3 = arg0->strengthList[index];
+                temp = rumbleCtx->strengthList[index];
             }
         }
-        if (unk_a3 == 0) {
-            if ((++arg0->unk_108) >= 6) {
-                arg0->unk_106 = 0;
-                arg0->unk_108 = 5;
+        if (temp == 0) {//No rumble
+            if ((++rumbleCtx->timer2) >= 6) {
+                rumbleCtx->timer1 = 0;//Clear emergency timer
+                rumbleCtx->timer2 = 5;
             }
         } else {
-            arg0->unk_108 = 0;
-            if ((++arg0->unk_106) >= 0x1C21) {
-                arg0->unk_104 = 0;
+            rumbleCtx->timer2 = 0;
+            if ((++rumbleCtx->timer1) >= 0x1C21) {//Has been rumbling for a very long time?
+                rumbleCtx->state = 0;//Clear rumble data
             }
         }
-    } else {
+    } else {//Clear rumble data
         for (i = 0; i < 0x40; i++) {
-            arg0->unk_C4[i] = 0;
-            arg0->strengthList[i] = 0;
-            arg0->lengthList[i]   = 0;
-            arg0->decayList[i]    = 0;
+            rumbleCtx->strengthList_easing[i] = 0;
+            rumbleCtx->strengthList[i] = 0;
+            rumbleCtx->lengthList[i]   = 0;
+            rumbleCtx->decayList[i]    = 0;
         }
 
-        arg0->unk_106 = arg0->unk_108 = arg0->strength = arg0->length = arg0->decay = arg0->unk_10D = 0;
+        rumbleCtx->timer1 = rumbleCtx->timer2 = rumbleCtx->strength = rumbleCtx->length = rumbleCtx->decay = rumbleCtx->strength_easing = 0;
     }
 }

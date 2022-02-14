@@ -63,8 +63,8 @@ void Rumble_Shake(f32 a, u8 b, u8 c, u8 d) {
             if (g_Rumble.strengthList[i] == 0) {
                 if (strength > 0) {
                     g_Rumble.strengthList[i] = strength;
-                    g_Rumble.lengthList[i]  = c;
-                    g_Rumble.decayList[i]   = d;
+                    g_Rumble.lengthList[i]   = c;
+                    g_Rumble.decayList[i]    = d;
                 }
                 break;
             }
@@ -77,8 +77,8 @@ void Rumble_Reset(void) {//called on GameState_Init
     bzero(&g_Rumble, sizeof(UnkRumbleStruct));
 #endif
 
-    g_Rumble.unk_104 = 2;
-    g_Rumble.unk_105 = 1;
+    g_Rumble.state = 2;
+    g_Rumble.reset = 1;
 
     gPadMgr.retraceCallback = Rumble_Init;
     gPadMgr.retraceCallbackValue = 0;
@@ -104,13 +104,13 @@ u32 Rumble_IsEnabled(void) {
 }
 
 void Rumble_Stop(void) {//called on Environment_Init and game over
-    g_Rumble.unk_104 = 2;
+    g_Rumble.state = 2;
 }
 
 void Rumble_Decrease(void) {//called per frame for playerDistance specific gSaveContext.gameMode
-    g_Rumble.unk_104 = 0;
+    g_Rumble.state = 0;
 }
 
 void Rumble_Enable(u32 a) {
-    g_Rumble.unk_105 = !!a;
+    g_Rumble.reset = !!a;
 }
