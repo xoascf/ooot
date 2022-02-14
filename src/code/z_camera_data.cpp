@@ -94,7 +94,7 @@ CameraModeValue D_8011A3C8[] = {
 CameraModeValue D_8011A3F4[] = {
     /* CAM_FUNC_KEEP1 */
     { -20, 0 },    // unk_00
-    { 120, 1 },    // unk_04
+    { 120, 1 },    // strengthList
     { 140, 2 },    // unk_08
     { 25, 13 },    // unk_0C
     { 45, 14 },    // unk_10
@@ -332,7 +332,7 @@ CameraModeValue D_8011A660[] = {
 CameraModeValue D_8011A68C[] = {
     /* CAM_FUNC_KEEP1 */
     { -5, 0 },     // unk_00
-    { 120, 1 },    // unk_04
+    { 120, 1 },    // strengthList
     { 140, 2 },    // unk_08
     { 5, 13 },     // unk_0C
     { 85, 14 },    // unk_10
@@ -378,7 +378,7 @@ CameraModeValue sSetNorm1ModeParaVals[] = {
 CameraModeValue D_8011A714[] = {
     /* CAM_FUNC_KEEP1 */
     { -20, 0 },    // unk_00
-    { 120, 1 },    // unk_04
+    { 120, 1 },    // strengthList
     { 140, 2 },    // unk_08
     { 25, 13 },    // unk_0C
     { 45, 14 },    // unk_10
@@ -549,7 +549,7 @@ CameraModeValue D_8011A8C4[] = {
 CameraModeValue D_8011A8F0[] = {
     /* CAM_FUNC_KEEP1 */
     { -20, 0 },    // unk_00
-    { 120, 1 },    // unk_04
+    { 120, 1 },    // strengthList
     { 140, 2 },    // unk_08
     { 25, 13 },    // unk_0C
     { 45, 14 },    // unk_10
@@ -922,7 +922,7 @@ CameraModeValue D_8011ACD4[] = {
 CameraModeValue D_8011ACF8[] = {
     /* CAM_FUNC_KEEP1 */
     { -60, 0 },    // unk_00
-    { 180, 1 },    // unk_04
+    { 180, 1 },    // strengthList
     { 220, 2 },    // unk_08
     { 25, 13 },    // unk_0C
     { 45, 14 },    // unk_10
@@ -1278,7 +1278,7 @@ CameraModeValue D_8011B0D8[] = {
 CameraModeValue D_8011B108[] = {
     /* CAM_FUNC_NORM2 */
     { 0, 0 },      // unk_00
-    { 120, 1 },    // unk_04
+    { 120, 1 },    // strengthList
     { 280, 2 },    // unk_08
     { 60, 23 },    // unk_1C
     { 8, 4 },      // unk_0C
@@ -1291,7 +1291,7 @@ CameraModeValue D_8011B108[] = {
 CameraModeValue D_8011B12C[] = {
     /* CAM_FUNC_NORM2 */
     { 0, 0 },      // unk_00
-    { 120, 1 },    // unk_04
+    { 120, 1 },    // strengthList
     { 280, 2 },    // unk_08
     { 60, 23 },    // unk_1C
     { 8, 4 },      // unk_0C
@@ -1304,7 +1304,7 @@ CameraModeValue D_8011B12C[] = {
 CameraModeValue D_8011B150[] = {
     /* CAM_FUNC_NORM2 */
     { 0, 0 },      // unk_00
-    { 270, 1 },    // unk_04
+    { 270, 1 },    // strengthList
     { 300, 2 },    // unk_08
     { 120, 23 },   // unk_1C
     { 8, 4 },      // unk_0C
@@ -1317,7 +1317,7 @@ CameraModeValue D_8011B150[] = {
 CameraModeValue D_8011B174[] = {
     /* CAM_FUNC_NORM2 */
     { 0, 0 },      // unk_00
-    { 270, 1 },    // unk_04
+    { 270, 1 },    // strengthList
     { 300, 2 },    // unk_08
     { 120, 23 },   // unk_1C
     { 6, 4 },      // unk_0C
@@ -1427,14 +1427,14 @@ CameraModeValue sSetDoor0ModeNormVals[] = {
 CameraModeValue sSetDoorCModeNormVals[] = {
     /* CAM_FUNC_SPEC9 */
     { -5, 0 },     // yOffset
-    { 60, 7 },     // unk_04 (unused)
+    { 60, 7 },     // strengthList (unused)
     { 0x3202, 9 }, // flags
 };
 
 CameraModeValue sSetDoorCModeParaVals[] = {
     /* CAM_FUNC_SPEC9 */
     { -5, 0 },     // yOffset
-    { 60, 7 },     // unk_04 (unused)
+    { 60, 7 },     // strengthList (unused)
     { 0x320A, 9 }, // flags
 };
 
@@ -1521,7 +1521,7 @@ CameraModeValue D_8011B2E4[] = {
     /* CAM_FUNC_DEMO3
       CAM_FUNC_DEMO4 (not actually used in Camera_Demo4) */
     { 60, 7 },     // fov
-    { 30, 8 },     // unk_04
+    { 30, 8 },     // strengthList
     { 0x3200, 9 }, // flags
 };
 
@@ -1687,7 +1687,7 @@ CameraModeValue D_8011B474[] = {
 CameraModeValue sSetScn0ModeNormVals[] = {
     /* CAM_FUNC_SPEC9 */
     { -30, 0 },   // yOffset
-    { 60, 7 },    // unk_04 (unused)
+    { 60, 7 },    // strengthList (unused)
     { 0x10A, 9 }, // flags
 };
 
@@ -1920,7 +1920,7 @@ CameraModeValue D_8011B708[] = {
 CameraModeValue D_8011B730[] = {
     /* CAM_FUNC_KEEP4 */
     { -30, 0 },    // unk_00
-    { 120, 1 },    // unk_04
+    { 120, 1 },    // strengthList
     { -10, 3 },    // unk_08
     { 170, 10 },   // unk_0C
     { 0, 21 },     // unk_10
@@ -2268,7 +2268,7 @@ CameraModeValue D_8011BAC8[] = {
 CameraModeValue D_8011BAF0[] = {
     /* CAM_FUNC_KEEP1 */
     { -20, 0 },    // unk_00
-    { 180, 1 },    // unk_04
+    { 180, 1 },    // strengthList
     { 200, 2 },    // unk_08
     { 35, 13 },    // unk_0C
     { 45, 14 },    // unk_10

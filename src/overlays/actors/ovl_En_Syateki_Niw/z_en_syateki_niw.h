@@ -10,7 +10,7 @@ typedef void (*EnSyatekiNiwActionFunc)(struct EnSyatekiNiw*, GlobalContext*);
 
 typedef struct {
     /* 0x00 */ u8    unk_00;
-    /* 0x0C */ Vec3f unk_04;
+    /* 0x0C */ Vec3f strengthList;
     /* 0x10 */ Vec3f unk_10;
     /* 0x1C */ Vec3f unk_1C;
     /* 0x28 */ s16   unk_28;

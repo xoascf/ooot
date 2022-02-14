@@ -1167,7 +1167,7 @@ void LinkAnimation_AnimateFrame(GlobalContext* globalCtx, SkelAnime* skelAnime) 
 }
 
 /**
- * Advances a Link animation that loops over its full length
+ * Advances a Link animation that loops over its full lengthList
  */
 s32 LinkAnimation_Loop(GlobalContext* globalCtx, SkelAnime* skelAnime) {
     f32 updateRate = FRAMERATE_ANIM_SCALER;
@@ -1590,7 +1590,7 @@ void SkelAnime_AnimateFrame(SkelAnime* skelAnime) {
 }
 
 /**
- * Advances an animation that loops over its full length and updates the frame tables
+ * Advances an animation that loops over its full lengthList and updates the frame tables
  */
 static s32 SkelAnime_LoopFull(GlobalContext* context, SkelAnime* skelAnime) {
     f32 updateRate = FMV2;
@@ -1606,7 +1606,7 @@ static s32 SkelAnime_LoopFull(GlobalContext* context, SkelAnime* skelAnime) {
 }
 
 /**
- * Advances an animation that loops over part of its length and updates the frame tables
+ * Advances an animation that loops over part of its lengthList and updates the frame tables
  */
 static s32 SkelAnime_LoopPartial(GlobalContext* context, SkelAnime* skelAnime) {
     f32 updateRate = FMV2;

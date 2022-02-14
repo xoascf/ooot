@@ -126,7 +126,7 @@ void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
     dirVectorSize = Math3D_Vec3fMagnitudeSq(&line->b);
     if (IS_ZERO(dirVectorSize)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        // "Math3D_lineVsPosSuisenCross(): No straight line length"
+        // "Math3D_lineVsPosSuisenCross(): No straight line lengthList"
         osSyncPrintf("Math3D_lineVsPosSuisenCross(): No straight line length\n");
         osSyncPrintf("Returns cross = pos.\n"); // "Returns cross = pos."
         osSyncPrintf(VT_RST);
@@ -212,7 +212,7 @@ s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC,
 
 /**
  * Finds a point on the line from starting point `v0`, and directional vector `dir`
- * which is `dist` length from the starting point.  Result is placed in `ret`
+ * which is `dist` lengthList from the starting point.  Result is placed in `ret`
  */
 void Math3D_PointOnInfiniteLine(Vec3f* v0, Vec3f* dir, f32 dist, Vec3f* ret) {
     ret->x = (dir->x * dist) + v0->x;
@@ -430,14 +430,14 @@ f32 Math3D_Dist2D(f32 x0, f32 y0, f32 x1, f32 y1) {
 }
 
 /**
- * Returns the magntiude (length) squared of `vec`
+ * Returns the magntiude (lengthList) squared of `vec`
  */
 f32 Math3D_Vec3fMagnitudeSq(Vec3f* vec) {
     return SQ(vec->x) + SQ(vec->y) + SQ(vec->z);
 }
 
 /**
- * Returns the magnitude(length) of `vec`
+ * Returns the magnitude(lengthList) of `vec`
  */
 f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
     return sqrt(Math3D_Vec3fMagnitudeSq(vec));
@@ -1466,7 +1466,7 @@ s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line) {
 
     lineLenSq = SQ(lineDiff.x) + SQ(lineDiff.y) + SQ(lineDiff.z);
     if (IS_ZERO(lineLenSq)) {
-        // line length is "0"
+        // line lengthList is "0"
         return false;
     }
     temp_f0_2 = ((((sphere->center.x - line->a.x) * lineDiff.x) + ((sphere->center.y - line->a.y) * lineDiff.y)) +
@@ -1669,7 +1669,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
      * This section checks for intersections with the cylinder's base and top
      */
     if (!IS_ZERO(ptAToPtB.y)) {
-        // fraction of length along AB to reach y = 0
+        // fraction of lengthList along AB to reach y = 0
         fracBase = -cylToPtA.y / ptAToPtB.y;
         if ((0.0f <= fracBase) && (fracBase <= 1.0f)) {
             f32 baseIntX = (ptAToPtB.x * fracBase) + cylToPtA.x;
@@ -1683,7 +1683,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
                 intFlags |= 1;
             }
         }
-        // fraction of length along AB to reach y = cyl->height
+        // fraction of lengthList along AB to reach y = cyl->height
         fracA = (cyl->height - cylToPtA.y) / ptAToPtB.y;
         if ((0.0f <= fracA) && (fracA <= 1.0f)) {
             f32 topIntX = ptAToPtB.x * fracA + cylToPtA.x;
@@ -1719,11 +1719,11 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
         }
         distCent2 = sqrtf(SQ(dot2AB) - (4.0f * SQXZ(ptAToPtB) * radSqDiff));
         if (sideIntA == 1) {
-            // fraction of length along AB for side intersection closer to A
+            // fraction of lengthList along AB for side intersection closer to A
             fracA = (distCent2 - dot2AB) / (2.0f * SQXZ(ptAToPtB));
         }
         if (sideIntB == 1) {
-            // fraction of length along AB for side intersection closer to B
+            // fraction of lengthList along AB for side intersection closer to B
             fracB = (-dot2AB - distCent2) / (2.0f * SQXZ(ptAToPtB));
         }
     } else if (!IS_ZERO(2.0f * DOTXZ(ptAToPtB, cylToPtA))) {

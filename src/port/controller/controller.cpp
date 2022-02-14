@@ -184,7 +184,7 @@ namespace sm64::hid
 			this->stickY = this->rawStickY - 6;
 		}
 
-		// calculate f32 magnitude from the center by vector length.
+		// calculate f32 magnitude from the center by vector lengthList.
 		this->stickMag = sqrtf(this->stickX * this->stickX + this->stickY * this->stickY);
 
 		// magnitude cannot exceed 64.0f: if it does, modify the values appropriately to
@@ -219,7 +219,7 @@ namespace sm64::hid
 			this->r_stickY = this->r_rawStickY - 6;
 		}
 
-		// calculate f32 magnitude from the center by vector length.
+		// calculate f32 magnitude from the center by vector lengthList.
 		this->r_stickMag = sqrtf(this->r_stickX * this->r_stickX + this->r_stickY * this->r_stickY);
 
 		// magnitude cannot exceed 64.0f: if it does, modify the values appropriately to

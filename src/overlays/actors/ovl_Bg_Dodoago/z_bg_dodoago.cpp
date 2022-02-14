@@ -89,7 +89,7 @@ static s16 sFirstExplosiveFlag = false;
 
 static u8 sDisableBombCatcher;
 
-static u8 sUnused[90]; // unknown length
+static u8 sUnused[90]; // unknown lengthList
 
 static s32 sTimer;
 

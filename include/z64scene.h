@@ -131,7 +131,7 @@ struct SCmdSkyboxDisables {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x02 */ char pad[2];
-    /* 0x04 */ u8  unk_04;
+    /* 0x04 */ u8  strengthList;
     /* 0x05 */ u8  unk_05;
 };
 
@@ -455,8 +455,8 @@ enum SceneCommandTypeID {
 #define SCENE_CMD_ROOM_LIST(numRooms, roomList) \
     { SCENE_CMD_ID_ROOM_LIST, numRooms, CMD_PTR(roomList) }
 
-#define SCENE_CMD_WIND_SETTINGS(xDir, yDir, zDir, strength) \
-    { SCENE_CMD_ID_WIND_SETTINGS, 0, CMD_BBBB(xDir, yDir, zDir, strength) }
+#define SCENE_CMD_WIND_SETTINGS(xDir, yDir, zDir, strengthList) \
+    { SCENE_CMD_ID_WIND_SETTINGS, 0, CMD_BBBB(xDir, yDir, zDir, strengthList) }
 
 #define SCENE_CMD_ENTRANCE_LIST(entranceList) \
     { SCENE_CMD_ID_ENTRANCE_LIST, 0, CMD_PTR(entranceList) }

@@ -199,7 +199,7 @@ typedef void (*AnimationEntryCallback)(struct GlobalContext* globalCtx, Animatio
 struct TransformData {
     /* 0x0000 */ u16 unk_00; // appears to be flags
     /* 0x0002 */ s16 unk_02;
-    /* 0x0004 */ s16 unk_04;
+    /* 0x0004 */ s16 strengthList;
     /* 0x0006 */ s16 unk_06;
     /* 0x0008 */ f32 unk_08;
 }; // size = 0xC

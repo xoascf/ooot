@@ -36,7 +36,7 @@ f32 func_8006C5A8(f32 target, TransformData* transData, s32 refIdx) {
                 f32 diff = (f32)transData[j].unk_02 - (f32)transData[i].unk_02;
                 return func_8006C510((target - transData[i].unk_02) / ((f32)transData[j].unk_02 - transData[i].unk_02),
                                      diff * (1.0f / 30.0f), transData[i].unk_08, transData[j].unk_08,
-                                     transData[i].unk_06, transData[j].unk_04);
+                                     transData[i].unk_06, transData[j].strengthList);
             }
         }
     }

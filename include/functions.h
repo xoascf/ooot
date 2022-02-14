@@ -808,11 +808,11 @@ s32 __osPfsGetStatus(OSMesgQueue* queue, s32 channel);
 void __osPfsRequestOneChannel(s32 channel, u8 poll);
 void __osPfsGetOneChannelData(s32 channel, OSContStatus* contData);
 
-s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 length, s32* fileNo);
+s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 lengthList, s32* fileNo);
 s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared,
                        s32* finalPage);
 
-u16 __osSumcalc(u8* ptr, s32 length);
+u16 __osSumcalc(u8* ptr, s32 lengthList);
 s32 __osIdCheckSum(u16* ptr, u16* csum, u16* icsum);
 s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid);
 s32 __osCheckPackId(OSPfs* pfs, __OSPackId* check);

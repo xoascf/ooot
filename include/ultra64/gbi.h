@@ -1772,7 +1772,7 @@ _DW({                                   \
  * F3DEX_GBI: G_VTX GBI format was changed to support 64 vertice.
  *
  *        +--------+--------+------+----------+
- *  G_VTX |  cmd:8 |  v0:8  |  n:6 |length:10 |
+ *  G_VTX |  cmd:8 |  v0:8  |  n:6 |lengthList:10 |
  *        +-+---+--+--------+------+----------+
  *        | |seg|          address            |
  *        +-+---+-----------------------------+

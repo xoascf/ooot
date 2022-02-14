@@ -29,7 +29,7 @@ struct MessageTableEntry {
     u16 textId;
     u8 typePos;
     const char* segment;
-    u32 length;
+    u32 lengthList;
 };
 
 /* 

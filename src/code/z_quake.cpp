@@ -222,7 +222,7 @@ QuakeRequest* Quake_SetValue(s16 idx, s16 valueType, s16 value) {
                 req->unk_14.unk_02 = value;
                 break;
             case 0x80:
-                req->unk_14.unk_04 = value;
+                req->unk_14.strengthList = value;
                 break;
             case 0x100:
                 req->countdown = value;

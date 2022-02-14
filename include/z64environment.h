@@ -89,7 +89,7 @@ struct EnvironmentContext {
     /* 0x48 */ DmaRequest dmaRequest;
     /* 0x68 */ OSMesgQueue loadQueue;
     /* 0x80 */ OSMesg loadMsg;
-    /* 0x84 */ f32 unk_84;
+    /* 0x84 */ f32 decayList;
     /* 0x88 */ f32 unk_88;
     /* 0x8C */ s16 adjAmbientColor[3];
     /* 0x92 */ s16 adjLight1Color[3];

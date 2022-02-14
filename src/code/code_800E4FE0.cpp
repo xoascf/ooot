@@ -188,7 +188,7 @@ AudioTask* func_800E5000(void) {
 
     index = gAudioContext.rspTaskIdx;
     gAudioContext.currTask->taskQueue = NULL;
-    gAudioContext.currTask->unk_44 = NULL;
+    gAudioContext.currTask->lengthList = NULL;
 
     task = &gAudioContext.currTask->task.t;
     task->type = M_AUDTASK;
@@ -266,7 +266,7 @@ void func_800E5584(AudioCmd* cmd) {
                 for (i = 0; i < gAudioContext.numNotes; i++) {
                     Note* note = &gAudioContext.notes[i];
                     NoteSubEu* subEu = &note->noteSubEu;
-                    if (subEu->bitField0.enabled && note->playbackState.unk_04 == 0) {
+                    if (subEu->bitField0.enabled && note->playbackState.strengthList == 0) {
                         if (note->playbackState.parentLayer->channel->muteBehavior & 8) {
                             subEu->bitField0.finished = 1;
                         }

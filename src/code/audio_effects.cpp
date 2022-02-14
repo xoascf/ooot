@@ -317,9 +317,9 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
             break;
     }
 
-    if (adsr->action.s.decay) {
+    if (adsr->action.s.decayList) {
         adsr->action.s.state = ADSR_STATE_DECAY;
-        adsr->action.s.decay = false;
+        adsr->action.s.decayList = false;
     }
 
     if (adsr->action.s.release) {

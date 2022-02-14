@@ -372,7 +372,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         sDbCamAnim.keyframe = 0;
         sDbCamAnim.unk_0A = 1;
         sDbCamAnim.curFrame = 0.0f;
-        sDbCamAnim.unk_04 = 0;
+        sDbCamAnim.strengthList = 0;
 
         for (i = 0; i < (dbCamera->sub.nPoints - 2); i++) {
             dbCamera->sub.position[i].continueFlag = dbCamera->sub.lookAt[i].continueFlag = 0;
@@ -398,9 +398,9 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
                        &sDbCamAnim.keyframe, &sDbCamAnim.curFrame) &&
         sDbCamAnim.unk_0A == 1) {
         Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        sDbCamAnim.unk_04++;
+        sDbCamAnim.strengthList++;
 
-        if (dbCamera->sub.nFrames > 0 && dbCamera->sub.nFrames < sDbCamAnim.unk_04) {
+        if (dbCamera->sub.nFrames > 0 && dbCamera->sub.nFrames < sDbCamAnim.strengthList) {
             sDbCamAnim.unk_0A = 0;
             func_8006376C(0xF, 0x1A, 1, D_8012CEEC);
         }
@@ -417,7 +417,7 @@ void func_800B44E0(DbCamera* dbCamera, Camera* cam) {
         dbCamera->roll = sDbCamAnim.roll;
         dbCamera->rollDegrees = sDbCamAnim.roll * (360.0f / 256.0f);
 
-        DbCamera_SetTextValue(sDbCamAnim.unk_04, &D_8012CFB4[8], 4);
+        DbCamera_SetTextValue(sDbCamAnim.strengthList, &D_8012CFB4[8], 4);
         func_8006376C(0x10, 0x17, 3, D_8012CFB4);
         D_8012CFC4[5] = ((sDbCamAnim.keyframe + 1) / 10) + '0';
         D_8012CFC4[6] = ((sDbCamAnim.keyframe + 1) % 10) + '0';
@@ -531,7 +531,7 @@ void DbCamera_PrintCutBytes(DbCameraCut* cut) {
 
 void DbCamera_Init(DbCamera* dbCamera, Camera* cameraPtr) {
     dbCamera->sub.unk_104A.z = 0;
-    dbCamera->unk_44 = 0;
+    dbCamera->lengthList = 0;
     dbCamera->unk_00 = 0;
     dbCamera->unk_34 = 0;
     dbCamera->unk_3C = false;
@@ -621,7 +621,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         dbCamera->unk_00++;
         dbCamera->unk_00 %= 3;
         dbCamera->unk_38 = 1;
-        dbCamera->unk_44 = 0;
+        dbCamera->lengthList = 0;
         dbCamera->unk_40 = -1;
         dbCamera->sub.demoCtrlActionIdx = 0;
         sDbCamAnim.unk_0A = 0;
@@ -693,11 +693,11 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         OLib_Vec3fDiffToVecSphGeo(&sp104, sp80, sp7C);
     }
 
-    if (dbCamera->unk_44 > 100) {
-        dbCamera->unk_44 = 100;
+    if (dbCamera->lengthList > 100) {
+        dbCamera->lengthList = 100;
     }
 
-    new_var2 = ((dbCamera->unk_44 * 0.15f) + 0.2f);
+    new_var2 = ((dbCamera->lengthList * 0.15f) + 0.2f);
     temp_f2 = new_var2 * (sp104.r / 100.0f);
     if ((dbCamera->unk_38 != 0) || dbCamera->unk_3C) {
         if (D_80161144) {
@@ -715,9 +715,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             }
 
             if (dbCamera->unk_40 == 7) {
-                dbCamera->unk_44++;
+                dbCamera->lengthList++;
             } else {
-                dbCamera->unk_44 = 0;
+                dbCamera->lengthList = 0;
             }
 
             dbCamera->unk_40 = 7;
@@ -733,9 +733,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 DbCamera_AddVecSph(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xB) {
-                dbCamera->unk_44++;
+                dbCamera->lengthList++;
             } else {
-                dbCamera->unk_44 = 0;
+                dbCamera->lengthList = 0;
             }
             dbCamera->unk_40 = 0xB;
         } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_A | BTN_L)) {
@@ -744,9 +744,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 sp104.r = 10.0f;
             }
             if (dbCamera->unk_40 == 8) {
-                dbCamera->unk_44++;
+                dbCamera->lengthList++;
             } else {
-                dbCamera->unk_44 = 0;
+                dbCamera->lengthList = 0;
             }
             dbCamera->unk_40 = 8;
         } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_A)) {
@@ -761,13 +761,13 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 DbCamera_AddVecSph(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xC) {
-                dbCamera->unk_44++;
+                dbCamera->lengthList++;
             } else {
-                dbCamera->unk_44 = 0;
+                dbCamera->lengthList = 0;
             }
             dbCamera->unk_40 = 0xC;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
             dbCamera->unk_40 = -1;
         }
 
@@ -784,9 +784,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         }
 
         if (dbCamera->unk_40 == 1) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 1;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_DUP | BTN_L)) {
@@ -801,9 +801,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 2) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 2;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_DUP)) {
@@ -817,9 +817,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 3) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 3;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_DDOWN)) {
@@ -833,9 +833,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 4) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 4;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, (BTN_DRIGHT | BTN_L)) ||
@@ -851,9 +851,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 5) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 5;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, (BTN_DLEFT | BTN_L)) ||
@@ -869,9 +869,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 6) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 6;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_B | BTN_L)) {
@@ -880,9 +880,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             sp104.r = 30000.0f;
         }
         if (dbCamera->unk_40 == 7) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 7;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_B)) {
@@ -897,9 +897,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xB) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 0xB;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_A | BTN_L)) {
@@ -909,9 +909,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             sp104.r = 10.0f;
         }
         if (dbCamera->unk_40 == 8) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 8;
     } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_A)) {
@@ -926,13 +926,13 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xC) {
-            dbCamera->unk_44++;
+            dbCamera->lengthList++;
         } else {
-            dbCamera->unk_44 = 0;
+            dbCamera->lengthList = 0;
         }
         dbCamera->unk_40 = 0xC;
     } else {
-        dbCamera->unk_44 = 0;
+        dbCamera->lengthList = 0;
         dbCamera->unk_40 = -1;
     }
 
@@ -1729,7 +1729,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         D_8016110C++;
         if (D_8016110C >= ARRAY_COUNT(sDbCameraCuts) - 1) {
             sDbCamAnim.curFrame = 0.0f;
-            sDbCamAnim.unk_04 = 0;
+            sDbCamAnim.strengthList = 0;
             sDbCamAnim.keyframe = 0;
             sDbCamAnim.unk_0A = 0;
             D_8016110C = 0;
@@ -1746,20 +1746,20 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         D_8012D13C[8] = ((sDbCamAnim.keyframe + 1) % 10) + '0';
         D_8012D13C[10] = ((sDbCameraCuts[D_8016110C].nPoints - 5) / 10) + '0';
         D_8012D13C[11] = ((sDbCameraCuts[D_8016110C].nPoints - 5) % 10) + '0';
-        DbCamera_SetTextValue(sDbCamAnim.unk_04, &D_8012D114[10], 4);
+        DbCamera_SetTextValue(sDbCamAnim.strengthList, &D_8012D114[10], 4);
         func_8006376C(0xF, 0x16, 3, D_8012D114);
         DbCamera_SetTextValue(sDbCamAnim.unk_0C, &D_8012D128[10], 4);
         func_8006376C(0xF, 0x17, 3, D_8012D128);
         func_8006376C(0xF, 0x18, 3, D_8012D13C);
         func_8006376C(0x10, 0x1A, 1, D_8012CEF0);
 
-        sDbCamAnim.unk_04++;
+        sDbCamAnim.strengthList++;
         sDbCamAnim.unk_0C++;
 
-        if (sDbCameraCuts[D_8016110C].nFrames > 0 && sDbCameraCuts[D_8016110C].nFrames < sDbCamAnim.unk_04) {
+        if (sDbCameraCuts[D_8016110C].nFrames > 0 && sDbCameraCuts[D_8016110C].nFrames < sDbCamAnim.strengthList) {
             D_8016110C++;
             sDbCamAnim.curFrame = 0.0f;
-            sDbCamAnim.unk_04 = 0;
+            sDbCamAnim.strengthList = 0;
             sDbCamAnim.keyframe = 0;
             return D_8016110C | 0x8000;
         }
@@ -1780,7 +1780,7 @@ s32 func_800B91B0(Camera* cam, DbCamera* dbCamera) {
         D_8016110C++;
         sDbCamAnim.keyframe = 0;
         sDbCamAnim.curFrame = 0.0f;
-        sDbCamAnim.unk_04 = 0;
+        sDbCamAnim.strengthList = 0;
         if (D_8016110C == ARRAY_COUNT(sDbCameraCuts) - 1) {
             D_8016110C = 0;
             sDbCamAnim.curFrame = 0.0f;
@@ -2108,7 +2108,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
 
                     sDbCamAnim.curFrame = 0.0f;
                     sDbCamAnim.keyframe = 0;
-                    sDbCamAnim.unk_04 = 0;
+                    sDbCamAnim.strengthList = 0;
                 } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CDOWN)) {
                     if (D_8016110C < 14) {
                         D_8016110C++;
@@ -2116,7 +2116,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
 
                     sDbCamAnim.curFrame = 0.0f;
                     sDbCamAnim.keyframe = 0;
-                    sDbCamAnim.unk_04 = 0;
+                    sDbCamAnim.strengthList = 0;
                 } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CLEFT)) {
                     sDbCamAnim.unk_0A = 0;
                     Interface_ChangeAlpha(2);
@@ -2142,7 +2142,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 gSaveContext.cutsceneTrigger = 1;
                 sDbCamAnim.curFrame = 0.0f;
                 sDbCamAnim.keyframe = 0;
-                sDbCamAnim.unk_04 = 0;
+                sDbCamAnim.strengthList = 0;
                 sDbCamAnim.unk_0A = 1;
                 sDbCamAnim.unk_0C = 0;
                 D_8016110C = 0;
@@ -2274,7 +2274,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
             } else if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_CRIGHT)) {
                 sDbCamAnim.curFrame = 0.0f;
                 sDbCamAnim.keyframe = 0;
-                sDbCamAnim.unk_04 = 0.0f;
+                sDbCamAnim.strengthList = 0.0f;
                 sDbCamAnim.unk_0A = 1;
                 sDbCamAnim.unk_0C = 0;
                 Interface_ChangeAlpha(50);

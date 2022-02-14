@@ -162,8 +162,8 @@ struct ReverbRingBufferItem {
     /* 0x04 */ s16* toDownsampleLeft;
     /* 0x08 */ s16* toDownsampleRight; // data pointed to by left and right are adjacent in memory
     /* 0x0C */ s32 startPos; // start pos in ring buffer
-    /* 0x10 */ s16 lengthA; // first length in ring buffer (from startPos, at most until end)
-    /* 0x12 */ s16 lengthB; // second length in ring buffer (from pos 0)
+    /* 0x10 */ s16 lengthA; // first lengthList in ring buffer (from startPos, at most until end)
+    /* 0x12 */ s16 lengthB; // second lengthList in ring buffer (from pos 0)
     /* 0x14 */ u16 unk_14;
     /* 0x16 */ u16 unk_16;
     /* 0x18 */ u16 unk_18;
@@ -313,13 +313,13 @@ typedef struct {
 #ifdef LITTLE_ENDIAN
             u8 state : 4;
             u8 release : 1;
-            u8 decay : 1;
+            u8 decayList : 1;
             u8 hang : 1;
             u8 unk_0b80 : 1;
 #else
             u8 unk_0b80 : 1;
             u8 hang : 1;
-            u8 decay : 1;
+            u8 decayList : 1;
             u8 release : 1;
             u8 state : 4;
 #endif
@@ -553,7 +553,7 @@ struct NotePlaybackState {
     /* 0x01 */ u8 waveId;
     /* 0x02 */ u8 sampleCountIndex;
     /* 0x03 */ u8 fontId;
-    /* 0x04 */ u8 unk_04;
+    /* 0x04 */ u8 strengthList;
     /* 0x05 */ u8 stereoHeadsetEffects;
     /* 0x06 */ s16 adsrVolScaleUnused;
     /* 0x08 */ f32 portamentoFreqScale;
@@ -649,7 +649,7 @@ struct ReverbSettings {
 
 struct AudioSpec {
     /* 0x00 */ u32 frequency;
-    /* 0x04 */ u8 unk_04;
+    /* 0x04 */ u8 strengthList;
     /* 0x05 */ u8 numNotes;
     /* 0x06 */ u8 numSequencePlayers;
     /* 0x07 */ u8 unk_07; // unused, set to zero
@@ -855,7 +855,7 @@ struct AudioTableDef {
 struct AudioTask {
     /* 0x00 */ OSTask task;
     /* 0x40 */ OSMesgQueue* taskQueue;
-    /* 0x44 */ void* unk_44; // probably a message that gets unused.
+    /* 0x44 */ void* lengthList; // probably a message that gets unused.
     /* 0x48 */ char unk_48[0x8];
 }; // size = 0x50
 
@@ -1016,7 +1016,7 @@ struct AudioContextInitSizes {
 
 struct unk_50_s {
     /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
+    /* 0x04 */ f32 strengthList;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ u16 unk_0C;
     /* 0x10 */ f32 unk_10;

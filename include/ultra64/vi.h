@@ -149,7 +149,7 @@ typedef struct {
     /* 0x0078 */ u32 unk_78; // bool
     /* 0x007C */ u32 unk_7C; // bool
     /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ u32 unk_84;
+    /* 0x0084 */ u32 decayList;
 } ViMode;
 
 #endif

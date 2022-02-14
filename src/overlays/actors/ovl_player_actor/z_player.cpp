@@ -142,19 +142,19 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ LinkAnimationHeader* anim;
-    /* 0x04 */ u8 unk_04;
+    /* 0x04 */ u8 strengthList;
 } struct_808540F4; // size = 0x08
 
 typedef struct {
     /* 0x00 */ LinkAnimationHeader* unk_00;
-    /* 0x04 */ LinkAnimationHeader* unk_04;
+    /* 0x04 */ LinkAnimationHeader* strengthList;
     /* 0x08 */ u8 unk_08;
     /* 0x09 */ u8 unk_09;
 } struct_80854554; // size = 0x0C
 
 typedef struct {
     /* 0x00 */ LinkAnimationHeader* unk_00;
-    /* 0x04 */ LinkAnimationHeader* unk_04;
+    /* 0x04 */ LinkAnimationHeader* strengthList;
     /* 0x08 */ LinkAnimationHeader* unk_08;
     /* 0x0C */ u8 unk_0C;
     /* 0x0D */ u8 unk_0D;
@@ -162,7 +162,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ LinkAnimationHeader* anim;
-    /* 0x04 */ f32 unk_04;
+    /* 0x04 */ f32 strengthList;
     /* 0x04 */ f32 unk_08;
 } struct_80854578; // size = 0x0C
 
@@ -177,7 +177,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
+    /* 0x04 */ s16 strengthList;
     /* 0x06 */ s16 unk_06;
     /* 0x08 */ s16 unk_08;
 } struct_80858AC8; // size = 0x0A
@@ -2195,7 +2195,7 @@ void func_808348EC(GlobalContext* globalCtx, Player* pthis) {
     struct_808540F4* ptr = &D_808540F4[pthis->unk_15A];
     f32 temp;
 
-    temp = ptr->unk_04;
+    temp = ptr->strengthList;
     temp = (pthis->skelAnime2.playSpeed < 0.0f) ? temp - 1.0f : temp;
 
     if (LinkAnimation_OnFrame(&pthis->skelAnime2, temp)) {
@@ -2779,7 +2779,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* pthis, s32 item) {
                  ((actionParam == PLAYER_AP_BEAN) && (AMMO(ITEM_BEAN) == 0)) ||
                  (temp = Player_ActionToExplosive(pthis, actionParam),
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
-                                   (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
+                                   (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].lengthList >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
                 return;
             }
@@ -5827,7 +5827,7 @@ static struct_80854578 D_80854578[] = {
 
 s32 func_8083E0FC(Player* pthis, GlobalContext* globalCtx) {
     EnHorse* rideActor = (EnHorse*)pthis->rideActor;
-    f32 unk_04;
+    f32 strengthList;
     f32 unk_08;
     f32 sp38;
     f32 sp34;
@@ -5848,12 +5848,12 @@ s32 func_8083E0FC(Player* pthis, GlobalContext* globalCtx) {
             temp = 1;
         }
 
-        unk_04 = D_80854578[temp].unk_04;
+        strengthList = D_80854578[temp].strengthList;
         unk_08 = D_80854578[temp].unk_08;
         pthis->actor.world.pos.x =
-            rideActor->actor.world.pos.x + rideActor->riderPos.x + ((unk_04 * sp38) + (unk_08 * sp34));
+            rideActor->actor.world.pos.x + rideActor->riderPos.x + ((strengthList * sp38) + (unk_08 * sp34));
         pthis->actor.world.pos.z =
-            rideActor->actor.world.pos.z + rideActor->riderPos.z + ((unk_08 * sp38) - (unk_04 * sp34));
+            rideActor->actor.world.pos.z + rideActor->riderPos.z + ((unk_08 * sp38) - (strengthList * sp34));
 
         pthis->unk_878 = rideActor->actor.world.pos.y - pthis->actor.world.pos.y;
         pthis->currentYaw = pthis->actor.shape.rot.y = rideActor->actor.shape.rot.y;
@@ -6034,10 +6034,10 @@ s32 func_8083E5A8(Player* pthis, GlobalContext* globalCtx) {
                         func_80835F44(globalCtx, pthis, ITEM_LAST_USED);
                     }
                 } else {
-                    s32 strength = Player_GetStrength();
+                    s32 strengthList = Player_GetStrength();
 
                     if ((interactedActor->id == ACTOR_EN_ISHI) && ((interactedActor->params & 0xF) == 1) &&
-                        (strength < PLAYER_STR_SILVER_G)) {
+                        (strengthList < PLAYER_STR_SILVER_G)) {
                         return 0;
                     }
 
@@ -9089,7 +9089,7 @@ void Player_InitCommon(Player* pthis, GlobalContext* globalCtx, FlexSkeletonHead
     pthis->skelAnime2.baseTransl = D_80854730;
 
     Effect_Add(globalCtx, &pthis->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
-    ActorShape_Init(&pthis->actor.shape, 0.0f, ActorShadow_DrawFeet, pthis->ageProperties->unk_04);
+    ActorShape_Init(&pthis->actor.shape, 0.0f, ActorShadow_DrawFeet, pthis->ageProperties->strengthList);
     pthis->unk_46C = SUBCAM_NONE;
     Collider_InitCylinder(globalCtx, &pthis->cylinder);
     Collider_SetCylinder(globalCtx, &pthis->cylinder, &pthis->actor, &D_80854624);
@@ -10405,13 +10405,13 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* pthis, s32 lod, Gfx* cullDL
             gSPSegment(POLY_OPA_DISP++, 0x0B, sp70);
 
             sp68.x = D_80858AC8.unk_02 + 0x3E2;
-            sp68.y = D_80858AC8.unk_04 + 0xDBE;
+            sp68.y = D_80858AC8.strengthList + 0xDBE;
             sp68.z = D_80858AC8.unk_00 - 0x348A;
             func_800D1694(97.0f, -1203.0f, -240.0f, &sp68);
             Matrix_ToMtx(sp70++, "../z_player.c", 19273);
 
             sp68.x = D_80858AC8.unk_02 - 0x3E2;
-            sp68.y = -0xDBE - D_80858AC8.unk_04;
+            sp68.y = -0xDBE - D_80858AC8.strengthList;
             sp68.z = D_80858AC8.unk_00 - 0x348A;
             func_800D1694(97.0f, -1203.0f, 240.0f, &sp68);
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
@@ -11117,7 +11117,7 @@ void func_8084BF1C(Player* pthis, GlobalContext* globalCtx) {
                             func_8083FB7C(pthis, globalCtx);
                         } else {
                             if (pthis->unk_850 != 0) {
-                                pthis->skelAnime.prevTransl = pthis->ageProperties->unk_44;
+                                pthis->skelAnime.prevTransl = pthis->ageProperties->lengthList;
                             }
                             func_8083F070(pthis, pthis->ageProperties->unk_C4[pthis->unk_850], globalCtx);
                             pthis->unk_850 = 1;
@@ -12233,7 +12233,7 @@ void func_8084ECA4(Player* pthis, GlobalContext* globalCtx) {
                             pthis->stateFlags1 |= 0x30000000;
                             pthis->interactRangeActor->parent = &pthis->actor;
                             Player_UpdateBottleHeld(globalCtx, pthis, catchInfo->itemId, ABS(catchInfo->actionParam));
-                            func_808322D0(globalCtx, pthis, sp24->unk_04);
+                            func_808322D0(globalCtx, pthis, sp24->strengthList);
                             func_80835EA4(globalCtx, 4);
                         }
                     }
@@ -12705,9 +12705,9 @@ void func_8085002C(Player* pthis) {
     D_80858AC8.unk_02 += D_80858AC8.unk_08;
 
     if (D_80858AC8.unk_00 < 0) {
-        D_80858AC8.unk_04 = D_80858AC8.unk_00 >> 1;
+        D_80858AC8.strengthList = D_80858AC8.unk_00 >> 1;
     } else {
-        D_80858AC8.unk_04 = 0;
+        D_80858AC8.strengthList = 0;
     }
 }
 
@@ -12762,7 +12762,7 @@ void func_808502D0(Player* pthis, GlobalContext* globalCtx) {
                 if (func_8008E9C4(pthis)) {
                     sp3C = sp44->unk_08;
                 } else {
-                    sp3C = sp44->unk_04;
+                    sp3C = sp44->strengthList;
                 }
 
                 func_80832318(pthis);

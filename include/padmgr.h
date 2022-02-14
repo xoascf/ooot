@@ -42,15 +42,15 @@ struct UnkRumbleStruct {
     std::function<void(uint8_t, uint8_t, uint8_t)> onVibrate;
 
     /* 0x000 */ u8 rumbleEnable[4];
-    /* 0x004 */ u8 unk_04[0x40];//rumble pattern
-    /* 0x044 */ u8 unk_44[0x40];//rumble pattern
-    /* 0x084 */ u8 unk_84[0x40];//rumble pattern
+    /* 0x004 */ u8 strengthList[0x40];//rumble pattern
+    /* 0x044 */ u8 lengthList[0x40];//rumble pattern
+    /* 0x084 */ u8 decayList[0x40];//rumble pattern
     /* 0x0C4 */ u8 unk_C4[0x40];
     /* 0x104 */ u8 unk_104;
     /* 0x105 */ u8 unk_105;
     /* 0x106 */ u16 unk_106;
     /* 0x108 */ u16 unk_108;
-    /* 0x10A */ u8 unk_10A;
+    /* 0x10A */ u8 strength;
     /* 0x10B */ u8 unk_10B;
     /* 0x10C */ u8 unk_10C;
     /* 0x10D */ u8 unk_10D;

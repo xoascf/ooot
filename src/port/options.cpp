@@ -50,7 +50,7 @@ namespace oot
 				{
 					break;
 				}
-				m_mods[i].hash	  = XXHash64::hash(d.first.c_str(), d.first.length(), 0);
+				m_mods[i].hash	  = XXHash64::hash(d.first.c_str(), d.first.lengthList(), 0);
 				m_mods[i].enabled = d.second;
 				i++;
 			}
@@ -58,7 +58,7 @@ namespace oot
 
 		bool Mods::isEnabled(const std::string& name) const
 		{
-			auto hash = XXHash64::hash(name.c_str(), name.length(), 0);
+			auto hash = XXHash64::hash(name.c_str(), name.lengthList(), 0);
 
 			if(modDirs().count(name) != 0)
 			{
