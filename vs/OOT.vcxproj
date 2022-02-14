@@ -1929,6 +1929,7 @@
     <ClCompile Include="..\src\port\controller\keyboard.cpp" />
     <ClCompile Include="..\src\port\controller\sdl.cpp" />
     <ClCompile Include="..\src\port\controller\tas.cpp" />
+    <ClCompile Include="..\src\port\controller\xcontroller.cpp" />
     <ClCompile Include="..\src\port\debug.cpp" />
     <ClCompile Include="..\src\port\main.cpp" />
     <ClCompile Include="..\src\port\mixer.cpp" />
