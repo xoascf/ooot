@@ -1680,63 +1680,6 @@
     <ClCompile Include="..\src\libultra\gu\us2dex.cpp">
       <Filter>Source Files\libultra\gu</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\libultra\os\afterprenmi.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\createmesgqueue.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\createthread.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\dequeuethread.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\destroythread.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\getactivequeue.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\getcurrfaultedthread.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\gethwintrroutine.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\getmemsize.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\getthreadid.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\getthreadpri.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\resetglobalintmask.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\setglobalintmask.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\sethwintrroutine.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\setthreadpri.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\startthread.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\stopthread.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\timerintr.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\libultra\os\yieldthread.cpp">
-      <Filter>Source Files\libultra\os</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\libultra\rmon\sprintf.cpp">
       <Filter>Source Files\libultra\rmon</Filter>
     </ClCompile>
@@ -1757,9 +1700,6 @@
     </ClCompile>
     <ClCompile Include="..\src\dmadata\dmadata.cpp">
       <Filter>Source Files\dmadata</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\code\__osMalloc.cpp">
-      <Filter>Source Files\code</Filter>
     </ClCompile>
     <ClCompile Include="..\src\code\audio_data.cpp">
       <Filter>Source Files\code</Filter>
@@ -5157,6 +5097,9 @@
     </ClCompile>
     <ClCompile Include="..\src\port\window\window.cpp">
       <Filter>Source Files\port\window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\code\framerate.cpp">
+      <Filter>Source Files\code</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

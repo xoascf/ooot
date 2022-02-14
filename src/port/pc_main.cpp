@@ -7,16 +7,16 @@ static std::unique_ptr<platform::window::Base> gWindow;
 
 
 //#define _WINGDI_
-extern "C" {
+
 #include "global.h"
 #include "ultra64/vi.h"
 //#include "sched.h"
 #include "gfx.h"
+#include "framerate.h"
 #include "def/graph.h"
-	extern OSViMode osViModeNtscLan1;
-	u64 frameRateDivisor();
-	bool isRunning();
-}
+extern OSViMode osViModeNtscLan1;
+
+u64 frameRateDivisor();
 
 /*struct OSViMode
 {
@@ -80,14 +80,7 @@ extern "C" {
 #include "n64-fast3d-engine/gfx_sdl.h"
 }
 #elif defined(USE_GLIDEN64)
-extern "C" {
-void gfx_init(const char* romName, OSViMode* viMode);
-void gfx_shutdown();
-bool gfx_start_frame();
-void gfx_end_frame();
-void gfx_run(OSTask_t* task, u32 sz);
-void gfx_fbe_enable(int enable);
-}
+#include "gfxapi.h"
 #endif
 
 #if defined(USE_CF3D)
@@ -249,17 +242,19 @@ bool verifyIntegrity()
 	return hasRom && hasPak;
 }
 
+void main_func();
+
 extern "C" {
-	void main_func(void);
+	
 	void hid_init();
 	void hid_update();
 }
 
 extern void* gAudioBuffer;
 extern u32 gAudioBufferSize;
-extern "C" {
-	void AudioMgr_HandleRetraceNULL();
-}
+
+void AudioMgr_HandleRetraceNULL();
+
 
 void audio_thread()
 {
@@ -416,7 +411,7 @@ extern "C" {
 	{
 		if(gWindow)
 		{
-			gWindow->setTargetFrameRate(60 / frameRateDivisor());
+			gWindow->setTargetFrameRate(FRAMERATE_MAX / frameRateDivisor());
 			gWindow->end_frame();
 		}
 		audio_thread();
@@ -435,15 +430,15 @@ extern "C" {
 	{
 		gWindow->set_fullscreen(value, false);
 	}
+}
 
-	bool isRunning()
-	{
-		return g_isRunning;
-	}
+bool isRunning()
+{
+	return g_isRunning;
+}
 
-	void quit()
-	{
-		g_isRunning = false;
-	}
+void quit()
+{
+	g_isRunning = false;
 }
 
