@@ -367,15 +367,15 @@ namespace sm64::hid
 
 				auto current_time = timeGetTime();
 				uint32_t strengthScaled = strength * strength;
-				//uint32_t strengthScaled  = strength * 257;
+				//uint32_t strengthScaled = strength * 257;
 				//uint32_t strengthScaled = strength * 150 + 27135;
 
 				if (strengthScaled < m_VibrationStrength)//The new one is weak
 					return;//Let's not play the new one
 
-				printf("Scaled to %d for %dms\n", strengthScaled, (int)(time * 0.04f));
+				printf("Scaled to %d for %dms\n", strengthScaled, (int)(time * 0.10f));
 
-				m_VibrationEnds = current_time + (int)(time * 0.04f);
+				m_VibrationEnds = current_time + (int)(time * 0.10f);
 				m_VibrationStrength = strengthScaled;
 				m_VibrationDecay = decay * 12;
 
