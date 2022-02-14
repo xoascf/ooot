@@ -325,7 +325,7 @@ s32 func_8002F9EC(struct GlobalContext* globalCtx, struct Actor* actor, Collisio
 void func_800304B0(struct GlobalContext* globalCtx);
 void func_800304DC(struct GlobalContext* globalCtx, struct ActorContext* actorCtx, struct ActorEntry* actorEntry);
 s32 Actor_IsInUncullZone(GlobalContext* globalCtx, Actor* actorB, Vec3f* projectedPos, f32 projectedW);
-void func_800315AC(struct GlobalContext* globalCtx, struct ActorContext* actorCtx);
+void Draw_Actors(struct GlobalContext* globalCtx, struct ActorContext* actorCtx);
 void func_80031A28(struct GlobalContext* globalCtx, struct ActorContext* actorCtx);
 void func_80031B14(struct GlobalContext* globalCtx, struct ActorContext* actorCtx);
 void func_80031C3C(struct ActorContext* actorCtx, struct GlobalContext* globalCtx);

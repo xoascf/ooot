@@ -583,7 +583,7 @@ void func_800304B0(struct GlobalContext* globalCtx);
 void func_800304DC(struct GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry);
 void Actor_UpdateAll(struct GlobalContext* globalCtx, ActorContext* actorCtx);
 s32 Actor_IsInUncullZone(struct GlobalContext* globalCtx, Actor* actorB, Vec3f* arg2, f32 arg3);
-void func_800315AC(struct GlobalContext* globalCtx, ActorContext* actorCtx);
+void Draw_Actors(struct GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031A28(struct GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031B14(struct GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, struct GlobalContext* globalCtx);

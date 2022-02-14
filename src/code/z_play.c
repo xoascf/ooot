@@ -1222,7 +1222,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if (D_801614B0.a > 0) {
                 D_80161498.primColor.rgba = D_801614B0.rgba;
+#ifndef ONLY_SKYBOX
                 VisMono_Draw(&D_80161498, &gfxP);
+#endif
             }
 
             gSPEndDisplayList(gfxP++);
@@ -1275,23 +1277,31 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(90) & 2)) {
                     if (!globalCtx->envCtx.sunMoonDisabled) {
+#ifndef ONLY_SKYBOX
                         Environment_DrawSunAndMoon(globalCtx);
+#endif
                     }
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 1)) {
+#ifndef ONLY_SKYBOX
                     Environment_DrawSkyboxFilters(globalCtx);
+#endif
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 4)) {
+#ifndef ONLY_SKYBOX
                     Environment_UpdateLightningStrike(globalCtx);
                     Environment_DrawLightning(globalCtx, 0);
+#endif
                 }
 
                 if ((HREG(80) != 10) || (HREG(90) & 8)) {
                     sp228 = LightContext_NewLights(&globalCtx->lightCtx, gfxCtx);
                     Lights_BindAll(sp228, globalCtx->lightCtx.listHead, NULL);
+#ifndef ONLY_SKYBOX
                     Lights_Draw(sp228, gfxCtx);
+#endif
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
@@ -1301,9 +1311,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         } else {
                             sp80 = HREG(84);
                         }
+#ifndef ONLY_SKYBOX
                         Scene_Draw(globalCtx);
                         Room_Draw(globalCtx, &globalCtx->roomCtx.curRoom, sp80 & 3);
                         Room_Draw(globalCtx, &globalCtx->roomCtx.prevRoom, sp80 & 3);
+#endif
                     }
                 }
 
@@ -1320,7 +1332,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if (globalCtx->envCtx.unk_EE[1] != 0) {
+#ifndef ONLY_SKYBOX
                     Environment_DrawRain(globalCtx, &globalCtx->view, gfxCtx);
+#endif
                 }
 
                 if ((HREG(80) != 10) || (HREG(84) != 0)) {
@@ -1328,7 +1342,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {
-                    func_800315AC(globalCtx, &globalCtx->actorCtx);
+#ifndef ONLY_SKYBOX
+                    Draw_Actors(globalCtx, &globalCtx->actorCtx);
+#endif
                 }
 
                 if ((HREG(80) != 10) || (HREG(86) != 0)) {
@@ -1336,9 +1352,13 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         sp21C.x = globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x;
                         sp21C.y = globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y;
                         sp21C.z = globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z;
+#ifndef ONLY_SKYBOX
                         Environment_DrawSunLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, gfxCtx, sp21C, 0);
+#endif
                     }
+#ifndef ONLY_SKYBOX
                     Environment_DrawCustomLensFlare(globalCtx);
+#endif
                 }
 
                 if ((HREG(80) != 10) || (HREG(87) != 0)) {
@@ -1384,7 +1404,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 } else {
                 Gameplay_Draw_DrawOverlayElements:
                     if ((HREG(80) != 10) || (HREG(89) != 0)) {
+#ifndef ONLY_SKYBOX
                         Gameplay_DrawOverlayElements(globalCtx);
+#endif
                     }
                 }
             }

@@ -20,6 +20,8 @@ Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
 }
 
 void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z) {
+    skyboxId = 1;
+    blend = 0;//For testing
     OPEN_DISPS(gfxCtx, "../z_vr_box_draw.c", 52);
 
     func_800945A0(gfxCtx);

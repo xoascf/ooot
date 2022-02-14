@@ -662,8 +662,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                 if (D_8011FC1C[envCtx->unk_17][i].blend) {
                     envCtx->skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
                                                                  D_8011FC1C[envCtx->unk_17][i].startTime,
-                                                                 ((void)0, gSaveContext.skyboxTime)) *
-                                          255;
+                                                                 ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
                     envCtx->skyboxBlend = 0;
                 }
@@ -682,13 +681,11 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
                 if (gSkyboxBlendingEnabled) {
                     skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
                                                          D_8011FC1C[envCtx->unk_17][i].startTime,
-                                                         ((void)0, gSaveContext.skyboxTime)) *
-                                  255;
+                                                         ((void)0, gSaveContext.skyboxTime)) * 255;
                 } else {
                     skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
                                                          D_8011FC1C[envCtx->unk_17][i].startTime,
-                                                         ((void)0, gSaveContext.skyboxTime)) *
-                                  255;
+                                                         ((void)0, gSaveContext.skyboxTime)) * 255;
 
                     skyboxBlend = (skyboxBlend < 0x80) ? 0xFF : 0;
 
@@ -899,6 +896,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
     EnvLightSettings* lightSettingsList = globalCtx->envCtx.lightSettingsList;
     s32 adjustment;
 
+    gSaveContext.skyboxTime = 32768;//Testing
+
     if ((((void)0, gSaveContext.gameMode) != 0) && (((void)0, gSaveContext.gameMode) != 3)) {
         func_800AA16C(globalCtx);
     }
@@ -991,6 +990,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
                         sp8C = Environment_LerpWeight(TIME_ENTRY_1F.endTime, TIME_ENTRY_1F.startTime,
                                                       ((void)0, gSaveContext.skyboxTime));
+                        gSaveContext.skyboxTime = 32768;//Testing
+                        sp8C = 0;//Testing
 
                         D_8011FDCC = TIME_ENTRY_1F.unk_04 & 3;
                         D_8011FDD0 = TIME_ENTRY_1F.unk_05 & 3;
