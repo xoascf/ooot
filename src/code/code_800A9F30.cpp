@@ -17,9 +17,6 @@ void Rumble_Init(PadMgr* a, s32 b) {
 void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {//Used for bosses and fishing
     printf("Rumble Rumble ... V2 %d   %d   %d\n", baseStrength, length, decay);
 
-    if (g_Rumble.onVibrate)
-        g_Rumble.onVibrate(baseStrength, length, decay);
-
     s32 distance_decay;//By how much should the rumble effect be lowered, based on the distance
     s32 strength;
 
@@ -31,7 +28,11 @@ void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {//
 
     if ((distance_decay < 1000) && (baseStrength != 0) && (decay != 0)) {
         strength = baseStrength - (distance_decay * 255) / 1000;
+
         if (strength > 0) {
+            if (g_Rumble.onVibrate)
+                g_Rumble.onVibrate(strength, length, decay);
+
             g_Rumble.strength = strength;
             g_Rumble.length   = length;
             g_Rumble.decay    = decay;
@@ -40,31 +41,34 @@ void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {//
 }
 
 //distance to player, strength, time, decay?
-void Rumble_Shake(f32 a, u8 b, u8 c, u8 d) {
-    printf("Rumble Rumble ...  V1 %d   %d   %d\n", b, c, d);
+void Rumble_Shake(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {
+    printf("Rumble Rumble ...  V1 %d   %d   %d\n", baseStrength, length, decay);
 
     if (g_Rumble.onVibrate)
-        g_Rumble.onVibrate(b, c, d);
+        g_Rumble.onVibrate(baseStrength, length, decay);
 
     s32 distance_decay;//By how much should the rumble effect be lowered, based on the distance
     s32 strength;
     s32 i;
 
-    if (1000000.0f < a) {
+    if (1000000.0f < playerDistance) {
         distance_decay = 1000;
     } else {
-        distance_decay = sqrtf(a);
+        distance_decay = sqrtf(playerDistance);
     }
 
-    if (distance_decay < 1000 && b != 0 && d != 0) {
-        strength = b - (distance_decay * 255) / 1000;
+    if (distance_decay < 1000 && baseStrength != 0 && decay != 0) {
+        strength = baseStrength - (distance_decay * 255) / 1000;
+
+        if (g_Rumble.onVibrate)
+            g_Rumble.onVibrate(strength, length, decay);
 
         for (i = 0; i < 0x40; i++) {
             if (g_Rumble.strengthList[i] == 0) {
                 if (strength > 0) {
                     g_Rumble.strengthList[i] = strength;
-                    g_Rumble.lengthList[i]   = c;
-                    g_Rumble.decayList[i]    = d;
+                    g_Rumble.lengthList[i]   = length;
+                    g_Rumble.decayList[i]    = decay;
                 }
                 break;
             }
