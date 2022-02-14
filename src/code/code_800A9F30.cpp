@@ -44,9 +44,6 @@ void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {//
 void Rumble_Shake(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {
     printf("Rumble Rumble ...  V1 %d   %d   %d\n", baseStrength, length, decay);
 
-    if (g_Rumble.onVibrate)
-        g_Rumble.onVibrate(baseStrength, length, decay);
-
     s32 distance_decay;//By how much should the rumble effect be lowered, based on the distance
     s32 strength;
     s32 i;
