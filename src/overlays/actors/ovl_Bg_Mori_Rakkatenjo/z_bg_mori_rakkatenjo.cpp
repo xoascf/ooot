@@ -168,7 +168,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* pthis, GlobalContext* globalCtx) {
             if (pthis->bounceCount == 0) {
                 pthis->fallCount++;
                 func_800788CC(NA_SE_EV_STONE_BOUND);
-                func_800AA000(SQ(thisx->yDistToPlayer), 0xFF, 0x14, 0x96);
+                Rumble_Shake(SQ(thisx->yDistToPlayer), 0xFF, 0x14, 0x96);
             }
             thisx->world.pos.y =
                 403.0f - (thisx->world.pos.y - 403.0f) * bounceVel[pthis->bounceCount] / fabsf(thisx->velocity.y);

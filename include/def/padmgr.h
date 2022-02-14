@@ -1,4 +1,5 @@
 #pragma once
+
 struct PadMgr;
 struct OSMesgQueue;
 struct IrqMgr;

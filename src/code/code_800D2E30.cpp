@@ -4,7 +4,7 @@
 #include <string.h>
 #include "def/code_800D2E30.h"
 
-void func_800D2E30(UnkRumbleStruct* arg0) {
+void FindRumblePack(UnkRumbleStruct* arg0) {
     static u8 D_8012DBB0 = 1;
     s32 i;
     s32 unk_a3;
@@ -110,14 +110,4 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
 
         arg0->unk_106 = arg0->unk_108 = arg0->unk_10A = arg0->unk_10B = arg0->unk_10C = arg0->unk_10D = 0;
     }
-}
-
-void func_800D3140(UnkRumbleStruct* arg0) {
-    bzero(arg0, sizeof(UnkRumbleStruct));
-    arg0->unk_104 = 2;
-    arg0->unk_105 = 1;
-}
-
-void func_800D3178(UnkRumbleStruct* arg0) {
-    bzero(arg0, sizeof(UnkRumbleStruct));
 }

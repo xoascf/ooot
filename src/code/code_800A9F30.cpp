@@ -6,14 +6,20 @@
 #include "def/code_800D2E30.h"
 #include "def/padmgr.h"
 
-UnkRumbleStruct D_80160FD0;
+UnkRumbleStruct g_Rumble;
 
-void func_800A9F30(PadMgr* a, s32 b) {
-    func_800D2E30(&D_80160FD0);
-    PadMgr_RumbleSet(a, D_80160FD0.rumbleEnable);
+void Rumble_Init(PadMgr* a, s32 b) {
+    FindRumblePack(&g_Rumble);
+    PadMgr_RumbleSet(a, g_Rumble.rumbleEnable);
 }
 
-void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
+//distance to player (unused), strength, time, decay?
+void Rumble_Shake2(f32 a, u8 b, u8 c, u8 d) {//Used for bosses and fishing
+    printf("Rumble Rumble ... V2 %d   %d   %d\n", b, c, d);
+
+    if (g_Rumble.onVibrate)
+        g_Rumble.onVibrate(b, c, d);
+
     s32 temp1;
     s32 temp2;
 
@@ -26,14 +32,20 @@ void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
     if ((temp1 < 1000) && (b != 0) && (d != 0)) {
         temp2 = b - (temp1 * 255) / 1000;
         if (temp2 > 0) {
-            D_80160FD0.unk_10A = temp2;
-            D_80160FD0.unk_10B = c;
-            D_80160FD0.unk_10C = d;
+            g_Rumble.unk_10A = temp2;
+            g_Rumble.unk_10B = c;
+            g_Rumble.unk_10C = d;
         }
     }
 }
+#include <stdio.h>
+//distance to player, strength, time, decay?
+void Rumble_Shake(f32 a, u8 b, u8 c, u8 d) {
+    printf("Rumble Rumble ...  V1 %d   %d   %d\n", b, c, d);
 
-void func_800AA000(f32 a, u8 b, u8 c, u8 d) {
+    if (g_Rumble.onVibrate)
+        g_Rumble.onVibrate(b, c, d);
+
     s32 temp1;
     s32 temp2;
     s32 i;
@@ -48,11 +60,11 @@ void func_800AA000(f32 a, u8 b, u8 c, u8 d) {
         temp2 = b - (temp1 * 255) / 1000;
 
         for (i = 0; i < 0x40; i++) {
-            if (D_80160FD0.unk_04[i] == 0) {
+            if (g_Rumble.unk_04[i] == 0) {
                 if (temp2 > 0) {
-                    D_80160FD0.unk_04[i] = temp2;
-                    D_80160FD0.unk_44[i] = c;
-                    D_80160FD0.unk_84[i] = d;
+                    g_Rumble.unk_04[i] = temp2;
+                    g_Rumble.unk_44[i] = c;
+                    g_Rumble.unk_84[i] = d;
                 }
                 break;
             }
@@ -60,38 +72,45 @@ void func_800AA000(f32 a, u8 b, u8 c, u8 d) {
     }
 }
 
-void func_800AA0B4(void) {
-    func_800D3140(&D_80160FD0);
+void Rumble_Reset(void) {//called on GameState_Init
+#ifdef N64_VERSION
+    bzero(&g_Rumble, sizeof(UnkRumbleStruct));
+#endif
 
-    gPadMgr.retraceCallback = func_800A9F30;
+    g_Rumble.unk_104 = 2;
+    g_Rumble.unk_105 = 1;
+
+    gPadMgr.retraceCallback = Rumble_Init;
     gPadMgr.retraceCallbackValue = 0;
 
     if (1) {}
 }
 
-void func_800AA0F0(void) {
+void Rumble_Destroy(void) {//called on GameState_Destroy
     PadMgr* padmgr = &gPadMgr;
 
-    if ((padmgr->retraceCallback == func_800A9F30) && (padmgr->retraceCallbackValue == 0)) {
+    if ((padmgr->retraceCallback == Rumble_Init) && (padmgr->retraceCallbackValue == 0)) {
         padmgr->retraceCallback = NULL;
         padmgr->retraceCallbackValue = 0;
     }
 
-    func_800D3178(&D_80160FD0);
+#ifdef N64_VERSION
+    bzero(&g_Rumble, sizeof(UnkRumbleStruct));
+#endif
 }
 
-u32 func_800AA148(void) {
+u32 Rumble_IsEnabled(void) {
     return gPadMgr.pakType[0] == 1;
 }
 
-void func_800AA15C(void) {
-    D_80160FD0.unk_104 = 2;
+void Rumble_Stop(void) {//called on Environment_Init and game over
+    g_Rumble.unk_104 = 2;
 }
 
-void func_800AA16C(void) {
-    D_80160FD0.unk_104 = 0;
+void Rumble_Decrease(void) {//called per frame for a specific gSaveContext.gameMode
+    g_Rumble.unk_104 = 0;
 }
 
-void func_800AA178(u32 a) {
-    D_80160FD0.unk_105 = !!a;
+void Rumble_Enable(u32 a) {
+    g_Rumble.unk_105 = !!a;
 }

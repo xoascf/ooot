@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "sched.h"
 #include "ultra64/controller.h"
 #include "ultra64/pfs.h"
@@ -38,10 +39,12 @@ struct PadMgr {
 }; // size = 0x468
 
 struct UnkRumbleStruct {
+    std::function<void(uint8_t, uint8_t, uint8_t)> onVibrate;
+
     /* 0x000 */ u8 rumbleEnable[4];
-    /* 0x004 */ u8 unk_04[0x40];
-    /* 0x044 */ u8 unk_44[0x40];
-    /* 0x084 */ u8 unk_84[0x40];
+    /* 0x004 */ u8 unk_04[0x40];//rumble pattern
+    /* 0x044 */ u8 unk_44[0x40];//rumble pattern
+    /* 0x084 */ u8 unk_84[0x40];//rumble pattern
     /* 0x0C4 */ u8 unk_C4[0x40];
     /* 0x104 */ u8 unk_104;
     /* 0x105 */ u8 unk_105;

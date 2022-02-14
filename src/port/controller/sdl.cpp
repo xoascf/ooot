@@ -1,6 +1,6 @@
 #if !defined(DISABLE_SDL_CONTROLLER)
-
 #include "ultra64/types.h"
+#include <algorithm>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -18,6 +18,11 @@
 #include <fstream>
 #include "../options.h"
 #include "../player/players.h"
+#include "../player/players.h"
+#include "xcontroller.h"
+#include "padmgr.h"
+
+#include <windows.h>
 
 #ifndef __SWITCH__
 #define DEADZONE 20
@@ -27,6 +32,7 @@
 #define RDEADZONE 0
 #endif
 
+
 static bool init_ok;
 
 #define INITIAL_PEAK 0x8000
@@ -35,6 +41,8 @@ static int g_lstickX_peak = INITIAL_PEAK;
 static int g_lstickY_peak = INITIAL_PEAK;
 static int g_rstickX_peak = INITIAL_PEAK;
 static int g_rstickY_peak = INITIAL_PEAK;
+
+extern UnkRumbleStruct g_Rumble;
 
 #ifdef DEBUG
 #include <time.h>
@@ -51,6 +59,11 @@ namespace sm64::hid
 
 	namespace controller
 	{
+		XController xinput;
+		DWORD m_VibrationEnds = 0;//Timestamp when the current vibration should end
+		int32_t m_VibrationStrength = 0;//Strength of the last vibration
+		int32_t m_VibrationDecay = 0;
+
 		const char* getInputName(int input);
 		int getInputValue(const std::string& input);
 
@@ -73,7 +86,8 @@ namespace sm64::hid
 				m_keyBindings[SDL_CONTROLLER_BUTTON_DPAD_UP] = U_CBUTTONS;
 				m_keyBindings[SDL_CONTROLLER_BUTTON_DPAD_DOWN] = D_CBUTTONS;
 				
-
+				//Connect rumble pack callback
+				g_Rumble.onVibrate = [=](auto strength, auto time, auto decay) { onVibrate(strength, time, decay); };
 
 #ifndef __SWITCH__
 				loadKeyBindings();
@@ -158,7 +172,7 @@ namespace sm64::hid
 				{
 					return false;
 				}
-
+				
 				m_haptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(m_context));
 
 				if(!m_haptic)
@@ -344,6 +358,47 @@ namespace sm64::hid
 				return false;
 			}
 
+			void onVibrate(uint8_t strength, uint8_t time, uint8_t decay)//Called from the game
+			{
+				if (strength <= 20)
+					return;
+
+				auto current_time = timeGetTime();
+				//uint32_t strengthScaled  = strength * 257;
+				uint32_t strengthScaled = strength * 150 + 27135;
+
+				if (strengthScaled < m_VibrationStrength)//The new one is weak
+					return;//Let's not play the new one
+
+				printf("Scaled to %d for %dms\n", strengthScaled, (int)(time * 0.1f));
+
+				m_VibrationEnds = current_time + (int)(time * 0.06f);
+				m_VibrationStrength = strengthScaled;
+				m_VibrationDecay = decay * 8;
+
+				xinput.Vibrate(m_VibrationStrength, m_VibrationStrength);
+			}
+
+			//Called once per frame
+			//BUG: this should not depend on the framerate!
+			void updateVibration()
+			{
+				if (m_VibrationStrength <= 0)
+					return;
+
+				auto current_time = timeGetTime();
+
+				if (current_time >= m_VibrationEnds)//Ease off
+				{
+					//m_VibrationStrength -= 250;
+					m_VibrationStrength -= m_VibrationDecay;
+					m_VibrationStrength = max(m_VibrationStrength, 0);
+				}
+
+				xinput.Vibrate(m_VibrationStrength, m_VibrationStrength);
+			}
+
+
 			void update() override
 			{
 				if(!init_ok || !m_context || hid::isTasPlaying())
@@ -354,6 +409,8 @@ namespace sm64::hid
 				bool walk = false;
 				SDL_GameControllerUpdate();
 
+				updateVibration();
+				
 				if(m_context != NULL && !SDL_GameControllerGetAttached(m_context))
 				{
 					SDL_GameControllerClose(m_context);
