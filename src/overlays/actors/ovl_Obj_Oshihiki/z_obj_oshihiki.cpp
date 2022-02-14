@@ -115,12 +115,12 @@ void ObjOshihiki_RotateXZ(Vec3f* out, Vec3f* in, f32 sn, f32 cs) {
 }
 
 s32 ObjOshihiki_StrongEnough(ObjOshihiki* pthis) {
-    s32 strengthList;
+    s32 strength;
 
     if (pthis->cantMove) {
         return 0;
     }
-    strengthList = Player_GetStrength();
+    strength = Player_GetStrength();
     switch (pthis->dyna.actor.params & 0xF) {
         case PUSHBLOCK_SMALL_START_ON:
         case PUSHBLOCK_MEDIUM_START_ON:
@@ -130,11 +130,11 @@ s32 ObjOshihiki_StrongEnough(ObjOshihiki* pthis) {
             break;
         case PUSHBLOCK_LARGE_START_ON:
         case PUSHBLOCK_LARGE_START_OFF:
-            return strengthList >= PLAYER_STR_BRACELET;
+            return strength >= PLAYER_STR_BRACELET;
             break;
         case PUSHBLOCK_HUGE_START_ON:
         case PUSHBLOCK_HUGE_START_OFF:
-            return strengthList >= PLAYER_STR_SILVER_G;
+            return strength >= PLAYER_STR_SILVER_G;
             break;
     }
     return 0;

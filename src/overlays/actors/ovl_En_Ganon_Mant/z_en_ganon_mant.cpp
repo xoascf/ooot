@@ -188,7 +188,7 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* pthis, Vec3
             (pos + i)->x += posStep.x;
             (pos + i)->z += posStep.z;
         }
-        // Set lengthList
+        // Set length
         jointLength = 6.5f;
     } else {
         jointLength = 9.5f;
@@ -230,7 +230,7 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* pthis, Vec3
             x = -Math_Atan2F(sqrtf(SQ(x) + SQ(z)), y);
             (rot - 1)->x = x;
 
-            // Calculate real position difference of correct lengthList in the correct direction
+            // Calculate real position difference of correct length in the correct direction
             delta.x = 0;
             delta.z = jointLength;
             Matrix_RotateY(yaw, MTXMODE_NEW);

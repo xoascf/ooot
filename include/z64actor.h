@@ -399,7 +399,7 @@ struct TargetContext {
     /* 0x38 */ Actor* arrowPointedActor;
     /* 0x3C */ Actor* targetedActor;
     /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 lengthList;
+    /* 0x44 */ f32 unk_44;
     /* 0x48 */ s16 unk_48;
     /* 0x4A */ u8 activeCategory;
     /* 0x4B */ u8 unk_4B;
@@ -412,7 +412,7 @@ struct TargetContext {
 }; // size = 0x98
 
 struct ActorListEntry {
-    /* 0x00 */ s32 lengthList;  // number of actors loaded of this category
+    /* 0x00 */ s32 length;  // number of actors loaded of this category
     /* 0x04 */ Actor* head; // pointer to head of the linked list of this category (most recent actor added)
 };           // size = 0x08
 
@@ -422,7 +422,7 @@ struct ActorContext
     /* 0x0001 */ char unk_01[0x01];
     /* 0x0002 */ u8 unk_02;
     /* 0x0003 */ u8 unk_03;
-    /* 0x0004 */ char strengthList[0x04];
+    /* 0x0004 */ char unk_04[0x04];
     /* 0x0008 */ u8 total; // total number of actors loaded
     /* 0x0009 */ char unk_09[0x03];
     /* 0x000C */ ActorListEntry actorLists[12];
@@ -446,7 +446,7 @@ struct ActorContext
 struct struct_80034A14_arg1 {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 strengthList;
+    /* 0x04 */ s16 unk_04;
     /* 0x06 */ s16 unk_06;
     /* 0x08 */ Vec3s unk_08;
     /* 0x0E */ Vec3s unk_0E;

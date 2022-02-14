@@ -158,8 +158,8 @@ struct CollisionContext {
     /* 0x10 */ Vec3f maxBounds;            // maximum coordinates of collision bounding box
     /* 0x1C */ Vec3i subdivAmount;         // x, y, z subdivisions of the scene's static collision
     /* 0x28 */ Vec3f subdivLength;         // x, y, z subdivision worldspace lengths
-    /* 0x34 */ Vec3f subdivLengthInv;      // inverse of subdivision lengthList
-    /* 0x40 */ StaticLookup* lookupTbl;    // 3d array of lengthList subdivAmount
+    /* 0x34 */ Vec3f subdivLengthInv;      // inverse of subdivision length
+    /* 0x40 */ StaticLookup* lookupTbl;    // 3d array of length subdivAmount
     /* 0x44 */ SSNodeList polyNodes;
     /* 0x50 */ DynaCollisionContext dyna;
     /* 0x1460 */ u32 memSize; // Size of all allocated memory plus CollisionContext

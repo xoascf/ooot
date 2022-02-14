@@ -97,13 +97,13 @@ void ArmsHook_Destroy(Actor* pthisx, GlobalContext* globalCtx) {
 void ArmsHook_Wait(ArmsHook* pthis, GlobalContext* globalCtx) {
     if (pthis->actor.parent == NULL) {
         Player* player = GET_PLAYER(globalCtx);
-        // get correct timer lengthList for hookshot or longshot
-        s32 lengthList = ((player->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 13 : 26);
+        // get correct timer length for hookshot or longshot
+        s32 length = ((player->heldItemActionParam == PLAYER_AP_HOOKSHOT) ? 13 : 26);
 
         ArmsHook_SetupAction(pthis, ArmsHook_Shoot);
         func_8002D9A4(&pthis->actor, 20.0f);
         pthis->actor.parent = &GET_PLAYER(globalCtx)->actor;
-        pthis->timer = lengthList;
+        pthis->timer = length;
     }
 }
 

@@ -79,7 +79,7 @@ void AudioHeap_DiscardFont(s32 fontId) {
         Note* note = &gAudioContext.notes[i];
 
         if (note->playbackState.fontId == fontId) {
-            if (note->playbackState.strengthList == 0 && note->playbackState.priority != 0) {
+            if (note->playbackState.unk_04 == 0 && note->playbackState.priority != 0) {
                 note->playbackState.parentLayer->enabled = false;
                 note->playbackState.parentLayer->finished = true;
             }
@@ -864,7 +864,7 @@ void AudioHeap_Init(void) {
     gAudioContext.unk_2870 /= gAudioContext.audioBufferParameters.aiFrequency;
     gAudioContext.unk_2870 /= gAudioContext.tempoInternalToExternal;
 
-    gAudioContext.audioBufferParameters.specUnk4 = spec->strengthList;
+    gAudioContext.audioBufferParameters.specUnk4 = spec->unk_04;
     gAudioContext.audioBufferParameters.samplesPerFrameTarget *= gAudioContext.audioBufferParameters.specUnk4;
     gAudioContext.audioBufferParameters.maxAiBufferLength *= gAudioContext.audioBufferParameters.specUnk4;
     gAudioContext.audioBufferParameters.minAiBufferLength *= gAudioContext.audioBufferParameters.specUnk4;

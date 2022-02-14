@@ -117,7 +117,7 @@ struct PauseMapMarkPoint {
 
 struct PauseMapMarkData {
     /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x04 */ s32 strengthList;
+    /* 0x04 */ s32 unk_04;
     /* 0x08 */ const Vtx* vtx;
     /* 0x0C */ s32 vtxCount;
     /* 0x10 */ s32 count; // number of icons to display

@@ -173,7 +173,7 @@ static const char* sShopkeeperPrintName[] = {
 typedef struct {
     /* 0x00 */ s16 objId;
     /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 strengthList;
+    /* 0x04 */ s16 unk_04;
 } ShopkeeperObjInfo;
 
 static s16 sShopkeeperObjectIds[][3] = {

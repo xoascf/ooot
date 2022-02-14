@@ -295,7 +295,7 @@ void func_8002BE64(TargetContext* targetCtx, s32 index, f32 arg2, f32 arg3, f32 
     targetCtx->arr_50[index].pos.x = arg2;
     targetCtx->arr_50[index].pos.y = arg3;
     targetCtx->arr_50[index].pos.z = arg4;
-    targetCtx->arr_50[index].unk_0C = targetCtx->lengthList;
+    targetCtx->arr_50[index].unk_0C = targetCtx->unk_44;
 }
 
 void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* globalCtx) {
@@ -304,7 +304,7 @@ void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* g
     s32 i;
 
     Math_Vec3f_Copy(&targetCtx->targetCenterPos, &globalCtx->view.eye);
-    targetCtx->lengthList = 500.0f;
+    targetCtx->unk_44 = 500.0f;
     targetCtx->unk_48 = 0x100;
 
     naviColor = &sNaviColorList[actorCategory];
@@ -378,7 +378,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         if (actor != NULL) {
             Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->focus.pos);
-            var1 = (500.0f - targetCtx->lengthList) / 420.0f;
+            var1 = (500.0f - targetCtx->unk_44) / 420.0f;
         } else {
             targetCtx->unk_48 -= 120;
             if (targetCtx->unk_48 < 0) {
@@ -547,18 +547,18 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
         targetCtx->targetCenterPos.z = actorArg->world.pos.z;
 
         if (targetCtx->unk_4B == 0) {
-            temp5 = (500.0f - targetCtx->lengthList) * 3.0f;
+            temp5 = (500.0f - targetCtx->unk_44) * 3.0f;
             temp6 = (temp5 < 30.0f) ? 30.0f : ((100.0f < temp5) ? 100.0f : temp5);
-            if (Math_StepToF(&targetCtx->lengthList, 80.0f, temp6) != 0) {
+            if (Math_StepToF(&targetCtx->unk_44, 80.0f, temp6) != 0) {
                 targetCtx->unk_4B++;
             }
         } else {
             targetCtx->unk_4B = (targetCtx->unk_4B + 3) | 0x80;
-            targetCtx->lengthList = 120.0f;
+            targetCtx->unk_44 = 120.0f;
         }
     } else {
         targetCtx->targetedActor = NULL;
-        Math_StepToF(&targetCtx->lengthList, 500.0f, 80.0f);
+        Math_StepToF(&targetCtx->unk_44, 500.0f, 80.0f);
     }
 }
 
@@ -1874,7 +1874,7 @@ void Actor_DrawFaroresWindPointer(GlobalContext* globalCtx) {
             f32 diff = Math_Vec3f_DistXYZAndStoreDiff(nextPos, curPos, &dist);
             Vec3f effectPos;
             f32 factor;
-            f32 lengthList;
+            f32 length;
             f32 dx;
             f32 speed;
 
@@ -1882,17 +1882,17 @@ void Actor_DrawFaroresWindPointer(GlobalContext* globalCtx) {
                 D_8015BC18 = 0.0f;
                 Math_Vec3f_Copy(curPos, nextPos);
             } else {
-                lengthList = diff * (1.0f / D_8015BC18);
-                speed = 20.0f / lengthList;
+                length = diff * (1.0f / D_8015BC18);
+                speed = 20.0f / length;
                 speed = CLAMP_MIN(speed, 0.05f);
                 Math_StepToF(&D_8015BC18, 0.0f, speed);
                 factor = (diff * (D_8015BC18 / prevNum)) / diff;
                 curPos->x = nextPos->x + (dist.x * factor);
                 curPos->y = nextPos->y + (dist.y * factor);
                 curPos->z = nextPos->z + (dist.z * factor);
-                lengthList *= 0.5f;
-                dx = diff - lengthList;
-                yOffset += sqrtf(SQ(lengthList) - SQ(dx)) * 0.2f;
+                length *= 0.5f;
+                dx = diff - length;
+                yOffset += sqrtf(SQ(length) - SQ(dx)) * 0.2f;
                 osSyncPrintf("-------- DISPLAY Y=%f\n", yOffset);
             }
 
@@ -2577,7 +2577,7 @@ void Actor_AddToCategory(ActorContext* actorCtx, Actor* actorToAdd, u8 actorCate
     actorToAdd->category = actorCategory;
 
     actorCtx->total++;
-    actorCtx->actorLists[actorCategory].lengthList++;
+    actorCtx->actorLists[actorCategory].length++;
     prevHead = actorCtx->actorLists[actorCategory].head;
 
     if (prevHead != NULL) {
@@ -2596,7 +2596,7 @@ Actor* Actor_RemoveFromCategory(GlobalContext* globalCtx, ActorContext* actorCtx
     Actor* newHead;
 
     actorCtx->total--;
-    actorCtx->actorLists[actorToRemove->category].lengthList--;
+    actorCtx->actorLists[actorToRemove->category].length--;
 
     if (actorToRemove->prev != NULL) {
         actorToRemove->prev->next = actorToRemove->next;
@@ -2614,7 +2614,7 @@ Actor* Actor_RemoveFromCategory(GlobalContext* globalCtx, ActorContext* actorCtx
     actorToRemove->prev = NULL;
 
     if ((actorToRemove->room == globalCtx->roomCtx.curRoom.num) && (actorToRemove->category == ACTORCAT_ENEMY) &&
-        (actorCtx->actorLists[ACTORCAT_ENEMY].lengthList == 0)) {
+        (actorCtx->actorLists[ACTORCAT_ENEMY].length == 0)) {
         Flags_SetTempClear(globalCtx, globalCtx->roomCtx.curRoom.num);
     }
 
@@ -3674,7 +3674,7 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 interac
 typedef struct {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 strengthList;
+    /* 0x04 */ s16 unk_04;
     /* 0x06 */ s16 unk_06;
     /* 0x08 */ s16 unk_08;
     /* 0x0A */ s16 unk_0A;
@@ -3765,7 +3765,7 @@ s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, 
     }
 
     if (arg2 < Math_Vec3f_DistXYZ(&actor->world.pos, &arg1->unk_18)) {
-        arg1->strengthList = 0;
+        arg1->unk_04 = 0;
         arg1->unk_06 = 0;
         return 1;
     }
@@ -3773,23 +3773,23 @@ s16 func_80034810(Actor* actor, struct_80034A14_arg1* arg1, f32 arg2, s16 arg3, 
     var = Math_Vec3f_Yaw(&actor->world.pos, &arg1->unk_18);
     abs_var = ABS((s16)((f32)var - actor->shape.rot.y));
     if (arg3 >= abs_var) {
-        arg1->strengthList = 0;
+        arg1->unk_04 = 0;
         arg1->unk_06 = 0;
         return 2;
     }
 
-    if (DECR(arg1->strengthList) != 0) {
+    if (DECR(arg1->unk_04) != 0) {
         return arg1->unk_02;
     }
 
     switch (arg1->unk_06) {
         case 0:
         case 2:
-            arg1->strengthList = Rand_S16Offset(30, 30);
+            arg1->unk_04 = Rand_S16Offset(30, 30);
             arg1->unk_06++;
             return 1;
         case 1:
-            arg1->strengthList = Rand_S16Offset(10, 10);
+            arg1->unk_04 = Rand_S16Offset(10, 10);
             arg1->unk_06++;
             return 3;
     }
@@ -3807,7 +3807,7 @@ void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3)
     switch (arg1->unk_02) {
         case 1:
             sp38.unk_00 = 0;
-            sp38.strengthList = 0;
+            sp38.unk_04 = 0;
             sp38.unk_02 = 0;
         case 3:
             sp38.unk_06 = 0;
@@ -3817,7 +3817,7 @@ void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3)
             sp38.unk_0C = 0;
     }
 
-    func_800344BC(actor, arg1, sp38.unk_00, sp38.strengthList, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
+    func_800344BC(actor, arg1, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
                   sp38.unk_0C);
 }
 

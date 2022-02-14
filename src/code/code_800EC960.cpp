@@ -60,7 +60,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ u16 unk_00;
     /* 0x2 */ u16 unk_02;
-    /* 0x4 */ u8 strengthList[100];
+    /* 0x4 */ u8 unk_04[100];
 } D_801306DC_s; // size = 0x68
 
 typedef enum {
@@ -3782,11 +3782,11 @@ void func_800F6FB4(u8 arg0) {
     if ((D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254 == NA_BGM_DISABLED) ||
         !(sSeqFlags[((u8)D_8016E750[SEQ_PLAYER_BGM_MAIN].unk_254) & 0xFF] & 0x80)) {
         func_800F6E7C(D_801306DC[arg0].unk_00, D_801306DC[arg0].unk_02);
-        while ((D_801306DC[arg0].strengthList[i] != 0xFF) && (i < 100)) {
+        while ((D_801306DC[arg0].unk_04[i] != 0xFF) && (i < 100)) {
             // Probably a fake match, using Audio_SeqCmd8 doesn't work.
-            b0 = D_801306DC[arg0].strengthList[i++];
-            b1 = D_801306DC[arg0].strengthList[i++];
-            b2 = D_801306DC[arg0].strengthList[i++];
+            b0 = D_801306DC[arg0].unk_04[i++];
+            b1 = D_801306DC[arg0].unk_04[i++];
+            b2 = D_801306DC[arg0].unk_04[i++];
             Audio_QueueSeqCmd(0x80000000 | (SEQ_PLAYER_BGM_MAIN << 24) | (b1 << 0x10) | (b0 << 8) | b2);
         }
 

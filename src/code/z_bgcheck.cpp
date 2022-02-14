@@ -1487,9 +1487,9 @@ s32 BgCheck_TryGetCustomMemsize(s32 sceneId, u32* memSize) {
  * Compute subdivLength for scene mesh lookup, for a single dimension
  */
 void BgCheck_SetSubdivisionDimension(f32 min, s32 subdivAmount, f32* max, f32* subdivLength, f32* subdivLengthInv) {
-    f32 lengthList = (*max - min);
+    f32 length = (*max - min);
 
-    *subdivLength = (s32)(lengthList / subdivAmount) + 1;
+    *subdivLength = (s32)(length / subdivAmount) + 1;
     *subdivLength = CLAMP_MIN(*subdivLength, BGCHECK_SUBDIV_MIN);
     *subdivLengthInv = 1.0f / *subdivLength;
 

@@ -153,7 +153,7 @@ typedef struct {
     /* 0x38 */ f32 unk_38; // scale target mostly, but used for other things
     /* 0x3C */ f32 unk_3C; // mostly z rot
     /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 lengthList; // mostly x rot
+    /* 0x44 */ f32 unk_44; // mostly x rot
     /* 0x48 */ f32 unk_48; // mostly y rot
 } GanondorfEffect;         // size = 0x4C
 
@@ -173,7 +173,7 @@ void BossGanonEff_SpawnWindowShard(GlobalContext* globalCtx, Vec3f* pos, Vec3f* 
             eff->accel = sZeroVec;
             eff->scale = scale;
             eff->accel.y = -1.5f;
-            eff->lengthList = Rand_ZeroFloat(6.28f);
+            eff->unk_44 = Rand_ZeroFloat(6.28f);
             eff->unk_48 = Rand_ZeroFloat(6.28f);
             color = &shardColors[(s16)Rand_ZeroFloat(2.99f)];
             eff->color.r = color->r;
@@ -223,7 +223,7 @@ void BossGanonEff_SpawnLightRay(GlobalContext* globalCtx, Vec3f* pos, Vec3f* vel
             eff->unk_30 = arg6;
             eff->timer = (s16)Rand_ZeroFloat(10.0f);
             eff->unk_48 = Math_Atan2F(eff->velocity.z, eff->velocity.x);
-            eff->lengthList = -Math_Atan2F(sqrtf(SQXZ(eff->velocity)), eff->velocity.y);
+            eff->unk_44 = -Math_Atan2F(sqrtf(SQXZ(eff->velocity)), eff->velocity.y);
             break;
         }
     }
@@ -4648,7 +4648,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
             eff->velocity.z += eff->accel.z;
 
             if (eff->type == GDF_EFF_WINDOW_SHARD) {
-                eff->lengthList += 0.3f;
+                eff->unk_44 += 0.3f;
                 eff->unk_48 += 0.5f;
 
                 if (eff->pos.y < 0.0f) {
@@ -4729,9 +4729,9 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                 }
             } else if (eff->type == GDF_EFF_LIGHTNING) {
                 if (eff->unk_3C == 0.0f) {
-                    eff->lengthList = BINANG_TO_RAD(Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, MAIN_CAM)));
+                    eff->unk_44 = BINANG_TO_RAD(Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, MAIN_CAM)));
                 } else {
-                    eff->lengthList = M_PI / 2;
+                    eff->unk_44 = M_PI / 2;
                 }
 
                 if (eff->timer > 12) {
@@ -4858,7 +4858,7 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             Matrix_Scale(eff->scale, eff->scale, eff->scale, MTXMODE_APPLY);
             Matrix_RotateY(eff->unk_48, MTXMODE_APPLY);
-            Matrix_RotateX(eff->lengthList, MTXMODE_APPLY);
+            Matrix_RotateX(eff->unk_44, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_ganon.c", 10898),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, gDorfWindowShardModelDL);
@@ -4901,7 +4901,7 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, eff->alpha);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             Matrix_RotateY(eff->unk_48, MTXMODE_APPLY);
-            Matrix_RotateX(eff->lengthList, MTXMODE_APPLY);
+            Matrix_RotateX(eff->unk_44, MTXMODE_APPLY);
             Matrix_RotateZ(eff->unk_3C, MTXMODE_APPLY);
             Matrix_Scale(eff->scale, eff->scale, eff->unk_38 * eff->scale, MTXMODE_APPLY);
             Matrix_RotateX(M_PI / 2, MTXMODE_APPLY);
@@ -4951,7 +4951,7 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
             Matrix_RotateY(eff->unk_48, MTXMODE_APPLY);
             Matrix_RotateZ(eff->unk_3C, MTXMODE_APPLY);
             Matrix_Scale(eff->scale, eff->scale, eff->scale, MTXMODE_APPLY);
-            Matrix_RotateY(eff->lengthList, MTXMODE_APPLY);
+            Matrix_RotateY(eff->unk_44, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_ganon.c", 11074),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sLightningTextures[eff->timer]));

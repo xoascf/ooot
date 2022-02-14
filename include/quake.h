@@ -6,7 +6,7 @@
 struct SubQuakeRequest14 {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 strengthList;
+    /* 0x04 */ s16 unk_04;
 };
 
 struct QuakeRequest {

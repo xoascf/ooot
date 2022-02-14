@@ -312,7 +312,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* pthis, GlobalContext* globalCtx) {
 
                         pthis->effects[i].flightRadius = (s16)(Rand_ZeroOne() * 50.0f) + 15;
 
-                        // uniformly scales the lengthList and height of the wave that the lead fairy flies in
+                        // uniformly scales the length and height of the wave that the lead fairy flies in
                         // lower numbers have a larger amplitude and period
                         pthis->effects[i].amplitude = (Rand_ZeroOne() * 10.0f + 10.0f) * 0.01f;
 

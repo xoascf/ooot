@@ -251,7 +251,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* pthis, GlobalContext* globalCtx) {
         }
 
         if ((globalCtx->bombchuBowlingStatus == -1) &&
-            (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].lengthList == 0) && (pthis->bowlPit->status == 0) &&
+            (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) && (pthis->bowlPit->status == 0) &&
             (pthis->wallStatus[0] != 1) && (pthis->wallStatus[1] != 1)) {
             pthis->gameResult = 2; // Lost
             // "Bombchu lost"

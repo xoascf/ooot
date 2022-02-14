@@ -1702,7 +1702,7 @@ s32 Camera_Normal2(Camera* camera) {
     if (RELOAD_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         norm2->unk_00 = NEXTPCT * playerHeight * yNormal;
-        norm2->strengthList = NEXTPCT * playerHeight * yNormal;
+        norm2->unk_04 = NEXTPCT * playerHeight * yNormal;
         norm2->unk_08 = NEXTPCT * playerHeight * yNormal;
         norm2->unk_1C = DEGF_TO_BINANG(NEXTSETTING);
         norm2->unk_0C = NEXTSETTING;
@@ -1800,7 +1800,7 @@ s32 Camera_Normal2(Camera* camera) {
         adjSph = sp90;
     }
 
-    camera->dist = adjSph.r = Camera_ClampDist(camera, sp90.r, norm2->strengthList, norm2->unk_08, 0);
+    camera->dist = adjSph.r = Camera_ClampDist(camera, sp90.r, norm2->unk_04, norm2->unk_08, 0);
 
     if (!(anim->unk_28 & 1)) {
         if (adjSph.pitch >= 0xE39) {
@@ -3112,7 +3112,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         f32 yNormal = (1.0f + PCT(R_CAM_YOFFSET_NORM)) - (PCT(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
 
         keep1->unk_00 = NEXTPCT * playerHeight * yNormal;
-        keep1->strengthList = NEXTSETTING;
+        keep1->unk_04 = NEXTSETTING;
         keep1->unk_08 = NEXTSETTING;
         keep1->unk_0C = NEXTSETTING;
         keep1->unk_10 = NEXTSETTING;
@@ -3136,7 +3136,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         camera->animState++;
         anim->unk_10 = 0;
-        anim->strengthList = 0.0f;
+        anim->unk_04 = 0.0f;
         anim->unk_0C = camera->target;
         anim->unk_16 = R_DEFA_CAM_ANIM_TIME + OREG(24);
         anim->unk_12 = spC0.yaw;
@@ -3151,7 +3151,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         camera->inputDir.z = 0;
     }
 
-    sp104 = keep1->strengthList;
+    sp104 = keep1->unk_04;
     sp84 = 1;
 
     switch (camera->paramFlags & 0x18) {
@@ -3203,8 +3203,8 @@ s32 Camera_KeepOn1(Camera* camera) {
             break;
     }
     OLib_Vec3fDiffToVecSphGeo(&spD8, at, eyeNext);
-    if (spD8.r < keep1->strengthList) {
-        sp104 = keep1->strengthList;
+    if (spD8.r < keep1->unk_04) {
+        sp104 = keep1->unk_04;
         spE8 = OREG(6);
     } else if (keep1->unk_08 < spD8.r) {
         sp104 = keep1->unk_08;
@@ -3545,7 +3545,7 @@ s32 Camera_KeepOn4(Camera* camera) {
         f32 yNormal = (1.0f + t) - ((68.0f / playerHeight) * t);
 
         keep4->unk_00 = NEXTPCT * playerHeight * yNormal;
-        keep4->strengthList = NEXTPCT * playerHeight * yNormal;
+        keep4->unk_04 = NEXTPCT * playerHeight * yNormal;
         keep4->unk_08 = NEXTSETTING;
         keep4->unk_0C = NEXTSETTING;
         keep4->unk_10 = NEXTSETTING;
@@ -3557,7 +3557,7 @@ s32 Camera_KeepOn4(Camera* camera) {
         switch (*temp_s0) {
             case 1:
                 keep4->unk_00 = playerHeight * -0.6f * yNormal;
-                keep4->strengthList = playerHeight * 2.0f * yNormal;
+                keep4->unk_04 = playerHeight * 2.0f * yNormal;
                 keep4->unk_08 = 10.0f;
                 break;
             case 2:
@@ -3571,13 +3571,13 @@ s32 Camera_KeepOn4(Camera* camera) {
                 break;
             case 8:
                 keep4->unk_00 = playerHeight * -0.2f * yNormal;
-                keep4->strengthList = playerHeight * 0.8f * yNormal;
+                keep4->unk_04 = playerHeight * 0.8f * yNormal;
                 keep4->unk_08 = 50.0f;
                 keep4->unk_18 = 70.0f;
                 break;
             case 9:
                 keep4->unk_00 = playerHeight * 0.1f * yNormal;
-                keep4->strengthList = playerHeight * 0.5f * yNormal;
+                keep4->unk_04 = playerHeight * 0.5f * yNormal;
                 keep4->unk_08 = -20.0f;
                 keep4->unk_0C = 0.0f;
                 keep4->unk_1C = 0x2540;
@@ -3590,7 +3590,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 break;
             case 10:
                 keep4->unk_00 = playerHeight * -0.5f * yNormal;
-                keep4->strengthList = playerHeight * 1.5f * yNormal;
+                keep4->unk_04 = playerHeight * 1.5f * yNormal;
                 keep4->unk_08 = -15.0f;
                 keep4->unk_0C = 175.0f;
                 keep4->unk_18 = 70.0f;
@@ -3599,7 +3599,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 break;
             case 12:
                 keep4->unk_00 = playerHeight * -0.6f * yNormal;
-                keep4->strengthList = playerHeight * 1.6f * yNormal;
+                keep4->unk_04 = playerHeight * 1.6f * yNormal;
                 keep4->unk_08 = -2.0f;
                 keep4->unk_0C = 120.0f;
                 keep4->unk_10 = player->stateFlags1 & 0x8000000 ? 0.0f : 20.0f;
@@ -3614,7 +3614,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 break;
             case 0x5B:
                 keep4->unk_00 = playerHeight * -0.1f * yNormal;
-                keep4->strengthList = playerHeight * 1.5f * yNormal;
+                keep4->unk_04 = playerHeight * 1.5f * yNormal;
                 keep4->unk_08 = -3.0f;
                 keep4->unk_0C = 10.0f;
                 keep4->unk_18 = 55.0f;
@@ -3622,7 +3622,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 break;
             case 0x51:
                 keep4->unk_00 = playerHeight * -0.3f * yNormal;
-                keep4->strengthList = playerHeight * 1.5f * yNormal;
+                keep4->unk_04 = playerHeight * 1.5f * yNormal;
                 keep4->unk_08 = 2.0f;
                 keep4->unk_0C = 20.0f;
                 keep4->unk_10 = 20.0f;
@@ -3632,7 +3632,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 break;
             case 11:
                 keep4->unk_00 = playerHeight * -0.19f * yNormal;
-                keep4->strengthList = playerHeight * 0.7f * yNormal;
+                keep4->unk_04 = playerHeight * 0.7f * yNormal;
                 keep4->unk_0C = 130.0f;
                 keep4->unk_10 = 10.0f;
                 keep4->unk_1C = 0x2522;
@@ -3707,7 +3707,7 @@ s32 Camera_KeepOn4(Camera* camera) {
 
             spB8.pitch = spA2;
             spB8.yaw = spA0;
-            spB8.r = keep4->strengthList;
+            spB8.r = keep4->unk_04;
             Camera_Vec3fVecSphGeoAdd(&D_8015BD70, &D_8015BD50, &spB8);
             if (!(keep4->unk_1C & 1)) {
                 angleCnt = ARRAY_COUNT(D_8011D3B0);
@@ -3723,7 +3723,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 }
                 osSyncPrintf("camera: item: BG&collision check %d time(s)\n", i);
             }
-            unk20->strengthList = BINANG_SUB(spB8.pitch, spA8.pitch) / (f32)unk20->unk_10;
+            unk20->unk_04 = BINANG_SUB(spB8.pitch, spA8.pitch) / (f32)unk20->unk_10;
             unk20->unk_00 = BINANG_SUB(spB8.yaw, spA8.yaw) / (f32)unk20->unk_10;
             unk20->unk_0C = spA8.yaw;
             unk20->unk_0E = spA8.pitch;
@@ -3746,12 +3746,12 @@ s32 Camera_KeepOn4(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(at, at, &spB8);
     }
     camera->atLERPStepScale = 0.0f;
-    camera->dist = Camera_LERPCeilF(keep4->strengthList, camera->dist, 0.25f, 2.0f);
+    camera->dist = Camera_LERPCeilF(keep4->unk_04, camera->dist, 0.25f, 2.0f);
     spB8.r = camera->dist;
     if (unk20->unk_10 != 0) {
         camera->unk_14C |= 0x20;
         unk20->unk_0C += (s16)unk20->unk_00;
-        unk20->unk_0E += (s16)unk20->strengthList;
+        unk20->unk_0E += (s16)unk20->unk_04;
         unk20->unk_10--;
     } else if (keep4->unk_1C & 0x10) {
         camera->unk_14C |= (0x400 | 0x10);
@@ -4642,8 +4642,8 @@ s32 Camera_Unique2(Camera* camera) {
 
     sCameraInterfaceFlags = uniq2->interfaceFlags;
 
-    if ((camera->animState == 0) || (unk10->strengthList != uniq2->interfaceFlags)) {
-        unk10->strengthList = uniq2->interfaceFlags;
+    if ((camera->animState == 0) || (unk10->unk_04 != uniq2->interfaceFlags)) {
+        unk10->unk_04 = uniq2->interfaceFlags;
     }
 
     if (camera->animState == 0) {
@@ -5509,11 +5509,11 @@ s32 Camera_Unique9(Camera* camera) {
     return true;
 }
 
-static void Camera_DebugPrintSplineArray(const char* name, s16 lengthList, CutsceneCameraPoint cameraPoints[]) {
+static void Camera_DebugPrintSplineArray(const char* name, s16 length, CutsceneCameraPoint cameraPoints[]) {
     s32 i;
 
     osSyncPrintf("static SplinedatZ  %s[] = {\n", name);
-    for (i = 0; i < lengthList; i++) {
+    for (i = 0; i < length; i++) {
         osSyncPrintf("    /* key frame %2d */ {\n", i);
         osSyncPrintf("    /*     code     */ %d,\n", cameraPoints[i].continueFlag);
         osSyncPrintf("    /*     z        */ %d,\n", cameraPoints[i].cameraRoll);
@@ -5657,7 +5657,7 @@ s32 Camera_Demo3(Camera* camera) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         demo3->fov = NEXTSETTING;
-        demo3->strengthList = NEXTSETTING; // unused.
+        demo3->unk_04 = NEXTSETTING; // unused.
         demo3->interfaceFlags = NEXTSETTING;
     }
 
@@ -6687,7 +6687,7 @@ s32 Camera_Special9(Camera* camera) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         params->yOffset = NEXTPCT * playerYOffset * yNormal;
-        params->strengthList = NEXTSETTING;
+        params->unk_04 = NEXTSETTING;
         params->interfaceFlags = NEXTSETTING;
     }
 

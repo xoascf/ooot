@@ -23,7 +23,7 @@
 // "Other" conditions described below
 #define ELF_MSG_CONDITION_OTHER         3
 
-// Check what strengthList upgrade has been obtained so far
+// Check what strength upgrade has been obtained so far
 #define ELF_MSG_CONDITION_STRENGTH_UPG  0
 // Check if specific boots have been obtained so far
 #define ELF_MSG_CONDITION_BOOTS         1

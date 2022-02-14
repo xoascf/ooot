@@ -162,7 +162,7 @@ enum PlayerDoorType {
 
 struct PlayerAgeProperties {
     /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 strengthList;
+    /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
@@ -178,7 +178,7 @@ struct PlayerAgeProperties {
     /* 0x38 */ f32 unk_38;
     /* 0x3C */ f32 unk_3C;
     /* 0x40 */ f32 unk_40;
-    /* 0x44 */ Vec3s lengthList;
+    /* 0x44 */ Vec3s unk_44;
     /* 0x4A */ Vec3s unk_4A[4];
     /* 0x62 */ Vec3s unk_62[4];
     /* 0x7A */ Vec3s unk_7A[2];
@@ -327,7 +327,7 @@ struct Player {
     /* 0x0850 */ s16        unk_850; // multipurpose timer
     /* 0x0854 */ f32        unk_854;
     /* 0x0858 */ f32        unk_858;
-    /* 0x085C */ f32        unk_85C; // stick lengthList among other things
+    /* 0x085C */ f32        unk_85C; // stick length among other things
     /* 0x0860 */ s16        unk_860; // stick flame timer among other things
     /* 0x0862 */ s8         unk_862; // get item draw ID + 1
     /* 0x0864 */ f32        unk_864;

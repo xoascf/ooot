@@ -87,7 +87,7 @@ namespace sm64::hid
 				m_keyBindings[SDL_CONTROLLER_BUTTON_DPAD_DOWN] = D_CBUTTONS;
 				
 				//Connect rumble pack callback
-				g_Rumble.onVibrate = [=](auto strengthList, auto time, auto decayList) { onVibrate(strengthList, time, decayList); };
+				g_Rumble.onVibrate = [=](auto strength, auto time, auto decay) { onVibrate(strength, time, decay); };
 
 #ifndef __SWITCH__
 				loadKeyBindings();
@@ -358,14 +358,14 @@ namespace sm64::hid
 				return false;
 			}
 
-			void onVibrate(uint8_t strengthList, uint8_t time, uint8_t decayList)//Called from the game
+			void onVibrate(uint8_t strength, uint8_t time, uint8_t decay)//Called from the game
 			{
-				if (strengthList <= 20)
+				if (strength <= 20)
 					return;
 
 				auto current_time = timeGetTime();
-				//uint32_t strengthScaled  = strengthList * 257;
-				uint32_t strengthScaled = strengthList * 150 + 27135;
+				//uint32_t strengthScaled  = strength * 257;
+				uint32_t strengthScaled = strength * 150 + 27135;
 
 				if (strengthScaled < m_VibrationStrength)//The new one is weak
 					return;//Let's not play the new one
@@ -374,7 +374,7 @@ namespace sm64::hid
 
 				m_VibrationEnds = current_time + (int)(time * 0.06f);
 				m_VibrationStrength = strengthScaled;
-				m_VibrationDecay = decayList * 8;
+				m_VibrationDecay = decay * 8;
 
 				xinput.Vibrate(m_VibrationStrength, m_VibrationStrength);
 			}

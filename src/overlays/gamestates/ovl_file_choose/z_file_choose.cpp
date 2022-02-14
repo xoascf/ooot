@@ -1875,7 +1875,7 @@ void FileChoose_InitContext(GameState* pthisx) {
     envCtx->unk_17 = 2;
     envCtx->skyboxDisabled = 0;
     envCtx->skyboxBlend = 0;
-    envCtx->decayList = 0.0f;
+    envCtx->unk_84 = 0.0f;
     envCtx->unk_88 = 0.0f;
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &pthis->envCtx, &pthis->skyboxCtx);

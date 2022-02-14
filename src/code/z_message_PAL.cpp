@@ -351,7 +351,7 @@ void Message_FindMessage(GlobalContext* globalCtx, u16 textId) {
         if (messageTableEntry->textId == textId) {
             font->charTexBuf[0] = messageTableEntry->typePos;
             font->msgOffset = messageTableEntry->segment;
-            font->msgLength = messageTableEntry->lengthList;
+            font->msgLength = messageTableEntry->length;
             return;
         }
         messageTableEntry++;
@@ -364,7 +364,7 @@ void Message_FindMessage(GlobalContext* globalCtx, u16 textId) {
 
     font->charTexBuf[0] = messageTableEntry->typePos;
     font->msgOffset = messageTableEntry->segment;
-    font->msgLength = messageTableEntry->lengthList;
+    font->msgLength = messageTableEntry->length;
 }
 
 void Message_FindCreditsMessage(GlobalContext* globalCtx, u16 textId) {
@@ -377,7 +377,7 @@ void Message_FindCreditsMessage(GlobalContext* globalCtx, u16 textId) {
         if (messageTableEntry->textId == textId) {
             font->charTexBuf[0] = messageTableEntry->typePos;
             font->msgOffset = messageTableEntry->segment;
-            font->msgLength = messageTableEntry->lengthList;
+            font->msgLength = messageTableEntry->length;
             return;
         }
         messageTableEntry++;

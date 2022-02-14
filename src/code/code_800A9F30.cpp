@@ -13,58 +13,58 @@ void Rumble_Init(PadMgr* a, s32 b) {
     PadMgr_RumbleSet(a, g_Rumble.rumbleEnable);
 }
 
-//playerDistance to player (unused), baseStrength, time, decay?
-void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {//Used for bosses and fishing
-    printf("Rumble Rumble ... V2 %d   %d   %d\n", baseStrength, length, decay);
+//distance to player (unused), strength, time, decay?
+void Rumble_Shake2(f32 a, u8 b, u8 c, u8 d) {//Used for bosses and fishing
+    printf("Rumble Rumble ... V2 %d   %d   %d\n", b, c, d);
 
     if (g_Rumble.onVibrate)
-        g_Rumble.onVibrate(baseStrength, length, decay);
+        g_Rumble.onVibrate(b, c, d);
 
-    s32 distance_decay;//By how much should the rumble effect be lowered, based on the distance
-    s32 strength;
+    s32 temp1;
+    s32 temp2;
 
-    if (1000000.0f < playerDistance) {
-        distance_decay = 1000;
+    if (1000000.0f < a) {
+        temp1 = 1000;
     } else {
-        distance_decay = sqrtf(playerDistance);
+        temp1 = sqrtf(a);
     }
 
-    if ((distance_decay < 1000) && (baseStrength != 0) && (decay != 0)) {
-        strength = baseStrength - (distance_decay * 255) / 1000;
-        if (strength > 0) {
-            g_Rumble.strength = strength;
-            g_Rumble.unk_10B = length;
-            g_Rumble.unk_10C = decay;
+    if ((temp1 < 1000) && (b != 0) && (d != 0)) {
+        temp2 = b - (temp1 * 255) / 1000;
+        if (temp2 > 0) {
+            g_Rumble.unk_10A = temp2;
+            g_Rumble.unk_10B = c;
+            g_Rumble.unk_10C = d;
         }
     }
 }
-
-//distance to player, baseStrength, time, decay??
-void Rumble_Shake(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {
-    printf("Rumble Rumble ...  V1 %d   %d   %d\n", baseStrength, length, decay);
+#include <stdio.h>
+//distance to player, strength, time, decay?
+void Rumble_Shake(f32 a, u8 b, u8 c, u8 d) {
+    printf("Rumble Rumble ...  V1 %d   %d   %d\n", b, c, d);
 
     if (g_Rumble.onVibrate)
-        g_Rumble.onVibrate(baseStrength, length, decay);
+        g_Rumble.onVibrate(b, c, d);
 
-    s32 distance_decay;//By how much should the rumble effect be lowered, based on the distance
-    s32 strengthList;
+    s32 temp1;
+    s32 temp2;
     s32 i;
 
-    if (1000000.0f < playerDistance) {
-        distance_decay = 1000;
+    if (1000000.0f < a) {
+        temp1 = 1000;
     } else {
-        distance_decay = sqrtf(playerDistance);
+        temp1 = sqrtf(a);
     }
 
-    if (distance_decay < 1000 && baseStrength != 0 && decay != 0) {
-        strengthList = baseStrength - (distance_decay * 255) / 1000;
+    if (temp1 < 1000 && b != 0 && d != 0) {
+        temp2 = b - (temp1 * 255) / 1000;
 
         for (i = 0; i < 0x40; i++) {
-            if (g_Rumble.strengthList[i] == 0) {
-                if (strengthList > 0) {
-                    g_Rumble.strengthList[i] = strengthList;
-                    g_Rumble.lengthList[i]   = length;
-                    g_Rumble.decayList[i]    = decay;
+            if (g_Rumble.unk_04[i] == 0) {
+                if (temp2 > 0) {
+                    g_Rumble.unk_04[i] = temp2;
+                    g_Rumble.unk_44[i] = c;
+                    g_Rumble.unk_84[i] = d;
                 }
                 break;
             }
@@ -107,7 +107,7 @@ void Rumble_Stop(void) {//called on Environment_Init and game over
     g_Rumble.unk_104 = 2;
 }
 
-void Rumble_Decrease(void) {//called per frame for playerDistance specific gSaveContext.gameMode
+void Rumble_Decrease(void) {//called per frame for a specific gSaveContext.gameMode
     g_Rumble.unk_104 = 0;
 }
 

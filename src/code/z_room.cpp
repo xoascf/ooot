@@ -106,7 +106,7 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
 
 typedef struct struct_80095D04 {
     /* 0x00 */ PolygonDlist2* unk_00;
-    /* 0x04 */ f32 strengthList;
+    /* 0x04 */ f32 unk_04;
     /* 0x08 */ struct struct_80095D04* unk_08;
     /* 0x0C */ struct struct_80095D04* unk_0C;
 } struct_80095D04; // size = 0x10
@@ -163,13 +163,13 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
             if (temp_f2 < globalCtx->lightCtx.fogFar) {
                 phi_v0 = spB4;
                 spA4->unk_00 = polygonDlist;
-                spA4->strengthList = temp_f2;
+                spA4->unk_04 = temp_f2;
                 if (phi_v0 == NULL) {
                     spB4 = spB0 = spA4;
                     spA4->unk_08 = spA4->unk_0C = NULL;
                 } else {
                     do {
-                        if (spA4->strengthList < phi_v0->strengthList) {
+                        if (spA4->unk_04 < phi_v0->unk_04) {
                             break;
                         }
                         phi_v0 = phi_v0->unk_0C;

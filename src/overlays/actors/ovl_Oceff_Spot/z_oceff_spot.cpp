@@ -82,7 +82,7 @@ void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, pthis->lightNode1);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, pthis->lightNode2);
     func_800876C8(globalCtx);
-    if ((gSaveContext.nayrusLoveTimer != 0) && (globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].lengthList != 0)) {
+    if ((gSaveContext.nayrusLoveTimer != 0) && (globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].length != 0)) {
         player->stateFlags3 |= 0x40;
     }
 }

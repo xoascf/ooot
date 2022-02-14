@@ -5,7 +5,7 @@
 #include "def/mtxf2l.h"
 
 void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp, f32 yUp, f32 zUp) {
-    f32 lengthList;
+    f32 length;
     f32 xLook;
     f32 yLook;
     f32 zLook;
@@ -18,26 +18,26 @@ void guLookAtF(f32 mf[4][4], f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32
     xLook = xAt - xEye;
     yLook = yAt - yEye;
     zLook = zAt - zEye;
-    lengthList = -1.0 / sqrtf(SQ(xLook) + SQ(yLook) + SQ(zLook));
-    xLook *= lengthList;
-    yLook *= lengthList;
-    zLook *= lengthList;
+    length = -1.0 / sqrtf(SQ(xLook) + SQ(yLook) + SQ(zLook));
+    xLook *= length;
+    yLook *= length;
+    zLook *= length;
 
     xRight = yUp * zLook - zUp * yLook;
     yRight = zUp * xLook - xUp * zLook;
     zRight = xUp * yLook - yUp * xLook;
-    lengthList = 1.0 / sqrtf(SQ(xRight) + SQ(yRight) + SQ(zRight));
-    xRight *= lengthList;
-    yRight *= lengthList;
-    zRight *= lengthList;
+    length = 1.0 / sqrtf(SQ(xRight) + SQ(yRight) + SQ(zRight));
+    xRight *= length;
+    yRight *= length;
+    zRight *= length;
 
     xUp = yLook * zRight - zLook * yRight;
     yUp = zLook * xRight - xLook * zRight;
     zUp = xLook * yRight - yLook * xRight;
-    lengthList = 1.0 / sqrtf(SQ(xUp) + SQ(yUp) + SQ(zUp));
-    xUp *= lengthList;
-    yUp *= lengthList;
-    zUp *= lengthList;
+    length = 1.0 / sqrtf(SQ(xUp) + SQ(yUp) + SQ(zUp));
+    xUp *= length;
+    yUp *= length;
+    zUp *= length;
 
     mf[0][0] = xRight;
     mf[1][0] = yRight;

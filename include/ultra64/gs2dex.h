@@ -102,11 +102,11 @@ union uObjBg {
 struct uObjSprite_t {
   s16  objX;		/* s10.2 OBJ x-coordinate of upper-left end */
   u16  scaleW;		/* u5.10 Scaling of u5.10 width direction   */
-  u16  imageW;		/* u10.5 width of u10.5 texture (lengthList of S-direction) */
+  u16  imageW;		/* u10.5 width of u10.5 texture (length of S-direction) */
   u16  paddingX;	/* Unused - Always 0 */
   s16  objY;		/* s10.2 OBJ y-coordinate of s10.2 OBJ upper-left end */
   u16  scaleH;		/* u5.10 Scaling of u5.10 height direction */
-  u16  imageH;		/* u10.5 height of u10.5 texture (lengthList of T-direction) */
+  u16  imageH;		/* u10.5 height of u10.5 texture (length of T-direction) */
   u16  paddingY;	/* Unused - Always 0 */
   u16  imageStride;	/* folding width of texel (In units of 64bit word) */
   u16  imageAdrs;	/* texture header position in TMEM (In units of 64bit word) */

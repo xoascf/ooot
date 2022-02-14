@@ -730,7 +730,7 @@ void func_80B131B8(EnSyatekiNiw* pthis, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f
     for (i = 0; i < 5; i++, ptr++) {
         if (ptr->unk_00 == 0) {
             ptr->unk_00 = 1;
-            ptr->strengthList = *arg1;
+            ptr->unk_04 = *arg1;
             ptr->unk_10 = *arg2;
             ptr->unk_1C = *arg3;
             ptr->unk_34 = 0;
@@ -748,9 +748,9 @@ void func_80B132A8(EnSyatekiNiw* pthis, GlobalContext* globalCtx) {
 
     for (i = 0; i < 5; i++, ptr++) {
         if (ptr->unk_00 != 0) {
-            ptr->strengthList.x += ptr->unk_10.x;
-            ptr->strengthList.y += ptr->unk_10.y;
-            ptr->strengthList.z += ptr->unk_10.z;
+            ptr->unk_04.x += ptr->unk_10.x;
+            ptr->unk_04.y += ptr->unk_10.y;
+            ptr->unk_04.z += ptr->unk_10.z;
             ptr->unk_34++;
             ptr->unk_10.x += ptr->unk_1C.x;
             ptr->unk_10.y += ptr->unk_1C.y;
@@ -789,7 +789,7 @@ void func_80B13464(EnSyatekiNiw* pthis, GlobalContext* globalCtx) {
                 flag++;
             }
 
-            Matrix_Translate(ptr->strengthList.x, ptr->strengthList.y, ptr->strengthList.z, MTXMODE_NEW);
+            Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->billboardMtxF);
             Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);

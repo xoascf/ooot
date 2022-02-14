@@ -16,7 +16,7 @@ void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32
                      f32 xl2, f32 yl2, f32 zl2,                            /* light 2 direction */
                      s32 hiliteWidth, s32 hiliteHeight)                    /* size of hilite texture */
 {
-    f32 lengthList;
+    f32 length;
     f32 xLook;
     f32 yLook;
     f32 zLook;
@@ -32,45 +32,45 @@ void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32
     xLook = xAt - xEye;
     yLook = yAt - yEye;
     zLook = zAt - zEye;
-    lengthList = -1.0 / sqrtf(xLook * xLook + yLook * yLook + zLook * zLook);
-    xLook *= lengthList;
-    yLook *= lengthList;
-    zLook *= lengthList;
+    length = -1.0 / sqrtf(xLook * xLook + yLook * yLook + zLook * zLook);
+    xLook *= length;
+    yLook *= length;
+    zLook *= length;
 
     xRight = yUp * zLook - zUp * yLook;
     yRight = zUp * xLook - xUp * zLook;
     zRight = xUp * yLook - yUp * xLook;
-    lengthList = 1.0 / sqrtf(xRight * xRight + yRight * yRight + zRight * zRight);
-    xRight *= lengthList;
-    yRight *= lengthList;
-    zRight *= lengthList;
+    length = 1.0 / sqrtf(xRight * xRight + yRight * yRight + zRight * zRight);
+    xRight *= length;
+    yRight *= length;
+    zRight *= length;
 
     xUp = yLook * zRight - zLook * yRight;
     yUp = zLook * xRight - xLook * zRight;
     zUp = xLook * yRight - yLook * xRight;
-    lengthList = 1.0 / sqrtf(xUp * xUp + yUp * yUp + zUp * zUp);
-    xUp *= lengthList;
-    yUp *= lengthList;
-    zUp *= lengthList;
+    length = 1.0 / sqrtf(xUp * xUp + yUp * yUp + zUp * zUp);
+    xUp *= length;
+    yUp *= length;
+    zUp *= length;
 
     /* hilite vectors */
 
-    lengthList = 1.0 / sqrtf(xl1 * xl1 + yl1 * yl1 + zl1 * zl1);
-    xl1 *= lengthList;
-    yl1 *= lengthList;
-    zl1 *= lengthList;
+    length = 1.0 / sqrtf(xl1 * xl1 + yl1 * yl1 + zl1 * zl1);
+    xl1 *= length;
+    yl1 *= length;
+    zl1 *= length;
 
     xHilite = xl1 + xLook;
     yHilite = yl1 + yLook;
     zHilite = zl1 + zLook;
 
-    lengthList = sqrtf(xHilite * xHilite + yHilite * yHilite + zHilite * zHilite);
+    length = sqrtf(xHilite * xHilite + yHilite * yHilite + zHilite * zHilite);
 
-    if (lengthList > 0.1) {
-        lengthList = 1.0 / lengthList;
-        xHilite *= lengthList;
-        yHilite *= lengthList;
-        zHilite *= lengthList;
+    if (length > 0.1) {
+        length = 1.0 / length;
+        xHilite *= length;
+        yHilite *= length;
+        zHilite *= length;
 
         h->h.x1 = hiliteWidth * 4 + (xHilite * xRight + yHilite * yRight + zHilite * zRight) * hiliteWidth * 2;
 
@@ -80,20 +80,20 @@ void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32
         h->h.y1 = hiliteHeight * 2;
     }
 
-    lengthList = 1.0 / sqrtf(xl2 * xl2 + yl2 * yl2 + zl2 * zl2);
-    xl2 *= lengthList;
-    yl2 *= lengthList;
-    zl2 *= lengthList;
+    length = 1.0 / sqrtf(xl2 * xl2 + yl2 * yl2 + zl2 * zl2);
+    xl2 *= length;
+    yl2 *= length;
+    zl2 *= length;
 
     xHilite = xl2 + xLook;
     yHilite = yl2 + yLook;
     zHilite = zl2 + zLook;
-    lengthList = sqrtf(xHilite * xHilite + yHilite * yHilite + zHilite * zHilite);
-    if (lengthList > 0.1) {
-        lengthList = 1.0 / lengthList;
-        xHilite *= lengthList;
-        yHilite *= lengthList;
-        zHilite *= lengthList;
+    length = sqrtf(xHilite * xHilite + yHilite * yHilite + zHilite * zHilite);
+    if (length > 0.1) {
+        length = 1.0 / length;
+        xHilite *= length;
+        yHilite *= length;
+        zHilite *= length;
 
         h->h.x2 = hiliteWidth * 4 + (xHilite * xRight + yHilite * yRight + zHilite * zRight) * hiliteWidth * 2;
 

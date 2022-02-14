@@ -142,7 +142,7 @@ void Audio_NoteInit(Note* note) {
                        &note->playbackState.adsrVolScaleUnused);
     }
 
-    note->playbackState.strengthList = 0;
+    note->playbackState.unk_04 = 0;
     note->playbackState.adsr.action.s.state = ADSR_STATE_INITIAL;
     note->noteSubEu = gDefaultNoteSub;
 }
@@ -153,7 +153,7 @@ void Audio_NoteDisable(Note* note) {
     }
     note->playbackState.priority = 0;
     note->noteSubEu.bitField0.enabled = false;
-    note->playbackState.strengthList = 0;
+    note->playbackState.unk_04 = 0;
     note->noteSubEu.bitField0.finished = false;
     note->playbackState.parentLayer = NO_LAYER;
     note->playbackState.prevParentLayer = NO_LAYER;
@@ -182,19 +182,19 @@ void Audio_ProcessNotes(void) {
                 continue;
             }
 
-            if (note != playbackState->parentLayer->note && playbackState->strengthList == 0) {
+            if (note != playbackState->parentLayer->note && playbackState->unk_04 == 0) {
                 playbackState->adsr.action.s.release = true;
                 playbackState->adsr.fadeOutVel = gAudioContext.audioBufferParameters.updatesPerFrameInv;
                 playbackState->priority = 1;
-                playbackState->strengthList = 2;
+                playbackState->unk_04 = 2;
                 goto out;
-            } else if (!playbackState->parentLayer->enabled && playbackState->strengthList == 0 &&
+            } else if (!playbackState->parentLayer->enabled && playbackState->unk_04 == 0 &&
                        playbackState->priority >= 1) {
                 // do nothing
             } else if (playbackState->parentLayer->channel->seqPlayer == NULL) {
                 AudioSeq_SequenceChannelDisable(playbackState->parentLayer->channel);
                 playbackState->priority = 1;
-                playbackState->strengthList = 1;
+                playbackState->unk_04 = 1;
                 continue;
             } else if (playbackState->parentLayer->channel->seqPlayer->muted &&
                        (playbackState->parentLayer->channel->muteBehavior & 0x40)) {
@@ -207,8 +207,8 @@ void Audio_ProcessNotes(void) {
             Audio_AudioListRemove(&note->listItem);
             Audio_AudioListPushFront(&note->listItem.pool->decaying, &note->listItem);
             playbackState->priority = 1;
-            playbackState->strengthList = 2;
-        } else if (playbackState->strengthList == 0 && playbackState->priority >= 1) {
+            playbackState->unk_04 = 2;
+        } else if (playbackState->unk_04 == 0 && playbackState->priority >= 1) {
             continue;
         }
 
@@ -216,7 +216,7 @@ void Audio_ProcessNotes(void) {
         if (playbackState->priority != 0) {
             if (1) {}
             noteSubEu = &note->noteSubEu;
-            if (playbackState->strengthList >= 1 || noteSubEu->bitField0.finished) {
+            if (playbackState->unk_04 >= 1 || noteSubEu->bitField0.finished) {
                 if (playbackState->adsr.action.s.state == ADSR_STATE_DISABLED || noteSubEu->bitField0.finished) {
                     if (playbackState->wantedParentLayer != NO_LAYER) {
                         Audio_NoteDisable(note);
@@ -258,7 +258,7 @@ void Audio_ProcessNotes(void) {
             scale = Audio_AdsrUpdate(&playbackState->adsr);
             Audio_NoteVibratoUpdate(note);
             attrs = &playbackState->attributes;
-            if (playbackState->strengthList == 1 || playbackState->strengthList == 2) {
+            if (playbackState->unk_04 == 1 || playbackState->unk_04 == 2) {
                 subAttrs.frequency = attrs->freqScale;
                 subAttrs.velocity = attrs->velocity;
                 subAttrs.pan = attrs->pan;
@@ -511,10 +511,10 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
         if (target == ADSR_STATE_RELEASE) {
             note->playbackState.adsr.fadeOutVel = gAudioContext.audioBufferParameters.updatesPerFrameInv;
             note->playbackState.adsr.action.s.release = true;
-            note->playbackState.strengthList = 2;
+            note->playbackState.unk_04 = 2;
         } else {
-            note->playbackState.strengthList = 1;
-            note->playbackState.adsr.action.s.decayList = true;
+            note->playbackState.unk_04 = 1;
+            note->playbackState.adsr.action.s.decay = true;
             if (layer->adsr.releaseRate == 0) {
                 note->playbackState.adsr.fadeOutVel = gAudioContext.unk_3520[layer->channel->adsr.releaseRate];
             } else {
@@ -928,7 +928,7 @@ void Audio_NoteInitAll(void) {
         note = &gAudioContext.notes[i];
         note->noteSubEu = gZeroNoteSub;
         note->playbackState.priority = 0;
-        note->playbackState.strengthList = 0;
+        note->playbackState.unk_04 = 0;
         note->playbackState.parentLayer = NO_LAYER;
         note->playbackState.wantedParentLayer = NO_LAYER;
         note->playbackState.prevParentLayer = NO_LAYER;

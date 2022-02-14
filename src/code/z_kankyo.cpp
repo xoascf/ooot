@@ -70,7 +70,7 @@ typedef enum {
 typedef struct {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
-    /* 0x04 */ u8 strengthList;
+    /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 unk_05;
 } struct_8011FB48; // size = 0x6
 
@@ -311,7 +311,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->unk_1F = 0;
     envCtx->unk_20 = 0;
-    envCtx->decayList = 0.0f;
+    envCtx->unk_84 = 0.0f;
     envCtx->unk_88 = 0.0f;
     envCtx->unk_BD = 0;
     envCtx->unk_BE = 0;
@@ -1002,7 +1002,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                         sp8C = Environment_LerpWeight(TIME_ENTRY_1F.endTime, TIME_ENTRY_1F.startTime,
                                                       ((void)0, gSaveContext.skyboxTime));
 
-                        D_8011FDCC = TIME_ENTRY_1F.strengthList & 3;
+                        D_8011FDCC = TIME_ENTRY_1F.unk_04 & 3;
                         D_8011FDD0 = TIME_ENTRY_1F.unk_05 & 3;
                         D_8011FDD4 = sp8C;
 
@@ -1018,9 +1018,9 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
                         for (j = 0; j < 3; j++) {
                             // blend ambient color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.strengthList].ambientColor[j],
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].ambientColor[j],
                                              lightSettingsList[TIME_ENTRY_1F.unk_05].ambientColor[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.strengthList].ambientColor[j],
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].ambientColor[j],
                                              lightSettingsList[TIME_ENTRY_20.unk_05].ambientColor[j], sp8C);
                             *(envCtx->lightSettings.ambientColor + j) = LERP(blend8[0], blend8[1], sp88);
                         }
@@ -1040,39 +1040,39 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
                         for (j = 0; j < 3; j++) {
                             // blend light1Color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.strengthList].light1Color[j],
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].light1Color[j],
                                              lightSettingsList[TIME_ENTRY_1F.unk_05].light1Color[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.strengthList].light1Color[j],
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].light1Color[j],
                                              lightSettingsList[TIME_ENTRY_20.unk_05].light1Color[j], sp8C);
                             *(envCtx->lightSettings.light1Color + j) = LERP(blend8[0], blend8[1], sp88);
 
                             // blend light2Color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.strengthList].light2Color[j],
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].light2Color[j],
                                              lightSettingsList[TIME_ENTRY_1F.unk_05].light2Color[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.strengthList].light2Color[j],
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].light2Color[j],
                                              lightSettingsList[TIME_ENTRY_20.unk_05].light2Color[j], sp8C);
                             *(envCtx->lightSettings.light2Color + j) = LERP(blend8[0], blend8[1], sp88);
                         }
 
                         // blend fogColor
                         for (j = 0; j < 3; j++) {
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.strengthList].fogColor[j],
+                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].fogColor[j],
                                              lightSettingsList[TIME_ENTRY_1F.unk_05].fogColor[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.strengthList].fogColor[j],
+                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].fogColor[j],
                                              lightSettingsList[TIME_ENTRY_20.unk_05].fogColor[j], sp8C);
                             *(envCtx->lightSettings.fogColor + j) = LERP(blend8[0], blend8[1], sp88);
                         }
 
-                        blend16[0] = LERP16((lightSettingsList[TIME_ENTRY_1F.strengthList].fogNear & 0x3FF),
+                        blend16[0] = LERP16((lightSettingsList[TIME_ENTRY_1F.unk_04].fogNear & 0x3FF),
                                             (lightSettingsList[TIME_ENTRY_1F.unk_05].fogNear & 0x3FF), sp8C);
-                        blend16[1] = LERP16(lightSettingsList[TIME_ENTRY_20.strengthList].fogNear & 0x3FF,
+                        blend16[1] = LERP16(lightSettingsList[TIME_ENTRY_20.unk_04].fogNear & 0x3FF,
                                             lightSettingsList[TIME_ENTRY_20.unk_05].fogNear & 0x3FF, sp8C);
 
                         envCtx->lightSettings.fogNear = LERP16(blend16[0], blend16[1], sp88);
 
-                        blend16[0] = LERP16(lightSettingsList[TIME_ENTRY_1F.strengthList].fogFar,
+                        blend16[0] = LERP16(lightSettingsList[TIME_ENTRY_1F.unk_04].fogFar,
                                             lightSettingsList[TIME_ENTRY_1F.unk_05].fogFar, sp8C);
-                        blend16[1] = LERP16(lightSettingsList[TIME_ENTRY_20.strengthList].fogFar,
+                        blend16[1] = LERP16(lightSettingsList[TIME_ENTRY_20.unk_04].fogFar,
                                             lightSettingsList[TIME_ENTRY_20.unk_05].fogFar, sp8C);
 
                         envCtx->lightSettings.fogFar = LERP16(blend16[0], blend16[1], sp88);
@@ -1430,7 +1430,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     f32 posDirX;
     f32 posDirY;
     f32 posDirZ;
-    f32 lengthList;
+    f32 length;
     f32 dist;
     f32 halfPosX;
     f32 halfPosY;
@@ -1474,11 +1474,11 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     tempY = view->lookAt.y - view->eye.y;
     tempZ = view->lookAt.z - view->eye.z;
 
-    lengthList = sqrtf(SQ(tempX) + SQ(tempY) + SQ(tempZ));
+    length = sqrtf(SQ(tempX) + SQ(tempY) + SQ(tempZ));
 
-    lookDirX = tempX / lengthList;
-    lookDirY = tempY / lengthList;
-    lookDirZ = tempZ / lengthList;
+    lookDirX = tempX / length;
+    lookDirY = tempY / length;
+    lookDirZ = tempZ / length;
 
     // compute a position along the look vector half as far as pos
     halfPosX = view->eye.x + lookDirX * (dist * 6.0f);
@@ -1490,11 +1490,11 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     tempY2 = pos.y - halfPosY;
     tempZ2 = pos.z - halfPosZ;
 
-    lengthList = sqrtf(SQ(tempX2) + SQ(tempY2) + SQ(tempZ2));
+    length = sqrtf(SQ(tempX2) + SQ(tempY2) + SQ(tempZ2));
 
-    posDirX = tempX2 / lengthList;
-    posDirY = tempY2 / lengthList;
-    posDirZ = tempZ2 / lengthList;
+    posDirX = tempX2 / length;
+    posDirY = tempY2 / length;
+    posDirZ = tempZ2 / length;
 
     // compute the cosine of the angle between lookDir and posDir
     cosAngle = (lookDirX * posDirX + lookDirY * posDirY + lookDirZ * posDirZ) /
@@ -1600,19 +1600,19 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
                 gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
 
                 if (!(isOffScreen ^ 0)) {
-                    Math_SmoothStepToF(&envCtx->decayList, alpha * alphaScale, 0.5f, 50.0f, 0.1f);
+                    Math_SmoothStepToF(&envCtx->unk_84, alpha * alphaScale, 0.5f, 50.0f, 0.1f);
                 } else {
-                    Math_SmoothStepToF(&envCtx->decayList, 0.0f, 0.5f, 50.0f, 0.1f);
+                    Math_SmoothStepToF(&envCtx->unk_84, 0.0f, 0.5f, 50.0f, 0.1f);
                 }
 
                 temp = colorIntensity / 120.0f;
                 temp = CLAMP_MIN(temp, 0.0f);
 
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
-                                (u8)envCtx->decayList);
+                                (u8)envCtx->unk_84);
                 gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
             } else {
-                envCtx->decayList = 0.0f;
+                envCtx->unk_84 = 0.0f;
             }
         }
     }
@@ -1631,7 +1631,7 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
     f32 temp1;
     f32 temp2;
     f32 temp3;
-    f32 lengthList;
+    f32 length;
     f32 rotX;
     f32 rotY;
     f32 x50;
@@ -1650,11 +1650,11 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
         vec.y = view->lookAt.y - view->eye.y;
         vec.z = view->lookAt.z - view->eye.z;
 
-        lengthList = sqrtf(SQXYZ(vec));
+        length = sqrtf(SQXYZ(vec));
 
-        temp1 = vec.x / lengthList;
-        temp2 = vec.y / lengthList;
-        temp3 = vec.z / lengthList;
+        temp1 = vec.x / length;
+        temp2 = vec.y / length;
+        temp3 = vec.z / length;
 
         x50 = view->eye.x + temp1 * 50.0f;
         y50 = view->eye.y + temp2 * 50.0f;
@@ -1685,10 +1685,10 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
             vec.x = windDirection.x;
             vec.y = windDirection.y + 500.0f + Rand_ZeroOne() * 200.0f;
             vec.z = windDirection.z;
-            lengthList = sqrtf(SQXZ(vec));
+            length = sqrtf(SQXZ(vec));
 
             gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-            rotX = Math_Atan2F(lengthList, -vec.y);
+            rotX = Math_Atan2F(length, -vec.y);
             rotY = Math_Atan2F(vec.z, vec.x);
             Matrix_RotateY(-rotY, MTXMODE_APPLY);
             Matrix_RotateX(M_PI / 2 - rotX, MTXMODE_APPLY);

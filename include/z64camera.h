@@ -240,7 +240,7 @@ struct Normal2Anim {
 
 struct Normal2 {
     /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 strengthList;
+    /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
@@ -408,7 +408,7 @@ struct Battle4 {
 
 struct Keep1Anim {
     /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 strengthList;
+    /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ struct Actor* unk_0C;
     /* 0x10 */ s16 unk_10;
@@ -419,7 +419,7 @@ struct Keep1Anim {
 
 struct KeepOn1 {
     /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 strengthList;
+    /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
@@ -459,7 +459,7 @@ struct KeepOn3 {
 
 struct KeepOn4_Unk20 {
     /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 strengthList;
+    /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ s16 unk_0C;
     /* 0x0E */ s16 unk_0E;
@@ -470,7 +470,7 @@ struct KeepOn4_Unk20 {
 
 struct KeepOn4 {
     /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 strengthList;
+    /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
@@ -618,7 +618,7 @@ struct Unique1 {
 
 struct Unique2Unk10 {
     /* 0x0 */ f32 unk_00;
-    /* 0x4 */ s16 strengthList;
+    /* 0x4 */ s16 unk_04;
 }; // size = 0x8
 
 struct Unique2 {
@@ -754,7 +754,7 @@ struct Demo3Anim {
 
 struct Demo3 {
     /* 0x0 */ f32 fov;
-    /* 0x4 */ f32 strengthList; // unused
+    /* 0x4 */ f32 unk_04; // unused
     /* 0x8 */ s16 interfaceFlags;
     /* 0xC */ Demo3Anim anim;
 }; // size = 0x20
@@ -841,7 +841,7 @@ struct Special9Anim {
 
 struct Special9Params {
     /* 0x0 */ f32 yOffset;
-    /* 0x4 */ f32 strengthList;
+    /* 0x4 */ f32 unk_04;
     /* 0x8 */ s16 interfaceFlags;
     /* 0xA */ s16 unk_0A;
     /* 0xC */ Special9Anim anim;
@@ -954,7 +954,7 @@ struct DbCamera {
     /* 0x38 */ s32 unk_38;
     /* 0x3C */ s32 unk_3C; // bool
     /* 0x40 */ s32 unk_40;
-    /* 0x44 */ s32 lengthList;
+    /* 0x44 */ s32 unk_44;
     /* 0x48 */ f32 fov;
     /* 0x4C */ s16 roll;
     /* 0x4E */ char unk_4E[0x2];
@@ -979,7 +979,7 @@ struct DbCameraCut {
 
 struct DbCameraAnim {
     /* 0x00 */ f32 curFrame;
-    /* 0x04 */ f32 strengthList; // frame count?
+    /* 0x04 */ f32 unk_04; // frame count?
     /* 0x08 */ s16 keyframe;
     /* 0x0A */ s16 unk_0A;
     /* 0x0C */ s16 unk_0C;

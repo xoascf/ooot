@@ -49,8 +49,8 @@
 
 #define PI_DRAM_ADDR_REG        0x04600000  //PI DRAM address
 #define PI_CART_ADDR_REG        0x04600004  //PI pbus (cartridge) address
-#define PI_RD_LEN_REG           0x04600008  //PI read lengthList
-#define PI_WR_LEN_REG           0x0460000C  //PI write lengthList
+#define PI_RD_LEN_REG           0x04600008  //PI read length
+#define PI_WR_LEN_REG           0x0460000C  //PI write length
 #define PI_STATUS_REG           0x04600010  //PI status
 #define PI_BSD_DOM1_LAT_REG     0x04600014  //PI dom1 latency
 #define PI_DOMAIN1_REG          0x04600014

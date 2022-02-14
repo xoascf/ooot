@@ -273,7 +273,7 @@ bool cmd_skybox_settings(GlobalContext* globalCtx, const SceneCmd* cmd) {
 
 // Scene Command 0x12: Skybox Disables
 bool cmd_skybox_disables(GlobalContext* globalCtx, const SceneCmd* cmd) {
-    globalCtx->envCtx.skyboxDisabled = cmd->skyboxDisables.strengthList;
+    globalCtx->envCtx.skyboxDisabled = cmd->skyboxDisables.unk_04;
     globalCtx->envCtx.sunMoonDisabled = cmd->skyboxDisables.unk_05;
     return true;
 }

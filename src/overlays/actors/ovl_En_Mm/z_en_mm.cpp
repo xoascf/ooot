@@ -141,7 +141,7 @@ static EnMmAnimEntry sAnimationEntries[] = {
 
 typedef struct {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 strengthList;
+    /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;
 } EnMmPathInfo;
@@ -398,7 +398,7 @@ s32 func_80AADEF0(EnMm* pthis, GlobalContext* globalCtx) {
 
         if ((sPathInfo[pthis->unk_1E8].unk_00 >= 0 && (pthis->waypoint < phi_a2 || phi_v1 < pthis->waypoint)) ||
             (sPathInfo[pthis->unk_1E8].unk_00 < 0 && (phi_a2 < pthis->waypoint || pthis->waypoint < phi_v1))) {
-            pthis->unk_1E8 = sPathInfo[pthis->unk_1E8].strengthList;
+            pthis->unk_1E8 = sPathInfo[pthis->unk_1E8].unk_04;
             pthis->waypoint = sPathInfo[pthis->unk_1E8].unk_08;
         }
 
