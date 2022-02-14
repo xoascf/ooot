@@ -90,6 +90,7 @@ bool gfx_start_frame();
 void gfx_end_frame();
 void gfx_run(OSTask_t* task, u32 sz);
 void gfx_fbe_enable(int enable);
+void gfx_switch_to_htc(bool enable);
 }
 #endif
 
@@ -289,18 +290,22 @@ void main_func(void)
 	sm64::log("initializing app\n");
 
 	//Check if texture packs exist
-	FILE* file1;
-	FILE* file2;
-	fopen_s(&file1, "THE LEGEND OF ZELDA_HIRESTEXTURES.hts", "r");
-	fopen_s(&file2, "THE LEGEND OF ZELDA_HIRESTEXTURES.htc", "r");
-	if (!file1 && !file2)
+	FILE* file_hts;
+	FILE* file_htc;
+	fopen_s(&file_hts, "THE LEGEND OF ZELDA_HIRESTEXTURES.hts", "r");
+	fopen_s(&file_htc, "THE LEGEND OF ZELDA_HIRESTEXTURES.htc", "r");
+
+	if (!file_hts && file_htc)
+		gfx_switch_to_htc(true);
+
+	if (!file_hts && !file_htc)
 	{
 		MessageBox(NULL, L"Thank You for testing the hd-textures branch!\n\nNo Texture Pack found :-(\n\nPlease put 'THE LEGEND OF ZELDA_HIRESTEXTURES.hts' next to OOT.exe!", L"Open Ocarina Team", MB_OK | MB_ICONEXCLAMATION);
 	}
-	if (file1)
-		fclose(file1);
-	if (file2)
-		fclose(file2);
+	if (file_hts)
+		fclose(file_hts);
+	if (file_htc)
+		fclose(file_htc);
 
 #ifndef BUILD_NSO
 	if(!verifyIntegrity())
