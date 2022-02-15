@@ -41,7 +41,7 @@ struct PadMgr {
 struct UnkRumbleStruct {
     std::function<void(uint8_t, uint8_t, uint8_t)> onVibrate;
 
-    /* 0x000 */ u8 rumbleEnable[4];
+    /* 0x000 */ u8 rumbleOn[4];//0 or 1 depending if rumble is happening right now
     /* 0x004 */ u8 strengthList[0x40];//rumble pattern
     /* 0x044 */ u8 lengthList[0x40];//rumble pattern
     /* 0x084 */ u8 decayList[0x40];//rumble pattern

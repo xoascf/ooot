@@ -365,7 +365,6 @@ namespace sm64::hid
 				if (decay <= 0)
 					decay = 1;
 
-				auto current_time = timeGetTime();
 				uint32_t strengthScaled = strength * strength;
 				//uint32_t strengthScaled = strength * 257;
 				//uint32_t strengthScaled = strength * 150 + 27135;
@@ -373,11 +372,11 @@ namespace sm64::hid
 				if (strengthScaled < m_VibrationStrength)//The new one is weak
 					return;//Let's not play the new one
 
-				printf("Scaled to %d for %dms\n", strengthScaled, (int)(time * 0.10f));
+				auto current_time = timeGetTime();
 
-				m_VibrationEnds = current_time + (int)(time * 0.10f);
+				m_VibrationEnds = current_time + (int)(time * 0.04f);
 				m_VibrationStrength = strengthScaled;
-				m_VibrationDecay = decay * 12;
+				m_VibrationDecay = decay * 15;
 
 				xinput.Vibrate(m_VibrationStrength, m_VibrationStrength);
 			}

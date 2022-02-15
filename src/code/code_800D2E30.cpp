@@ -11,7 +11,7 @@ void Rumble_Update(UnkRumbleStruct* rumbleCtx) {
     s32 index = -1;//Index into the list with the most rumble
 
     for (i = 0; i < 4; i++) {
-        rumbleCtx->rumbleEnable[i] = 0;
+        rumbleCtx->rumbleOn[i] = 0;
     }
 
     if (rumbleCtx->reset == 0) {
@@ -58,10 +58,10 @@ void Rumble_Update(UnkRumbleStruct* rumbleCtx) {
                 rumbleCtx->strengthList_easing[i] = temp;
                 if (index == -1) {
                     index = i;
-                    rumbleCtx->rumbleEnable[0] = (temp >= 0x100);
+                    rumbleCtx->rumbleOn[0] = (temp >= 0x100);
                 } else if (rumbleCtx->strengthList[index] < rumbleCtx->strengthList[i]) {
                     index = i;
-                    rumbleCtx->rumbleEnable[0] = (temp >= 0x100);
+                    rumbleCtx->rumbleOn[0] = (temp >= 0x100);
                 }
             }
         }
@@ -78,7 +78,7 @@ void Rumble_Update(UnkRumbleStruct* rumbleCtx) {
             }
             temp = rumbleCtx->strength_easing + rumbleCtx->strength;
             rumbleCtx->strength_easing = temp;
-            rumbleCtx->rumbleEnable[0] = (temp >= 0x100);
+            rumbleCtx->rumbleOn[0] = (temp >= 0x100);
         }
         if (rumbleCtx->strength != 0) {
             temp = rumbleCtx->strength;

@@ -10,13 +10,12 @@ UnkRumbleStruct g_Rumble;
 
 void Rumble_Init(PadMgr* a, s32 b) {
     Rumble_Update(&g_Rumble);
-    PadMgr_RumbleSet(a, g_Rumble.rumbleEnable);
+    PadMgr_RumbleSet(a, g_Rumble.rumbleOn);
 }
 
-//distance to player (unused), strength, time, decay?
-void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {//Used for bosses and fishing
-    printf("Rumble Rumble ... V2 %d   %d   %d\n", baseStrength, length, decay);
-
+//Used for bosses and fishing
+//distance to player (unused), strength, time, decay
+void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {
     s32 distance_decay;//By how much should the rumble effect be lowered, based on the distance
     s32 strength;
 
@@ -42,8 +41,6 @@ void Rumble_Shake2(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {//
 
 //distance to player, strength, time, decay?
 void Rumble_Shake(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {
-    printf("Rumble Rumble ...  V1 %d   %d   %d\n", baseStrength, length, decay);
-
     s32 distance_decay;//By how much should the rumble effect be lowered, based on the distance
     s32 strength;
     s32 i;
@@ -74,7 +71,7 @@ void Rumble_Shake(f32 playerDistance, u8 baseStrength, u8 length, u8 decay) {
 }
 
 void Rumble_Reset(void) {//called on GameState_Init
-#ifdef N64_VERSION
+#ifdef N64_VERSION//Don't clear our callback function
     bzero(&g_Rumble, sizeof(UnkRumbleStruct));
 #endif
 
