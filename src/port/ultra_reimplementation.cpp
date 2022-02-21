@@ -12,6 +12,7 @@
 //#include "ultra64/pi.h"
 #include "ultra64/vi.h"
 #include "ultra64/rcp.h"
+#include "../../AziAudio/AziAudio/AudioSpec.h"
 
 extern u32 osTvType;
 
@@ -427,20 +428,17 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize)
 
 #include "ultra64/rcp.h"
 
-void* gAudioBuffer   = nullptr;
-u32 gAudioBufferSize = 0;
-
 s32 osAiSetNextBuffer(void* buf, u32 size)
 {
-	static u8 D_80130500  = false;
-	uintptr_t bufAdjusted = (uintptr_t)buf;
+	static u8 D_80130500 = false;
+	u32 bufAdjusted	     = (u32)buf;
 	s32 status;
 
 	if(D_80130500)
 	{
-		bufAdjusted = (uintptr_t)buf - 0x2000;
+		bufAdjusted = (u32)buf - 0x2000;
 	}
-	if((((uintptr_t)buf + size) & 0x1FFF) == 0)
+	if((((u32)buf + size) & 0x1FFF) == 0)
 	{
 		D_80130500 = true;
 	}
@@ -450,18 +448,16 @@ s32 osAiSetNextBuffer(void* buf, u32 size)
 	}
 
 	// Originally a call to __osAiDeviceBusy
-	/*status = HW_REG(AI_STATUS_REG, s32);
+	status = HW_REG(AI_STATUS_REG, s32);
 	if(status & AI_STATUS_AI_FULL)
 	{
 		return -1;
-	}*/
+	}
 
 	// OS_K0_TO_PHYSICAL replaces osVirtualToPhysical, this replacement
 	// assumes that only KSEG0 addresses are given
-	// HW_REG(AI_DRAM_ADDR_REG, uintptr_t) = bufAdjusted;
-	// HW_REG(AI_LEN_REG, u32) = size;
-	gAudioBuffer	 = (void*)bufAdjusted;
-	gAudioBufferSize = size;
+	HW_REG(AI_DRAM_ADDR_REG, u32) = bufAdjusted;
+	HW_REG(AI_LEN_REG, u32)	      = size;
 	return 0;
 }
 
@@ -485,7 +481,22 @@ s32 osAiSetFrequency(u32 frequency)
 		bitrate = 16;
 	}
 
-	// HW_REG(AI_DACRATE_REG, u32) = dacRate - 1;
-	// HW_REG(AI_BITRATE_REG, u32) = bitrate - 1;
+	HW_REG(AI_DACRATE_REG, u32) = dacRate - 1;
+	HW_REG(AI_BITRATE_REG, u32) = bitrate - 1;
+	AiDacrateChanged(SYSTEM_NTSC);
 	return osViClock / (s32)dacRate;
+}
+
+#include <unordered_map>
+
+static std::unordered_map<u32, uintptr_t> gRegisterMap;
+
+uintptr_t& hw_reg(u32 reg)
+{
+	if(gRegisterMap.size() == 0)
+	{
+		gRegisterMap.reserve(64);
+	}
+
+	return gRegisterMap[reg];
 }

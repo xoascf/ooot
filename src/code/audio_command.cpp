@@ -20,9 +20,9 @@ u8 D_80133418	= 0;
 // TODO: clean up these macros. They are similar to ones in audio.c but without casts.
 #define Audio_StartSeq(playerIdx, fadeTimer, seqId) \
     Audio_QueueSeqCmd(0x00000000 | ((playerIdx) << 24) | ((fadeTimer) << 16) | (seqId))
-#define Audio_SeqCmdA(playerIdx, a) Audio_QueueSeqCmd(0xA0000000 | ((playerIdx) << 24) | (a))
+#define Audio_SeqSetChannelStopMask(playerIdx, a) Audio_QueueSeqCmd(0xA0000000 | ((playerIdx) << 24) | (a))
 #define Audio_SeqCmdB30(playerIdx, a, b) Audio_QueueSeqCmd(0xB0003000 | ((playerIdx) << 24) | ((a) << 16) | (b))
-#define Audio_SeqCmdB40(playerIdx, a, b) Audio_QueueSeqCmd(0xB0004000 | ((playerIdx) << 24) | ((a) << 16) | (b))
+#define Audio_SeqUpdateTempo2(playerIdx, a, b) Audio_QueueSeqCmd(0xB0004000 | ((playerIdx) << 24) | ((a) << 16) | (b))
 #define Audio_SeqCmd3(playerIdx, a) Audio_QueueSeqCmd(0x30000000 | ((playerIdx) << 24) | (a))
 #define Audio_SeqCmd5(playerIdx, a, b) Audio_QueueSeqCmd(0x50000000 | ((playerIdx) << 24) | ((a) << 16) | (b))
 #define Audio_SeqCmd4(playerIdx, a, b) Audio_QueueSeqCmd(0x40000000 | ((playerIdx) << 24) | ((a) << 16) | (b))
@@ -129,7 +129,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     playerIdx = (cmd & 0xF000000) >> 24;
 
     switch (op) {
-        case 0x0:
+	    case AUDIO_CMD_SEQUENCE_PLAY:
             // play sequence immediately
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
@@ -139,13 +139,13 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0x1:
+        case AUDIO_CMD_DISABLE_PLAYER:
             // disable seq player
             fadeTimer = (cmd & 0xFF0000) >> 13;
             func_800F9474(playerIdx, fadeTimer);
             break;
 
-        case 0x2:
+        case AUDIO_CMD_SEQUENCE_QUEUE:
             // queue sequence
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
@@ -183,7 +183,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0x3:
+        case AUDIO_CMD_SEQUENCE_STOP:
             // unqueue/stop sequence
             seqId = cmd & 0xFF;
             fadeTimer = (cmd & 0xFF0000) >> 13;
@@ -212,7 +212,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0x4:
+        case AUDIO_CMD_SEQUENCE_TRANS_VOLUME:
             // transition seq volume
             duration = (cmd & 0xFF0000) >> 15;
             val = cmd & 0xFF;
@@ -227,7 +227,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0x5:
+        case AUDIO_CMD_SEQUENCE_TRANS_FREQ_SCALE_ALL:
             // transition freq scale for all channels
             duration = (cmd & 0xFF0000) >> 15;
             val = cmd & 0xFFFF;
@@ -244,7 +244,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             D_8016E750[playerIdx].unk_250 = 0xFFFF;
             break;
 
-        case 0xD:
+        case AUDIO_CMD_SEQUENCE_TRANS_FREQ_SCALE:
             // transition freq scale
             duration = (cmd & 0xFF0000) >> 15;
             chanIdx = (cmd & 0xF000) >> 12;
@@ -260,7 +260,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             D_8016E750[playerIdx].unk_250 |= 1 << chanIdx;
             break;
 
-        case 0x6:
+        case AUDIO_CMD_SEQUENCE_TRANS_VOL_SCALE:
             // transition vol scale
             duration = (cmd & 0xFF0000) >> 15;
             chanIdx = (cmd & 0xF00) >> 8;
@@ -278,14 +278,14 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0x7:
+        case AUDIO_CMD_SET_IO_PORT_GLOBAL:
             // set global io port
             port = (cmd & 0xFF0000) >> 16;
             val = cmd & 0xFF;
             Audio_QueueCmdS8(0x46000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(port, 0, 8), val);
             break;
 
-        case 0x8:
+        case AUDIO_CMD_SET_IO_PORT_MASKED:
             // set io port if channel masked
             chanIdx = (cmd & 0xF00) >> 8;
             port = (cmd & 0xFF0000) >> 16;
@@ -296,12 +296,12 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0x9:
+        case AUDIO_CMD_SET_IO_PORT_MASK:
             // set channel mask for command 0x8
             D_8016E750[playerIdx].unk_258 = cmd & 0xFFFF;
             break;
 
-        case 0xA:
+        case AUDIO_CMD_SET_CHANNEL_STOP_MASK:
             // set channel stop mask
             channelMask = cmd & 0xFFFF;
             if (channelMask != 0) {
@@ -318,12 +318,12 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0xB:
+        case AUDIO_CMD_UPDATE_TEMPO:
             // update tempo
             D_8016E750[playerIdx].unk_14 = cmd;
             break;
 
-        case 0xC:
+        case AUDIO_CMD_SEQUENCE_START_WITH_SETUP:
             // start sequence with setup commands
             subOp = (cmd & 0xF00000) >> 20;
             if (subOp != 0xF) {
@@ -339,7 +339,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0xE:
+        case AUDIO_CMD_0E:
             subOp = (cmd & 0xF00) >> 8;
             val = cmd & 0xFF;
             switch (subOp) {
@@ -354,7 +354,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case 0xF:
+        case AUDIO_CMD_CHANGE_SPEC:
             // change spec
             spec = cmd & 0xFF;
             gSfxChannelLayout = (cmd & 0xFF00) >> 8;
@@ -617,7 +617,7 @@ void func_800FA3DC(void) {
                         Audio_SeqCmdB30(temp_s1, temp_s0_3, temp_a3_3);
                         break;
                     case 4:
-                        Audio_SeqCmdB40(temp_s1, temp_a3_3, 0);
+                        Audio_SeqUpdateTempo2(temp_s1, temp_a3_3, 0);
                         break;
                     case 5:
                         temp_v1 = D_8016E750[playerIdx].unk_2C[j] & 0xFFFF;
@@ -644,7 +644,7 @@ void func_800FA3DC(void) {
                         break;
                     case 9:
                         temp_v1 = D_8016E750[playerIdx].unk_2C[j] & 0xFFFF;
-                        Audio_SeqCmdA(temp_s1, temp_v1);
+                        Audio_SeqSetChannelStopMask(temp_s1, temp_v1);
                         break;
                     case 10:
                         Audio_SeqCmd5(temp_s1, temp_s0_3, (temp_a3_3 * 10) & 0xFFFF);

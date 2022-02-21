@@ -414,7 +414,7 @@ sections = {'misc/rsp.h': [
 		Section('gSequenceFontTable', conf.sections.gSequenceFontTable.offset, conf.sections.gSequenceFontTable.size, 2),
 		Table('gSequenceTable', conf.sections.gSequenceTable.offset, conf.sections.gSequenceTable.size, 'baserom/Audioseq'),
 		Table('gSampleBankTable', conf.sections.gSampleBankTable.offset, conf.sections.gSampleBankTable.size, 'baserom/Audiotable'),
-		Section('rspAspMainDataStart', conf.sections.rspAspMainData.offset, conf.sections.rspAspMainData.size),
+		Section('rspAspMainDataStart', conf.sections.rspAspMainData.offset, conf.sections.rspAspMainData.size, 4),
 		Section('D_80155F50', conf.sections.rspF3DZEXText.offset, conf.sections.rspF3DZEXText.size, 1),
 		Section('D_80157580', conf.sections.rspF3DZEXData.offset, conf.sections.rspF3DZEXData.size, 1),
 		Section('D_801579A0', conf.sections.rspS2DEXData.offset, conf.sections.rspS2DEXData.size, 1),
