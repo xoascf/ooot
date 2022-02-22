@@ -4625,7 +4625,7 @@ void func_8083AE40(Player* pthis, s16 objectId) {
         ASSERT(size <= 1024 * 8, "size <= 1024 * 8", "../z_player.c", 9091);
 
         DmaMgr_SendRequest2(&pthis->giObjectDmaRequest, pthis->giObjectSegment, gObjectTable[objectId].vromStart,
-                            size, 0, &pthis->giObjectLoadQueue, NULL, "../z_player.c", 9099);
+                            size, 0, nullptr, NULL, "../z_player.c", 9099);
     }
 }
 

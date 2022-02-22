@@ -16,3 +16,5 @@ s32 func_800E5EDC(void);
 s32 func_800E5F88(s32 arg0);
 s32 func_800E6680(void);
 u32 osGetCount(void);
+AudioTask* getAudioTask();
+

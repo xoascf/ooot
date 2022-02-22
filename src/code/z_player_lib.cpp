@@ -1139,7 +1139,7 @@ void Player_DrawGetItemImpl(GlobalContext* globalCtx, Player* pthis, Vec3f* refP
 }
 
 void Player_DrawGetItem(GlobalContext* globalCtx, Player* pthis) {
-    if (!pthis->giObjectLoading || !osRecvMesg(&pthis->giObjectLoadQueue, NULL, OS_MESG_NOBLOCK)) {
+    if (!pthis->giObjectLoading) {
         pthis->giObjectLoading = false;
         Player_DrawGetItemImpl(globalCtx, pthis, &sGetItemRefPos, ABS(pthis->unk_862));
     }

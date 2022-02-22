@@ -821,7 +821,6 @@ struct AudioSlowLoad {
     /* 0x18 */ s32 bytesRemaining;
     /* 0x1C */ s8* isDone;
     /* 0x20 */ SoundFontSample sample;
-    /* 0x30 */ OSMesgQueue msgqueue;
     /* 0x48 */ OSMesg msg;
     /* 0x4C */ OSIoMesg ioMesg;
 }; // size = 0x64
@@ -884,23 +883,12 @@ struct AudioContext {
     /* 0x1768 */ s32 numUsedSamples;
     /* 0x176C */ s32 preloadSampleStackTop;
     /* 0x1770 */ AudioAsyncLoad asyncLoads[0x10];
-    /* 0x1CF0 */ OSMesgQueue asyncLoadUnkMediumQueue;
     /* 0x1D08 */ char unk_1D08[0x40];
     /* 0x1D48 */ AudioAsyncLoad* curUnkMediumLoad;
     /* 0x1D4C */ u32 slowLoadPos;
     /* 0x1D50 */ AudioSlowLoad slowLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* 0x1E1C */ OSPiHandle* driveHandle;
-    /* 0x1E20 */ OSMesgQueue externalLoadQueue;
-    /* 0x1E38 */ OSMesg externalLoadMesgBuf[0x10];
-    /* 0x1E78 */ OSMesgQueue preloadSampleQueue;
-    /* 0x1E90 */ OSMesg preloadSampleMesgBuf[0x10];
-    /* 0x1ED0 */ OSMesgQueue currAudioFrameDmaQueue;
-    /* 0x1EE8 */ OSMesg currAudioFrameDmaMesgBuf[0x40];
-    /* 0x1FE8 */ OSIoMesg currAudioFrameDmaIoMesgBuf[0x40];
-    /* 0x25E8 */ OSMesgQueue syncDmaQueue;
-    /* 0x2600 */ OSMesg syncDmaMesg;
-    /* 0x2604 */ OSIoMesg syncDmaIoMesg;
     /* 0x261C */ SampleDma* sampleDmas;
     /* 0x2620 */ u32 sampleDmaCount;
     /* 0x2624 */ u32 sampleDmaListSize1;

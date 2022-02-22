@@ -12,6 +12,8 @@
 //#include "ultra64/pi.h"
 #include "ultra64/vi.h"
 #include "ultra64/rcp.h"
+#include <thread>
+#include <chrono>
 #include "../../AziAudio/AziAudio/AudioSpec.h"
 
 extern u32 osTvType;
@@ -464,6 +466,12 @@ s32 osAiSetNextBuffer(void* buf, u32 size)
 
 extern s32 osViClock;
 
+u32 osAiGetLength()
+{
+	AiReadLength();
+	return HW_REG(AI_LEN_REG, u32);
+}
+
 s32 osAiSetFrequency(u32 frequency)
 {
 	u8 bitrate;
@@ -500,4 +508,73 @@ uintptr_t& hw_reg(u32 reg)
 	}
 
 	return gRegisterMap[reg];
+}
+
+void osCreateMesgQueue(OSMesgQueue* mq, OSMesg* msg, s32 count)
+{
+	mq->mtqueue    = NULL;
+	mq->fullqueue  = NULL;
+	mq->validCount = 0;
+	mq->first      = 0;
+	mq->msgCount   = count;
+	mq->msg	       = msg;
+}
+
+s32 osSendMesg(OSMesgQueue* mq, OSMesg mesg, s32 flag)
+{
+	register u32 index;
+
+	while(mq->validCount >= mq->msgCount)
+	{
+		if(flag == OS_MESG_BLOCK)
+		{
+			int zyz = 0;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	index	       = (mq->first + mq->validCount) % mq->msgCount;
+	mq->msg[index] = mesg;
+	mq->validCount++;
+
+	if(mq->mtqueue->next != NULL)
+	{
+		// osStartThread(__osPopThread(&mq->mtqueue));
+	}
+
+	return 0;
+}
+
+s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag)
+{
+	while(mq->validCount == 0)
+	{
+		if(flag == OS_MESG_NOBLOCK)
+		{
+			return -1;
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		/*else
+		{
+		    return -1; // TODO FIX HACK
+		}*/
+	}
+
+	if(msg != NULL)
+	{
+		*msg = mq->msg[mq->first];
+	}
+
+	mq->first = (mq->first + 1) % mq->msgCount;
+	mq->validCount--;
+
+	if(mq->fullqueue->next != NULL)
+	{
+		// osStartThread(__osPopThread(&mq->fullqueue));
+	}
+
+	return 0;
 }

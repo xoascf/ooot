@@ -8,7 +8,9 @@
 #include "controller/tas.h"
 #include "../../AziAudio/AziAudio/AudioSpec.h"
 #include "ultra64/rcp.h"
+#include "z64audio.h"
 #include "controller/controllers.h"
+#include "def/audio_rsp.h"
 
 static std::unique_ptr<platform::window::Base> gWindow;
 
@@ -109,19 +111,6 @@ bool verifyIntegrity()
 
 void main_func();
 
-void AudioMgr_HandleRetraceNULL();
-
-void audio_thread()
-{
-	AudioMgr_HandleRetraceNULL();
-	AiUpdate(false);
-}
-
-void audio_int()
-{
-	return;
-}
-
 void main_func(void)
 {
 	sm64::log("initializing app\n");
@@ -143,25 +132,6 @@ void main_func(void)
 	if (!oot::config().game().isGraphicsDisabled())
 		gWindow = platform::window::create("The Legend of Zelda - Ocarina of Time", false);
 
-	AUDIO_INFO Audio_Info;
-	memset(&Audio_Info, 0, sizeof(Audio_Info));
-
-	HW_REG(AI_CONTROL_REG, u32) = 1;
-	HW_REG(AI_DACRATE_REG, u32) = 0x3FFF;
-	HW_REG(AI_BITRATE_REG, u32) = 0xF;
-
-	Audio_Info.hwnd		    = GetActiveWindow();
-	Audio_Info.AI_DRAM_ADDR_REG = &HW_REG(AI_DRAM_ADDR_REG, u32);
-	Audio_Info.AI_LEN_REG	    = &HW_REG(AI_LEN_REG, u32);
-	Audio_Info.AI_CONTROL_REG   = &HW_REG(AI_CONTROL_REG, u32);
-	Audio_Info.AI_STATUS_REG    = &HW_REG(AI_STATUS_REG, u32);
-	Audio_Info.AI_DACRATE_REG   = &HW_REG(AI_DACRATE_REG, u32);
-	Audio_Info.AI_BITRATE_REG   = &HW_REG(AI_BITRATE_REG, u32);
-	Audio_Info.MI_INTR_REG		= &HW_REG(MI_INTR_REG, u32);
-	Audio_Info.CheckInterrupts  = audio_int;
-
-	InitiateAudio(Audio_Info);
-
 	if (!oot::config().game().isGraphicsDisabled())
 	{
 		gfx_init("THE LEGEND OF ZELDA", &osViModeNtscLan1);
@@ -178,10 +148,6 @@ void main_func(void)
 	Graph_ThreadEntry(0);
 
 	gfx_shutdown();
-}
-
-void game_loop_one_iteration() {
-    Graph_ThreadEntry(0);
 }
 
 #if(defined(_WIN32) || defined(_WIN64)) && defined(_MSC_VER)
@@ -236,9 +202,6 @@ int main(int argc, char* argv[])
 }
 #endif
 
-void create_next_audio_buffer(s16* samples, u32 num_samples) {
-}
-
 static bool g_isRunning = true;
 
 extern "C" {
@@ -258,7 +221,7 @@ extern "C" {
 			gWindow->setTargetFrameRate(FRAMERATE_MAX / frameRateDivisor());
 			gWindow->end_frame();
 		}
-		audio_thread();
+		//audio_thread();
 	}
 
 	float gfx_ar_ratio()

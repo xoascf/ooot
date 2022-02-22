@@ -47,7 +47,7 @@ typedef enum {
 void Audio_ProcessChannelCmd(SequenceChannel* channel, AudioCmd* arg1);
 void Audio_LoadSetFadeInTimer(s32 playerIdx, s32 fadeTimer);
 void Audio_InitMesgQueues(void);
-AudioTask* func_800E5000(void);
+AudioTask* getAudioTask(void);
 void Audio_ProcessCmds(u32);
 void Audio_ProcessSequenceCmd(SequencePlayer* seqPlayer, AudioCmd* arg1);
 void Audio_LoadSetFadeOutTimer(s32 playerIdx, s32 fadeTimer);
@@ -55,23 +55,12 @@ s32 func_800E66C0(s32 arg0);
 
 // AudioMgr_Retrace
 AudioTask* func_800E4FE0(void) {
-    return func_800E5000();
+    return getAudioTask();
 }
 
 extern u32 rspAspMainDataStart[0x5C * 2];
 
-static inline int16_t clamp_s16(int32_t v)
-{
-	return v < -32768 ? -32768 : v > 32767 ? 32767 : v;
-}
-
-static inline int16_t sample_mix(int16_t dst, int16_t src, int16_t gain)
-{
-	int32_t src_modified = (src * gain) >> 15;
-	return clamp_s16(dst + src_modified);
-}
-
-AudioTask* func_800E5000(void) {
+AudioTask* getAudioTask() {
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
     u32 samplesRemainingInAi;
@@ -115,26 +104,6 @@ AudioTask* func_800E5000(void) {
 
     if (D_801755D0 != NULL) {
         D_801755D0();
-    }
-
-    sp5C = gAudioContext.curAudioFrameDmaCount;
-    for (i = 0; i < gAudioContext.curAudioFrameDmaCount; i++) {
-        if (osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK) == 0) {
-            sp5C--;
-        }
-    }
-
-    if (sp5C != 0) {
-        for (i = 0; i < sp5C; i++) {
-            osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_BLOCK);
-        }
-    }
-
-    sp48 = gAudioContext.currAudioFrameDmaQueue.validCount;
-    if (sp48 != 0) {
-        for (i = 0; i < sp48; i++) {
-            osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK);
-        }
     }
 
     gAudioContext.curAudioFrameDmaCount = 0;
@@ -221,7 +190,7 @@ AudioTask* func_800E5000(void) {
     task->yield_data_ptr = NULL;
     task->yield_data_size = 0;
 
-    HLEStart((AZI_OSTask*)task);
+    //HLEStart((AZI_OSTask*)task);
 
     if (sMaxAbiCmdCnt < abiCmdCnt) {
         sMaxAbiCmdCnt = abiCmdCnt;
@@ -299,13 +268,13 @@ void Audio_ProcessLoadCmd(AudioCmd* cmd) {
             AudioLoad_SyncLoadInstrument(cmd->arg0, cmd->arg1, cmd->arg2);
             return;
         case 0xF4:
-            AudioLoad_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
+            AudioLoad_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, nullptr);
             return;
         case 0xF5:
-            AudioLoad_AsyncLoadFont(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
+            AudioLoad_AsyncLoadFont(cmd->arg0, cmd->arg1, cmd->arg2, nullptr);
             return;
         case 0xFC:
-            AudioLoad_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
+            AudioLoad_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, nullptr);
             return;
         case 0xF6:
             AudioLoad_DiscardSeqFonts(cmd->arg1);
@@ -511,10 +480,6 @@ void Audio_ProcessCmds(u32 msg) {
 u32 func_800E5E20(u32* out) {
     u32 sp1C = 0;
 
-    if (osRecvMesg(&gAudioContext.externalLoadQueue, (OSMesg*)&sp1C, OS_MESG_NOBLOCK) == -1) {
-        *out = 0;
-        return 0;
-    }
     *out = sp1C & 0xFFFFFF;
     return sp1C >> 0x18;
 }
