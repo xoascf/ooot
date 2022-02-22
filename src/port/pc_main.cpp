@@ -114,6 +114,12 @@ void AudioMgr_HandleRetraceNULL();
 void audio_thread()
 {
 	AudioMgr_HandleRetraceNULL();
+	AiUpdate(false);
+}
+
+void audio_int()
+{
+	return;
 }
 
 void main_func(void)
@@ -151,6 +157,8 @@ void main_func(void)
 	Audio_Info.AI_STATUS_REG    = &HW_REG(AI_STATUS_REG, u32);
 	Audio_Info.AI_DACRATE_REG   = &HW_REG(AI_DACRATE_REG, u32);
 	Audio_Info.AI_BITRATE_REG   = &HW_REG(AI_BITRATE_REG, u32);
+	Audio_Info.MI_INTR_REG		= &HW_REG(MI_INTR_REG, u32);
+	Audio_Info.CheckInterrupts  = audio_int;
 
 	InitiateAudio(Audio_Info);
 
