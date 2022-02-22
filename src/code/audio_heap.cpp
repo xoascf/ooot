@@ -1,6 +1,7 @@
 #define INTERNAL_SRC_CODE_AUDIO_HEAP_C
 #include "ultra64.h"
 #include "global.h"
+#include <string.h>
 #include "z64audio.h"
 #include "def/aisetfreq.h"
 #include "def/audio_data.h"
@@ -166,7 +167,9 @@ void* AudioHeap_AllocDmaMemoryZeroed(AudioAllocPool* pool, u32 size) {
 }
 
 void* AudioHeap_AllocZeroed(AudioAllocPool* pool, u32 size) {
+#if 0
     u8* ret = (u8*)AudioHeap_Alloc(pool, size);
+
     u8* ptr;
 
     if (ret != NULL) {
@@ -176,9 +179,18 @@ void* AudioHeap_AllocZeroed(AudioAllocPool* pool, u32 size) {
     }
 
     return ret;
+#else
+	void* ret = malloc(size);
+	if(ret)
+	{
+		memset(ret, 0, size);
+	}
+	return ret;
+#endif
 }
 
 void* AudioHeap_Alloc(AudioAllocPool* pool, u32 size) {
+	return malloc(size);
     u32 aligned = ALIGN16(size);
     u8* ret = pool->cur;
 

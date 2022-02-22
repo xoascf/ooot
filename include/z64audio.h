@@ -249,7 +249,7 @@ struct SeqScriptState {
 
 // Also known as a Group, according to debug strings.
 struct SequencePlayer {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
     u8 unk_0b1 : 1;
     u8 stopScript : 1;
     u8 recalculateVolume : 1;
@@ -310,7 +310,7 @@ struct AdsrSettings {
 typedef struct {
     /* 0x00 */ union {
         struct A {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
             u8 state : 4;
             u8 release : 1;
             u8 decay : 1;
@@ -338,7 +338,7 @@ typedef struct {
 } AdsrState;
 
 struct StereoData {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
     u8 usesHeadsetPanEffects : 1;
     u8 stereoHeadsetEffects : 1;
     u8 strongLeft : 1;
@@ -375,7 +375,7 @@ struct NoteAttributes {
 
 // Also known as a SubTrack, according to sm64 debug strings.
 typedef struct SequenceChannel {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
     u8 unused : 1;
     u8 largeNotes : 1; // notes specify duration and velocity
     u8 stereoHeadsetEffects : 1;
@@ -396,7 +396,7 @@ typedef struct SequenceChannel {
 #endif
     union {
         struct {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
             u8 pan : 1;
             u8 volume : 1;
             u8 freqScale : 1;
@@ -456,7 +456,7 @@ typedef struct SequenceChannel {
 
 // Might also be known as a Track, according to sm64 debug strings (?).
 struct SequenceLayer {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
     u8 notePropertiesNeedInit : 1;
     u8 bit1 : 1; // "has initialized continuous notes"?
     u8 ignoreDrumPan : 1;
@@ -568,7 +568,7 @@ struct NotePlaybackState {
 
 typedef struct {
     struct {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
         u8 usesHeadsetPanEffects : 1; // ?
         u8 stereoHeadsetEffects : 1;
         u8 stereoStrongLeft : 1;
@@ -589,7 +589,7 @@ typedef struct {
 #endif
     } bitField0;
     struct {
-#ifdef LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN2
         u8 usesHeadsetPanEffects2 : 1;
         u8 hasTwoParts : 1;
         u8 isSyntheticWave : 1;
