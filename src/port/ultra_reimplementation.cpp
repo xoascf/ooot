@@ -502,6 +502,10 @@ static std::unordered_map<u32, uintptr_t> gRegisterMap;
 
 uintptr_t& hw_reg(u32 reg)
 {
+	if(reg == AI_DACRATE_REG || reg == AI_BITRATE_REG || reg == AI_LEN_REG)
+	{
+		int x = 0;
+	}
 	if(gRegisterMap.size() == 0)
 	{
 		gRegisterMap.reserve(64);

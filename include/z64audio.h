@@ -143,6 +143,8 @@ struct SoundFontSample {
     /* 0x0C */ AdpcmBook* book;
 }; // size = 0x10
 
+static_assert(sizeof(SoundFontSample) == 0x10, "SoundFontSample incorrect size");
+
 struct SoundFontSound {
     /* 0x00 */ SoundFontSample* sample;
     /* 0x04 */ f32 tuning; // frequency scale factor
@@ -1142,6 +1144,13 @@ enum OcarinaNoteIdx {
     /*  3 */ OCARINA_NOTE_C_LEFT,
     /*  4 */ OCARINA_NOTE_C_UP,
     /* -1 */ OCARINA_NOTE_INVALID = 0xFF
+};
+
+template <u32 SZ> struct VAdpcmBook
+{
+	s32 order;
+	s32 npredictors;
+	s16 book[SZ];
 };
 
 #define gTatumsPerBeat (D_8014A6C0[1])

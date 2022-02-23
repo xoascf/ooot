@@ -905,12 +905,14 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 switch (audioFontSample->codec) {
                     case CODEC_ADPCM:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
+                        aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
                         aSetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4,
                                    nSamplesToDecode * 2);
                         aADPCMdec(cmd++, flags, synthState->synthesisBuffers->adpcmdecState);
                         break;
                     case CODEC_SMALL_ADPCM:
+                        aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
                         aSetBuffer(cmd++, 0, addr + sampleDataStartPad, DMEM_UNCOMPRESSED_NOTE + phi_s4,

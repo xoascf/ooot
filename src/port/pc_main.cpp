@@ -110,6 +110,7 @@ bool verifyIntegrity()
 }
 
 void main_func();
+void azi_init();
 
 void main_func(void)
 {
@@ -121,6 +122,8 @@ void main_func(void)
 		return;
 	}
 #endif
+
+	azi_init();
 
 #ifdef _DEBUG//Record TAS to capture bugs and crashes
 	//oot::hid::tas::playTas(true);//Uncomment to play back TAS/crash report from end-users
@@ -221,7 +224,7 @@ extern "C" {
 			gWindow->setTargetFrameRate(FRAMERATE_MAX / frameRateDivisor());
 			gWindow->end_frame();
 		}
-		for(int i=0; i < 3; i++)
+		/*for(int i=0; i < 3; i++)
 		{
 			auto task = getAudioTask();
 
@@ -230,7 +233,7 @@ extern "C" {
 				HLEStart((AZI_OSTask*)&task->task.t);
 				AiUpdate(false);
 			}
-		}
+		}*/
 		//audio_thread();
 	}
 
