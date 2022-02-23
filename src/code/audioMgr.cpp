@@ -61,6 +61,45 @@ void audio_int()
 	 *AudioInfo.AI_STATUS_REG &= ~AI_STATUS_FIFO_FULL;
 	 *AudioInfo.MI_INTR_REG |= MI_INTR_AI;
 	 */
+	/*
+	uint32_t mi_intr_reg = HW_REG(MI_INTR_REG, u32), status_register;
+
+		mi_intr_reg &= ~MI_INTR_AI;
+		mi_intr_reg |= (m_AudioIntrReg & MI_INTR_AI);
+
+	mi_intr_reg |= (m_RspIntrReg & MI_INTR_SP);
+	mi_intr_reg |= (m_GfxIntrReg & MI_INTR_DP);
+	if((MI_INTR_MASK_REG & mi_intr_reg) != 0)
+	{
+		FAKE_CAUSE_REGISTER |= CAUSE_IP2;
+	}
+	else
+	{
+		FAKE_CAUSE_REGISTER &= ~CAUSE_IP2;
+	}
+	HW_REG(MI_INTR_REG, u32) = mi_intr_reg;
+	status_register = HW_REG(AI_STATUS_REG, u32);
+
+	if((status_register & STATUS_IE) == 0)
+	{
+		return;
+	}
+	if((status_register & STATUS_EXL) != 0)
+	{
+		return;
+	}
+	if((status_register & STATUS_ERL) != 0)
+	{
+		return;
+	}
+
+	if((status_register & FAKE_CAUSE_REGISTER & 0xFF00) != 0)
+	{
+		if(m_FirstInterupt)
+		{
+			m_FirstInterupt = false;
+		}
+	}*/
 	return;
 }
 
@@ -131,5 +170,5 @@ void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedCon
 
     InitiateAudio(Audio_Info);
 
-    t1 = std::make_unique<std::thread>(audio_thread);
+    //t1 = std::make_unique<std::thread>(audio_thread);
 }

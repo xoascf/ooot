@@ -221,6 +221,16 @@ extern "C" {
 			gWindow->setTargetFrameRate(FRAMERATE_MAX / frameRateDivisor());
 			gWindow->end_frame();
 		}
+		for(int i=0; i < 3; i++)
+		{
+			auto task = getAudioTask();
+
+			if(task)
+			{
+				HLEStart((AZI_OSTask*)&task->task.t);
+				AiUpdate(false);
+			}
+		}
 		//audio_thread();
 	}
 

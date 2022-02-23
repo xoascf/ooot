@@ -566,7 +566,7 @@ struct NotePlaybackState {
     // may contain portamento, vibratoState, if those are not part of Note itself
 };
 
-typedef struct {
+struct NoteSubEu {
     struct {
 #ifdef LITTLE_ENDIAN2
         u8 usesHeadsetPanEffects : 1; // ?
@@ -619,7 +619,9 @@ typedef struct {
              } sound;
     /* 0x14 */ s16* filter;
     /* 0x18 */ char pad_18[0x8];
-} NoteSubEu; // size = 0x20
+}; // size = 0x20
+
+static_assert(sizeof(NoteSubEu) == 0x20, "incorrect NoteSubEu size!");
 
 struct Note {
     /* 0x00 */ AudioListItem listItem;

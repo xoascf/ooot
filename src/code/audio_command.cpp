@@ -25,7 +25,7 @@ u8 D_80133418	= 0;
 #define Audio_SeqUpdateTempo2(playerIdx, a, b) Audio_QueueSeqCmd(0xB0004000 | ((playerIdx) << 24) | ((a) << 16) | (b))
 #define Audio_SeqCmd3(playerIdx, a) Audio_QueueSeqCmd(0x30000000 | ((playerIdx) << 24) | (a))
 #define Audio_SeqCmd5(playerIdx, a, b) Audio_QueueSeqCmd(0x50000000 | ((playerIdx) << 24) | ((a) << 16) | (b))
-#define Audio_SeqCmd4(playerIdx, a, b) Audio_QueueSeqCmd(0x40000000 | ((playerIdx) << 24) | ((a) << 16) | (b))
+#define Audio_SeqCmd_Trans_Volume(playerIdx, a, b) Audio_QueueSeqCmd(0x40000000 | ((playerIdx) << 24) | ((a) << 16) | (b))
 #define Audio_SetVolScaleNow(playerIdx, volFadeTimer, volScale) \
     Audio_ProcessSeqCmd(0x40000000 | ((u8)playerIdx << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
 
@@ -466,7 +466,7 @@ void func_800FA3DC(void) {
             for (j = 0; j < 4; j++) {
                 phi_f0 *= (D_8016E750[playerIdx].volScales[j] / 127.0f);
             }
-            Audio_SeqCmd4(playerIdx, D_8016E750[playerIdx].volFadeTimer, (u8)(phi_f0 * 127.0f));
+            Audio_SeqCmd_Trans_Volume(playerIdx, D_8016E750[playerIdx].volFadeTimer, (u8)(phi_f0 * 127.0f));
             D_8016E750[playerIdx].fadeVolUpdate = 0;
         }
 

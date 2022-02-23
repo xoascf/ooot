@@ -175,7 +175,7 @@ class AdpcmLoop:
 		
 		if self.count > 0:
 			for i in range(16):
-				self.states.append(readS16(f, swap = False))
+				self.states.append(readS16(f, swap = True))
 
 class AdpcmBook:
 	def __init__(self, f, parent):
@@ -185,7 +185,7 @@ class AdpcmBook:
 
 		self.books = [] # TODO LOOP THROUGH: size 8 * order * npredictors. 8-byte aligned
 		for i in range(self.order * self.npredictors * 8):
-			self.books.append(readS16(f, swap = False))
+			self.books.append(readS16(f, swap = True))
 
 def RSHIFT(n, offset, length):
 	return (n >> offset) & ((0x01 << length) - 1)
