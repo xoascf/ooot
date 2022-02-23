@@ -578,3 +578,12 @@ s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag)
 
 	return 0;
 }
+
+uintptr_t check_pointer(uintptr_t p)
+{
+	if(IsBadReadPtr((const void*)p, 1))
+	{
+		return 0;
+	}
+	return p;
+}

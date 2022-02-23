@@ -137,6 +137,7 @@ void* AudioLoad_DmaSampleData(Pointer devAddr, size_t size, s32 arg2, u8* dmaInd
     u32 transfer;
     s32 bufferPos;
     u32 i;
+    return devAddr.buffer();
 
     if (arg2 != 0 || *dmaIndexRef >= gAudioContext.sampleDmaListSize1) {
         for (i = gAudioContext.sampleDmaListSize1; i < gAudioContext.sampleDmaCount; i++) {

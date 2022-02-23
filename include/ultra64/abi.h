@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+uintptr_t check_pointer(uintptr_t p);
+
 /* Audio commands: */
 #define A_SPNOOP        0
 #define A_ADPCM         1
@@ -524,7 +526,7 @@ typedef short ENVMIX_STATE[40];
                                                                        \
         _a->words.w0 = (_SHIFTL(A_LOADBUFF, 24, 8) |                   \
                         _SHIFTL((c) >> 4, 16, 8) | _SHIFTL(d, 0, 16)); \
-        _a->words.w1 = (uintptr_t)(s);                                                              \
+        _a->words.w1 = check_pointer((uintptr_t)(s));                                                              \
     }
 
 #define aMix(pkt, f, g, i, o)                                         \
@@ -619,7 +621,7 @@ typedef short ENVMIX_STATE[40];
         Acmd *_a = (Acmd *)pkt;                                         \
                                                                         \
         _a->words.w0 = _SHIFTL(A_LOADADPCM, 24, 8) | _SHIFTL(c, 0, 24); \
-        _a->words.w1 = (uintptr_t)d;                                    \
+        _a->words.w1 = check_pointer((uintptr_t)d);                                    \
     }
 
 #define aEnvSetup1(pkt, a, b, c, d)                             \

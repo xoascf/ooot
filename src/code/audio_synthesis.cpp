@@ -880,9 +880,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     } else if (audioFontSample->medium == MEDIUM_UNK) {
                         return cmd;
                     } else {
-                        sampleData = (u8*)AudioLoad_DmaSampleData(sampleDataStart + sampleDataOffset + sampleAddr,
-                                                             ALIGN16((nFramesToDecode * frameSize) + 0x10), flags,
-                                                             &synthState->sampleDmaIndex, audioFontSample->medium);
+			            sampleData = (u8*)(sampleDataStart + sampleDataOffset + sampleAddr).get();
                     }
 
                     if (sampleData == NULL) {
