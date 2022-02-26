@@ -1293,9 +1293,6 @@ SoundFontSample* AudioLoad_GetFontSample(s32 fontId, s32 instId) {
     return ret;
 }
 
-void AudioLoad_Unused2(void) {
-}
-
 void AudioLoad_FinishSlowLoad(AudioSlowLoad* slowLoad) {
     SoundFontSample* sample;
 
