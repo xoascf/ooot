@@ -1061,8 +1061,13 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                         if (seqPlayer->defaultFont != 0xFF) {
                             offset = ((u16*)gAudioContext.sequenceFontTable)[seqPlayer->seqId];
+#ifdef LITTLE_ENDIAN
+			                lowBits = gAudioContext.sequenceFontTable[offset + 1];
+			                command = gAudioContext.sequenceFontTable[offset + lowBits - result + 1];
+#else
                             lowBits = gAudioContext.sequenceFontTable[offset];
                             command = gAudioContext.sequenceFontTable[offset + lowBits - result];
+#endif
                         }
 
                         if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, command)) {
@@ -1172,8 +1177,13 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                         if (seqPlayer->defaultFont != 0xFF) {
                             offset = ((u16*)gAudioContext.sequenceFontTable)[seqPlayer->seqId];
+#ifdef LITTLE_ENDIAN
+			                lowBits = gAudioContext.sequenceFontTable[offset + 1];
+			                command = gAudioContext.sequenceFontTable[offset + lowBits - result + 1];
+#else
                             lowBits = gAudioContext.sequenceFontTable[offset];
                             command = gAudioContext.sequenceFontTable[offset + lowBits - result];
+#endif
                         }
 
                         if (AudioHeap_SearchCaches(FONT_TABLE, CACHE_EITHER, command)) {

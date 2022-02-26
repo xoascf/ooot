@@ -392,10 +392,18 @@ SoundFontData* AudioLoad_SyncLoadSeqFonts(s32 seqId, u32* outDefaultFontId) {
 
     fontId = 0xFF;
     index = ((u16*)gAudioContext.sequenceFontTable)[seqId];
+#ifdef LITTLE_ENDIAN
+    numFonts = gAudioContext.sequenceFontTable[++index];
+#else
     numFonts = gAudioContext.sequenceFontTable[index++];
+    #endif
 
     while (numFonts > 0) {
+#ifdef LITTLE_ENDIAN
+	    fontId = gAudioContext.sequenceFontTable[++index];
+#else
         fontId = gAudioContext.sequenceFontTable[index++];
+#endif
         font = AudioLoad_SyncLoadFont(fontId);
         numFonts--;
     }
@@ -513,11 +521,19 @@ void AudioLoad_DiscardSeqFonts(s32 seqId) {
     s32 numFonts;
 
     index = ((u16*)gAudioContext.sequenceFontTable)[seqId];
+#ifdef LITTLE_ENDIAN
+    numFonts = gAudioContext.sequenceFontTable[++index];
+#else
     numFonts = gAudioContext.sequenceFontTable[index++];
+#endif
 
     while (numFonts > 0) {
         numFonts--;
+#ifdef LITTLE_ENDIAN
+	    fontId = AudioLoad_GetRealTableIndex(FONT_TABLE, gAudioContext.sequenceFontTable[++index]);
+#else
         fontId = AudioLoad_GetRealTableIndex(FONT_TABLE, gAudioContext.sequenceFontTable[index++]);
+#endif
         if (AudioHeap_SearchPermanentCache(FONT_TABLE, fontId) == NULL) {
             AudioLoad_DiscardFont(fontId);
             AudioLoad_SetFontLoadStatus(fontId, 0);
@@ -584,10 +600,18 @@ s32 AudioLoad_SyncInitSeqPlayerInternal(s32 playerIdx, s32 seqId, s32 arg2) {
 
     fontId = 0xFF;
     index = ((u16*)gAudioContext.sequenceFontTable)[seqId];
+#ifdef LITTLE_ENDIAN
+    numFonts = gAudioContext.sequenceFontTable[++index];
+#else
     numFonts = gAudioContext.sequenceFontTable[index++];
+#endif
 
     while (numFonts > 0) {
-        fontId = gAudioContext.sequenceFontTable[index++];
+#ifdef LITTLE_ENDIAN
+        fontId = gAudioContext.sequenceFontTable[++index];
+#else
+	    fontId = gAudioContext.sequenceFontTable[index++];
+#endif
         AudioLoad_SyncLoadFont(fontId);
         numFonts--;
     }
