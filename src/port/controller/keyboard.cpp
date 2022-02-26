@@ -17,6 +17,8 @@
 #include "../options.h"
 #include "tas.h"
 
+#include "../../../include/def/audio.h"
+
 extern "C"
 {
 	void set_fullscreen(bool value);
@@ -24,6 +26,7 @@ extern "C"
 
 u8 Get_Language();
 void Set_Language(u8 language_id);
+
 
 namespace oot::hid
 {
@@ -308,6 +311,14 @@ namespace oot::hid
 				set_fullscreen(oot::config().game().fullscreen());
 			}
 		}
+
+		static u16 music_bgm = (int)Sequence::MainTheme;
+		if (state[SDL_SCANCODE_F1] && (m_lastKeyState[SDL_SCANCODE_F1] ^ state[SDL_SCANCODE_F1]))
+			Audio_PlaySequence(music_bgm);
+		if (state[SDL_SCANCODE_F2] && (m_lastKeyState[SDL_SCANCODE_F2] ^ state[SDL_SCANCODE_F2]))
+			music_bgm++;
+		if (state[SDL_SCANCODE_F3] && (m_lastKeyState[SDL_SCANCODE_F3] ^ state[SDL_SCANCODE_F3]))
+			music_bgm--;
 
 		// When F5 is pressed. Mark all dpad button as pressed. Used to open map select
 		if(state[SDL_SCANCODE_F5] && (m_lastKeyState[SDL_SCANCODE_F5] ^ state[SDL_SCANCODE_F5]))

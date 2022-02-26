@@ -13,6 +13,31 @@ extern OcarinaNote* gScarecrowCustomSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
 extern u8 gUsedChannelsPerBank[4][7];
 
+enum class Sequence : u16
+{
+	MainTheme       = 2,
+	MainTheme_Part2 = 3,
+	MainTheme_Part3 = 4,
+	MainTheme_Part4 = 5,
+	MainTheme_Part5 = 6,
+	MainTheme_Part6 = 7,
+
+	TitleTheme      = 30,
+	Kakriko         = 39,
+	FairyFountain   = 40,
+	CastleCourtyard = 41,
+	ForestTemple = 44,
+	LonLonRanch  = 47,
+	GoronCity    = 48,
+	TempleOfTime = 58,
+	KokiriForest = 60,
+	LostWoods    = 62,
+	FishingPond  = 78,
+	ZorasDomain  = 80,
+	ShadowTemple = 91,
+	GerudoValley = 95,
+};
+
 void AudioDebug_ScrPrt(const s8* str, u16 num);
 void Audio_ClearSariaBgm(void);
 void Audio_ClearSariaBgm2(void);
