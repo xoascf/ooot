@@ -377,7 +377,7 @@ class Drum:
 		if OFFSET(self.envelopeOffset) > 0:
 			f.seek(self.envelopeOffset + parent.address)
 			self.adsrEnvelope = AdsrEnvelope(f)
-			envelopeSymbol = '&' + self.adsrEnvelope.getSymbol()
+			envelopeSymbol = self.adsrEnvelope.getSymbol()
 			
 		f.seek(pos)
 		
@@ -438,7 +438,7 @@ class Instrument:
 		f.seek(pos)
 		
 		#print('Instrument: normalRangeLo: %d, normalRangeHi: %d, releaseRate: %d, envelopeOffset = %8.8X (%8.8X), lowNotesSound = %s, normalNotesSound = %s, highNotesSound = %s' % (self.normalRangeLo, self.normalRangeHi, self.releaseRate, self.envelopeOffset, parent.address))
-		registerSymbol(self.getSymbol(), 'Instrument %s = {.loaded = %d, .normalRangeLo = %d, .normalRangeHi = %d, .releaseRate = %d, .envelope = %s, .lowNotesSound = %s, .normalNotesSound = %s, .highNotesSound = %s};' % (self.getSymbol(), self.loaded, self.normalRangeLo, self.normalRangeHi, self.releaseRate, getSymbolNameByOffset(self.envelopeOffset, base = parent.address, ptr = True), self.lowNotesSound.render(), self.normalNotesSound.render(), self.highNotesSound.render()), self.pos)
+		registerSymbol(self.getSymbol(), 'Instrument %s = {.loaded = %d, .normalRangeLo = %d, .normalRangeHi = %d, .releaseRate = %d, .envelope = %s, .lowNotesSound = %s, .normalNotesSound = %s, .highNotesSound = %s};' % (self.getSymbol(), self.loaded, self.normalRangeLo, self.normalRangeHi, self.releaseRate, getSymbolNameByOffset(self.envelopeOffset, base = parent.address, ptr = False), self.lowNotesSound.render(), self.normalNotesSound.render(), self.highNotesSound.render()), self.pos)
 		
 	def render(self):
 		return ''
