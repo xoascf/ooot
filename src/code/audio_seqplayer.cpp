@@ -1855,13 +1855,13 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         if (font == 3 && instr == 8)
             return "Tuba";
         if (font == 3 && instr == 9)
-            return "Glockenspiel";
+            return "Glockensp";//Glockenspiel
         if (font == 3 && instr == 10)
             return "Strings 1";
         if (font == 3 && instr == 11)
             return "Strings 2";
         if (font == 3 && instr == 12)
-            return "Pizzicato Strings";
+            return "Pizzi Strin";//Pizzicato Strings
         if (font == 3 && instr == 13)
             return "Piano";
         if (font == 3 && instr == 14)
@@ -1878,16 +1878,41 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         if (font == 6 && instr == 13)
             return "Piano";
         if (font == 6 && instr == 14)
-            return "Sustained Piano";
+            return "Sust Piano";//Sustained Piano
 
         if (font == 7 && instr == 0)
-            return "Rumbling Insides";
+            return "Rumb Insides";//Rumbling Insides
         if (font == 7 && instr == 2)
             return "Sweep Pad";
         if (font == 7 && instr == 3)
             return "Gurgling 1";
         if (font == 7 && instr == 4)
             return "Gurgling 2";
+
+        if (font == 9 && instr == 0)
+            return "Harp 1";
+        if (font == 9 && instr == 1)
+            return "Harp 2";
+        if (font == 9 && instr == 2)
+            return "Harp 3";
+        if (font == 9 && instr == 3)
+            return "Harp 4";
+        if (font == 9 && instr == 4)
+            return "Strings 1";
+        if (font == 9 && instr == 5)
+            return "Ocarina";
+        if (font == 9 && instr == 6)
+            return "Vocals 1";
+        if (font == 9 && instr == 7)
+            return "Vocals 2";
+        if (font == 9 && instr == 8)
+            return "Glockens";//Glockenspiel
+        if (font == 9 && instr == 10)
+            return "Strings 2";
+        if (font == 9 && instr == 11)
+            return "Strings 3";
+        if (font == 9 && instr == 12)
+            return "Pizzi Strin";//Pizzicato Strings
 
         return "???";
     };
@@ -1906,7 +1931,13 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
             if (layer == NULL || !layer->enabled)
                 continue;
 
-            auto& instrument  = channel->instrument;
+            auto& instrument = channel->instrument;
+            int volume = (int)(channel->appliedVolume * 100.0f);
+
+            if (layer->delay > 5)//Not being played
+                continue;
+            if (volume <= 5)//Too silent
+                continue;
 
             char buffer[256];
 
@@ -1915,11 +1946,11 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                 char name[128];
                 sprintf(name, GetInstrumentName(channel->fontId, instrument->id));
 
-                sprintf(buffer, "[Ch%d L%d] F%d, I%d (%s) %s\n",
-                    i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst" : "Wav", name);
+                sprintf(buffer, "[Ch%d L%d] F%d, I%d (%s) %s %d\n",
+                    i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst" : "Wav", name, volume);
             }
             else
-                sprintf(buffer, "[Ch%d L%d] Font %d, (%s)\n",
+                sprintf(buffer, "[Ch%d L%d] Font %d (%s)\n",
                     i, j, channel->fontId, channel->instOrWave ? "Inst." : "Wav");
 
             Debug_Print(buffer);
