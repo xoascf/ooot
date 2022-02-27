@@ -1,4 +1,6 @@
 #define INTERNAL_SRC_CODE_AUDIO_SEQPLAYER_C
+#include <stdio.h>
+#include <windows.h>
 #include "ultra64.h"
 #include "global.h"
 #include "z64audio.h"
@@ -1768,6 +1770,48 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
             AudioSeq_SequenceChannelProcessScript(seqPlayer->channels[i]);
         }
     }
+
+
+#ifdef _DEBUG//Debug output
+    auto clear = []() {
+        COORD topLeft  = { 0, 0 };
+        HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+        CONSOLE_SCREEN_BUFFER_INFO screen;
+        DWORD written;
+
+        GetConsoleScreenBufferInfo(console, &screen);
+        FillConsoleOutputCharacterA(console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
+        FillConsoleOutputAttribute(console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE, screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
+        SetConsoleCursorPosition(console, topLeft);
+    };
+
+    clear();
+    printf("-----------\n");
+    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++)
+    {
+        auto& channel = seqPlayer->channels[i];
+
+        if (!seqPlayer->channels[i]->enabled)
+            continue;
+
+        for (int j = 0; j < ARRAY_COUNT(channel->layers); j++)
+        {
+            auto& layer = channel->layers[j];
+            if (layer == NULL || !layer->enabled)
+                continue;
+
+            auto& instrument = layer->instrument;
+
+            if (instrument)
+                printf("[Ch %d, L %d]  Font %d, Instr. %d (%s) %s\n",
+                    i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst." : "Wav", instrument->name);
+            else
+                printf("[Ch %d, L %d]  Font %d, (%s)\n",
+                    i, j, channel->fontId, channel->instOrWave ? "Inst." : "Wav");
+        }
+    }
+    printf("-----------\n");
+#endif
 }
 
 void AudioSeq_ProcessSequences(s32 arg0) {

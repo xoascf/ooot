@@ -220,6 +220,10 @@ struct Instrument {
     /* 0x08 */ SoundFontSound lowNotesSound;
     /* 0x10 */ SoundFontSound normalNotesSound;
     /* 0x18 */ SoundFontSound highNotesSound;
+#ifdef _DEBUG
+    int id;
+    char name[128];
+#endif
 }; // size = 0x20
 
 struct Drum {
