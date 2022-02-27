@@ -1597,7 +1597,8 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* mem, RelocIn
     SoundFontSample* sample;
     void* reloc;
 
-    if (BEE32((u32)sound->sample) <= 0x80000000) {
+    //if (BEE32((u32)sound->sample) <= 0x80000000)
+    {
         sample = sound->sample; // = (SoundFontSample*)RELOC(sound->sample, mem);
         if (sample->size != 0 && sample->unk_bit25 != 1) {
             //sample->loop = (AdpcmLoop*)RELOC(sample->loop, mem);

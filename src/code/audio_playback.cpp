@@ -359,7 +359,7 @@ Drum* Audio_GetDrum(s32 fontId, s32 drumId) {
         return NULL;
     }
     if ((uintptr_t)gAudioContext.soundFonts[fontId].drums < 0x80000000) {
-        return NULL;
+        //return NULL;
     }
     drum = gAudioContext.soundFonts[fontId].drums[drumId];
 
@@ -388,7 +388,7 @@ SoundFontSound* Audio_GetSfx(s32 fontId, s32 sfxId) {
     }
 
     if ((uintptr_t)gAudioContext.soundFonts[fontId].soundEffects < 0x80000000) {
-        return NULL;
+        //return NULL;
     }
 
     sfx = &gAudioContext.soundFonts[fontId].soundEffects[sfxId];
