@@ -342,6 +342,11 @@ Instrument* Audio_GetInstrumentInner(s32 fontId, s32 instId) {
 
 #ifdef _DEBUG
     inst->id = instId;
+
+    //Uncomment to disable everything except for these instruments:
+    //if (fontId == 6 && instId == 1)//title screen ocarina
+        //return inst;
+    //return NULL;
 #endif
 
     return inst;
