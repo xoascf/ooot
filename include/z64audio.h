@@ -1027,7 +1027,7 @@ struct unk_D_8016E750 {
     /* 0x013 */ u8 fadeVolUpdate;
     /* 0x014 */ u32 unk_14;
     /* 0x018 */ u16 unk_18;
-    /* 0x01C */ f32 unk_1C;
+    /* 0x01C */ f32 tempo;
     /* 0x020 */ f32 unk_20;
     /* 0x024 */ f32 unk_24;
     /* 0x028 */ u16 unk_28;

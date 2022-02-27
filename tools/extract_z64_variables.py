@@ -393,10 +393,22 @@ class Drum:
 class AdsrEnvelope:
 	def __init__(self, f):
 		self.pos = f.tell()
-		self.delay = readS16(f)
-		self.arg = readS16(f)
+
+		self.delays = []
+		self.args = []
+		lst = []
+
+		delay = 0
+
+		for i in range(32):
+			if delay < 0:
+				break
+			delay = readS16(f)
+			arg = readS16(f)
+			lst.append('{.delay = %d, .arg = %d}' % (delay, arg))
+
 		
-		registerSymbol(self.getSymbol(), 'AdsrEnvelope %s = {.delay = %d, .arg = %d};' % (self.getSymbol(), self.delay, self.arg), self.pos)
+		registerSymbol(self.getSymbol(), 'AdsrEnvelope %s[] = {%s};' % (self.getSymbol(), ', '.join(lst)), self.pos)
 		
 	def render(self):
 		return ''
