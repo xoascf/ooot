@@ -12,6 +12,7 @@
 #include "def/audio_seqplayer.h"
 #include "def/audio_rsp.h"
 #include "def/audio_bank.h"
+#include "def/gfxprint.h"
 
 #define PORTAMENTO_IS_SPECIAL(x) ((x).mode & 0x80)
 #define PORTAMENTO_MODE(x) ((x).mode & ~0x80)
@@ -956,7 +957,7 @@ u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** inst
 }
 
 void AudioSeq_SetInstrument(SequenceChannel* channel, u8 instId) {
-    if (instId >= 0x80) {
+    if (instId >= 0x80) {   
         channel->instOrWave = instId;
         channel->instrument = NULL;
     } else if (instId == 0x7F) {
@@ -1802,12 +1803,16 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
 
             auto& instrument = layer->instrument;
 
+            char buffer[256];
+
             if (instrument)
-                printf("[Ch %d, L %d]  Font %d, Instr. %d (%s) %s\n",
+                sprintf(buffer, "[Ch %d, L %d]  Font %d, Instr. %d (%s) %s\n",
                     i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst." : "Wav", instrument->name);
             else
-                printf("[Ch %d, L %d]  Font %d, (%s)\n",
+                sprintf(buffer, "[Ch %d, L %d]  Font %d, (%s)\n",
                     i, j, channel->fontId, channel->instOrWave ? "Inst." : "Wav");
+
+            Debug_Print(buffer);
         }
     }
     printf("-----------\n");

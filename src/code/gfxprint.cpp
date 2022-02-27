@@ -1,5 +1,6 @@
 #define INTERNAL_SRC_CODE_GFXPRINT_C
 #include "global.h"
+#include "macros.h"
 #include "gfx.h"
 #include "gfxprint.h"
 #include "def/gfxprint.h"
@@ -380,4 +381,63 @@ s32 GfxPrint_Printf(GfxPrint* pthis, const char* fmt, ...) {
     va_end(args);
 
     return ret;
+}
+
+//Debug printf
+
+Gfx* func_8009411C(Gfx* gfx);
+void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
+void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
+#include <stdlib.h>
+#include <stdio.h>
+
+char gDebugLines[20][256];
+int  gDebugCurrentLine = 0;
+
+
+void Debug_Clear()
+{
+    gDebugCurrentLine = 0;
+}
+
+void Debug_Print(const char* String)
+{
+    if (gDebugCurrentLine >= 20)
+        return;
+    snprintf(gDebugLines[gDebugCurrentLine], sizeof(gDebugLines[gDebugCurrentLine]), String);
+    gDebugCurrentLine++;
+}
+
+void Debug_Draw(GraphicsContext* gfxCtx)
+{
+    OPEN_DISPS(gfxCtx, "../z_graph.c", 494);
+
+    gSPSegment(POLY_OPA_DISP++, 0, NULL);
+
+    //Gfx_ClearDisplay(gfxCtx, 0, 0, 0);
+
+    Gfx* gfx = POLY_OPA_DISP;
+    Gfx* g = func_8009411C(gfx);
+
+    //GfxPrint* printer = (GfxPrint*)_alloca(sizeof(GfxPrint));
+    GfxPrint* printer = (GfxPrint*)malloc(sizeof(GfxPrint));
+    GfxPrint_Init(printer);
+    GfxPrint_Open(printer, g);
+
+    for (int i = 0; i < gDebugCurrentLine; i++)
+    {
+        GfxPrint_SetColor(printer, 255, 255, 255, 255);
+        //GfxPrint_SetPos(printer, 3, 28);
+        GfxPrint_SetPos(printer, -5, i);
+
+        GfxPrint_Printf(printer, gDebugLines[i]);
+    }
+
+    g = GfxPrint_Close(printer);
+    GfxPrint_Destroy(printer);
+    POLY_OPA_DISP = g;
+
+    CLOSE_DISPS(gfxCtx, "../z_graph.c", 541);
+
+    Debug_Clear();
 }

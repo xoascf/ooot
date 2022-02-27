@@ -38,6 +38,9 @@
 #include "def/z_play.h" // FORCE
 #include "../port/controller/tas.h"
 #include "../port/options.h"
+#include "gfx.h"
+#include "gfxprint.h"
+#include "def/gfxprint.h"
 
 extern GameStateOverlay gGameStateOverlayTable[6];
 extern PreNmiBuff* gAppNmiBufferPtr;
@@ -236,6 +239,9 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gameState->size = sizeof(SelectContext);
         gameState->running = false;
     }
+
+    
+    Debug_Draw(gfxCtx);
 #endif
 
     OPEN_DISPS(gfxCtx, "../graph.c", 987);
