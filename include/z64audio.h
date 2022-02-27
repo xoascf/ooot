@@ -222,7 +222,6 @@ struct Instrument {
     /* 0x18 */ SoundFontSound highNotesSound;
 #ifdef _DEBUG
     int id;
-    char name[128];
 #endif
 }; // size = 0x20
 

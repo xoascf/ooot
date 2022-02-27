@@ -391,7 +391,7 @@ void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file,
 #include <stdlib.h>
 #include <stdio.h>
 
-char gDebugLines[20][256];
+char gDebugLines[20][512];
 int  gDebugCurrentLine = 0;
 
 
@@ -427,7 +427,6 @@ void Debug_Draw(GraphicsContext* gfxCtx)
     for (int i = 0; i < gDebugCurrentLine; i++)
     {
         GfxPrint_SetColor(printer, 255, 255, 255, 255);
-        //GfxPrint_SetPos(printer, 3, 28);
         GfxPrint_SetPos(printer, -5, i);
 
         GfxPrint_Printf(printer, gDebugLines[i]);

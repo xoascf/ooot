@@ -1774,20 +1774,125 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
 
 
 #ifdef _DEBUG//Debug output
-    auto clear = []() {
-        COORD topLeft  = { 0, 0 };
-        HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-        CONSOLE_SCREEN_BUFFER_INFO screen;
-        DWORD written;
+    auto GetInstrumentName = [](int font, int instr) {
+        if (font == 0 && instr == 0)
+            return "Step - Ground";
+        if (font == 0 && instr == 1)
+            return "Step - Sand";
+        if (font == 0 && instr == 2)
+            return "Step - Rock";
+        if (font == 0 && instr == 3)
+            return "Step - Wet Dirt";
+        if (font == 0 && instr == 4)
+            return "Step - Water";
+        if (font == 0 && instr == 5)
+            return "Step - Carpet";
+        if (font == 0 && instr == 6)
+            return "Step - Thick Carpet";
+        if (font == 0 && instr == 7)
+            return "Step - Tall Grass";
+        if (font == 0 && instr == 11)
+            return "Wood Tap";
+        if (font == 0 && instr == 8)
+            return "Synth Pad Sting";
+        if (font == 0 && instr == 9)
+            return "Small Splash";
+        if (font == 0 && instr == 10)
+            return "Crunchy Drop";
+        if (font == 0 && instr == 12)
+            return "Sliding Block";
+        if (font == 0 && instr == 13)
+            return "Boots Sliding";
+        if (font == 0 && instr == 14)
+            return "Heavy Slide";
+        if (font == 0 && instr == 16)
+            return "Staticky Sound";
+        if (font == 0 && instr == 17)
+            return "Distorted Sound";
+        if (font == 0 && instr == 18)
+            return "Rushing Water";
+        if (font == 0 && instr == 19)
+            return "Large Water Splash";
+        if (font == 0 && instr == 20)
+            return "Swimming";
+        if (font == 0 && instr == 21)
+            return "Crash and Gunshot";
+        if (font == 0 && instr == 22)
+            return "Step - Wood + Metal";
+        if (font == 0 && instr == 23)
+            return "Step - Fire";
+        if (font == 0 && instr == 24)
+            return "Iron Boots 2";
+        if (font == 0 && instr == 25)
+            return "Step - Wet Rock";
+        if (font == 0 && instr == 15)
+            return "Crackling Fire (Keese)";
+        if (font == 0 && instr == 26)
+            return "Sword Strike";
+        if (font == 0 && instr == 27)
+            return "Sword Miss";
+        if (font == 0 && instr == 28)
+            return "Put Away Sword";
+        if (font == 0 && instr == 29)
+            return "Draw Sword";
+        if (font == 0 && instr == 30)
+            return "Swing Sword";
 
-        GetConsoleScreenBufferInfo(console, &screen);
-        FillConsoleOutputCharacterA(console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
-        FillConsoleOutputAttribute(console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE, screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
-        SetConsoleCursorPosition(console, topLeft);
+        if (font == 3 && instr == 1)
+            return "Pan Flute";
+        if (font == 3 && instr == 2)
+            return "Oboe";
+        if (font == 3 && instr == 3)
+            return "Clarinet";
+        if (font == 3 && instr == 4)
+            return "Bassoon";
+        if (font == 3 && instr == 5)
+            return "Horn";
+        if (font == 3 && instr == 6)
+            return "Trumpet";
+        if (font == 3 && instr == 7)
+            return "Trombone";
+        if (font == 3 && instr == 8)
+            return "Tuba";
+        if (font == 3 && instr == 9)
+            return "Glockenspiel";
+        if (font == 3 && instr == 10)
+            return "Strings 1";
+        if (font == 3 && instr == 11)
+            return "Strings 2";
+        if (font == 3 && instr == 12)
+            return "Pizzicato Strings";
+        if (font == 3 && instr == 13)
+            return "Piano";
+        if (font == 3 && instr == 14)
+            return "Harp";
+        if (font == 3 && instr == 15)
+            return "Marimba";
+
+        if (font == 6 && instr == 1)
+            return "Ocarina";
+        if (font == 6 && instr == 10)
+            return "Strings 1";
+        if (font == 6 && instr == 11)
+            return "Strings 2";
+        if (font == 6 && instr == 13)
+            return "Piano";
+        if (font == 6 && instr == 14)
+            return "Sustained Piano";
+
+        if (font == 7 && instr == 0)
+            return "Rumbling Insides";
+        if (font == 7 && instr == 2)
+            return "Sweep Pad";
+        if (font == 7 && instr == 3)
+            return "Gurgling 1";
+        if (font == 7 && instr == 4)
+            return "Gurgling 2";
+
+        return "???";
     };
 
-    clear();
-    printf("-----------\n");
+
     for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++)
     {
         auto& channel = seqPlayer->channels[i];
@@ -1801,21 +1906,25 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
             if (layer == NULL || !layer->enabled)
                 continue;
 
-            auto& instrument = layer->instrument;
+            auto& instrument  = channel->instrument;
 
             char buffer[256];
 
-            if (instrument)
-                sprintf(buffer, "[Ch %d, L %d]  Font %d, Instr. %d (%s) %s\n",
-                    i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst." : "Wav", instrument->name);
+            if (instrument && instrument != (Instrument*)1 && instrument != (Instrument*)2)
+            {
+                char name[128];
+                sprintf(name, GetInstrumentName(channel->fontId, instrument->id));
+
+                sprintf(buffer, "[Ch%d L%d] F%d, I%d (%s) %s\n",
+                    i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst" : "Wav", name);
+            }
             else
-                sprintf(buffer, "[Ch %d, L %d]  Font %d, (%s)\n",
+                sprintf(buffer, "[Ch%d L%d] Font %d, (%s)\n",
                     i, j, channel->fontId, channel->instOrWave ? "Inst." : "Wav");
 
             Debug_Print(buffer);
         }
     }
-    printf("-----------\n");
 #endif
 }
 
