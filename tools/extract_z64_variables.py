@@ -219,7 +219,7 @@ class AdpcmLoop:
 		sstates = []
 		if self.count > 0:
 			for i in range(16):
-				s = readS16(f, swap = True)
+				s = readS16(f, swap = False)
 				self.states.append(s)
 				sstates.append("{0:#0{1}x}".format(s,6))
 		registerSymbol(self.getSymbol(), 'AdpcmLoop %s = {.start = %d, .end = %d, .count = %d, .unk_0C = {%s}, .state = {%s}};' % (self.getSymbol(), self.start, self.end, self.count, ', '.join(sunks), ', '.join(sstates)), self.pos)
@@ -240,7 +240,7 @@ class AdpcmBook:
 		sbooks = []
 		self.books = [] # TODO LOOP THROUGH: size 8 * order * npredictors. 8-byte aligned
 		for i in range(self.order * self.npredictors * 8):
-			b = readS16(f, swap = True)
+			b = readS16(f, swap = False)
 			self.books.append(b)
 			#sbooks.append('0x%4.4X' % b)
 			sbooks.append("{0:#0{1}x}".format(b,6))

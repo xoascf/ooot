@@ -1930,7 +1930,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         return "???";
     };
 
-
+    
     for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++)
     {
         auto& channel = seqPlayer->channels[i];
@@ -1959,8 +1959,8 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                 char name[128];
                 sprintf(name, GetInstrumentName(channel->fontId, instrument->id));
 
-                sprintf(buffer, "Ch%d L%d F%d, I%d %s %s %d\n",
-                    i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst" : "Wav", name, volume);
+                sprintf(buffer, "Ch%dL%dF%dI%d %s %s %d\n",
+                    i, j, channel->fontId, instrument->id, channel->instOrWave ? "Ins" : "Wav", name, volume);
             }
             else
                 sprintf(buffer, "[Ch%d L%d] Font %d (%s)\n",

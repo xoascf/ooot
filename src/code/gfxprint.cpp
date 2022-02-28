@@ -402,7 +402,7 @@ void Debug_Clear()
 
 void Debug_Print(const char* String)
 {
-    if (gDebugCurrentLine >= 20)
+    if (gDebugCurrentLine >= 16)
         return;
     snprintf(gDebugLines[gDebugCurrentLine], sizeof(gDebugLines[gDebugCurrentLine]), String);
     gDebugCurrentLine++;
