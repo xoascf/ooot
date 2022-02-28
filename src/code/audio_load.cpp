@@ -1604,7 +1604,7 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* mem, RelocIn
         if (sample->size != 0 && sample->unk_bit25 != 1) {
             //sample->loop = (AdpcmLoop*)RELOC(sample->loop, mem);
             //sample->book = (AdpcmBook*)RELOC(sample->book, mem);
-
+            sample->medium = 0;//!!!
             // Resolve the sample medium 2-bit bitfield into a real value based on relocInfo.
             switch (BEE32(sample->medium)) {
                 case 0: // read from baserom/Audiotable

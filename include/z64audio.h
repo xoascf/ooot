@@ -768,6 +768,8 @@ struct AudioPreloadReq {
     /* 0x10 */ s32 isFree;
 }; // size = 0x14
 
+#pragma pack(1)
+
 typedef struct {
     union{
         u32 opArgs;
@@ -817,6 +819,8 @@ typedef struct {
 #endif
     };
 } AudioCmd;
+
+#pragma pack()
 
 struct AudioAsyncLoad {
     /* 0x00 */ s8 status;

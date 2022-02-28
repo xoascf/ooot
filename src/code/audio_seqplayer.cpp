@@ -1789,7 +1789,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
 #ifdef _DEBUG//Debug output
     auto GetInstrumentName = [](int font, int instr) {
         if (font == 0 && instr == 0)
-            return "Step - Ground";
+            return "Ground";//Step - Ground
         if (font == 0 && instr == 1)
             return "Step - Sand";
         if (font == 0 && instr == 2)
@@ -1864,7 +1864,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         if (font == 3 && instr == 6)
             return "Trumpet";
         if (font == 3 && instr == 7)
-            return "Trombone";
+            return "Tromb";//Trombone
         if (font == 3 && instr == 8)
             return "Tuba";
         if (font == 3 && instr == 9)
@@ -1959,7 +1959,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                 char name[128];
                 sprintf(name, GetInstrumentName(channel->fontId, instrument->id));
 
-                sprintf(buffer, "[Ch%d L%d] F%d, I%d (%s) %s %d\n",
+                sprintf(buffer, "Ch%d L%d F%d, I%d %s %s %d\n",
                     i, j, channel->fontId, instrument->id, channel->instOrWave ? "Inst" : "Wav", name, volume);
             }
             else
