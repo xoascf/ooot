@@ -65,7 +65,7 @@ static EnDoorInfo sDoorInfo[] = {
     { SCENE_MIZUSIN, 2, OBJECT_MIZU_OBJECTS },
     { SCENE_HAKADAN, 3, OBJECT_HAKA_DOOR },
     { SCENE_HAKADANCH, 3, OBJECT_HAKA_DOOR },
-#ifdef N64_VERSION
+#ifndef N64_VERSION
     { SCENE_BMORI1, 0, OBJECT_GAMEPLAY_KEEP },//Doors in the forest temple. Might be incorrect
 #endif
     // KEEP objects should remain last and in pthis order
@@ -211,7 +211,7 @@ void EnDoor_Idle(EnDoor* pthis, GlobalContext* globalCtx) {
     if (pthis->playerIsOpening != 0) {
         pthis->actionFunc = EnDoor_Open;
         Animation_PlayOnceSetSpeed(&pthis->skelAnime, D_809FCECC[pthis->animStyle],
-                                   (player->stateFlags1 & 0x8000000) ? 0.75f : 1.5f);
+                                   (player->stateFlags1 & 0x8000000) ? 0.75f : 1.5f);//Swimming?
         if (pthis->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
             Flags_SetSwitch(globalCtx, pthis->actor.params & 0x3F);

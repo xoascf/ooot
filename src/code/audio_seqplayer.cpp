@@ -22,6 +22,14 @@
 #define PORTAMENTO_MODE_4 4
 #define PORTAMENTO_MODE_5 5
 
+#if 0
+#define BES16(x) ((s16)BE16((u16)x))
+#define BEU16(x) (BE16(x))
+#else
+#define BES16(x) (x)
+#define BEU16(x) (x)
+#endif
+
 u8 AudioSeq_ScriptReadU8(SeqScriptState* state);
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state);
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state);
@@ -372,18 +380,18 @@ u8 AudioSeq_ScriptReadU8(SeqScriptState* state) {
 }
 
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state) {
-    s16 ret = *(state->pc++) << 8;
+    s16 ret = BES16(*(state->pc++)) << 8;
 
-    ret = *(state->pc++) | ret;
+    ret = BES16(*(state->pc++)) | ret;
     return ret;
 }
 
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state) {
-    u16 ret = *(state->pc++);
+    u16 ret = BEU16(*(state->pc++));
 
     if (ret & 0x80) {
         ret = (ret << 8) & 0x7F00;
-        ret = *(state->pc++) | ret;
+        ret = BEU16(*(state->pc++)) | ret;
     }
     return ret;
 }

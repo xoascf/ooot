@@ -257,10 +257,11 @@ def RSHIFT(n, offset, length):
 	return (n >> offset) & ((0x01 << length) - 1)
 
 class BufferU8:
-	def __init__(self, parent, offset, size):
+	def __init__(self, parent, offset, size, dataFile = 'baserom/Audiotable'):
 		self.pos = offset
 		data = []
-		with open(assetPath('baserom/Audiotable'), 'rb') as f:
+		with open(assetPath(dataFile), 'rb') as f:
+			f.seek(offset)
 			for b in f.read(size):
 				data.append(hex(b))
 		registerSymbol(self.getSymbol(), 'u8 %s[] = {%s};' % (self.getSymbol(), ', '.join(data)), self.pos + 0x10000000)
@@ -291,7 +292,6 @@ class SoundFontSample:
 		self.unk_bit26 = RSHIFT(self.flags, 26, 1)
 		self.medium = RSHIFT(self.flags, 27, 2)
 		self.codec = RSHIFT(self.flags, 29, 4)
-		#self.unk_bit26 = 1
 
 		print('sample flags: %8.8X, size = %d, codec = %d, medium = %d, unk_bit26 = %d, unk_bit25 = %d, sampleOffset = %8.8X' % (self.flags, self.size, self.codec, self.medium, self.unk_bit26, self.unk_bit25, self.sampleOffset))
 		
@@ -314,13 +314,13 @@ class SoundFontSample:
 
 		sampleSymbol = '0x%8.8X' % self.sampleOffset
 
-		if (self.medium != 0 and self.medium != 1) or 1 == 0:
+		'''
+		if self.medium == 0 or self.medium == 2:
 			if self.sampleOffset > 0:
-				#self.medium = 0 # MEDIUM_RAM
-				#f.seek(self.sampleOffset + parent.address)
-				f.seek(self.sampleOffset)
-				self.sampleBuffer = BufferU8(parent, offset = self.sampleOffset, size = self.size)
+				self.sampleBuffer = BufferU8(parent, offset = self.sampleOffset, size = self.size, dataFile = 'baserom/Audiotable')
+				self.medium = 2
 				sampleSymbol = self.sampleBuffer.getSymbol()
+		'''
 
 		f.seek(pos)
 		

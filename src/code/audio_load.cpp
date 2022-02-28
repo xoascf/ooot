@@ -949,6 +949,7 @@ static void AudioLoad_SyncDma(Pointer devAddr, Pointer addr, size_t size, s32 me
 }
 
 static void AudioLoad_SyncDmaUnkMedium(Pointer devAddr, Pointer addr, size_t size, s32 unkMediumParam) {
+	memcpy(addr.buffer(), devAddr.buffer(), size);
     return;
 }
 
@@ -1624,7 +1625,10 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* mem, RelocIn
 
             sample->unk_bit25 = 1;
             if (sample->unk_bit26 && (sample->medium != MEDIUM_RAM)) {
-                gAudioContext.usedSamples[gAudioContext.numUsedSamples++] = sample;
+		        if(gAudioContext.numUsedSamples < ARRAY_COUNT(gAudioContext.usedSamples))
+		        {
+			        gAudioContext.usedSamples[gAudioContext.numUsedSamples++] = sample;
+		        }
             }
         }
     }
@@ -1658,7 +1662,7 @@ void AudioLoad_RelocateFontAndPreloadSamples(s32 fontId, SoundFontData* mem, Rel
     }
 
     for (i = 0; i < gAudioContext.numUsedSamples; i++) {
-        if (gAudioContext.preloadSampleStackTop == 120) {
+        if (gAudioContext.preloadSampleStackTop == ARRAY_COUNT(gAudioContext.usedSamples) - 8) {
             break;
         }
 
@@ -1843,7 +1847,10 @@ void AudioLoad_AddUsedSample(SoundFontSound* sound) {
     SoundFontSample* sample = sound->sample;
 
     if ((sample->size != 0) && (sample->unk_bit26) && (sample->medium != MEDIUM_RAM)) {
-        gAudioContext.usedSamples[gAudioContext.numUsedSamples++] = sample;
+	    if(gAudioContext.numUsedSamples < ARRAY_COUNT(gAudioContext.usedSamples))
+	    {
+		    gAudioContext.usedSamples[gAudioContext.numUsedSamples++] = sample;
+	    }
     }
 }
 
@@ -1912,7 +1919,7 @@ void AudioLoad_PreloadSamplesForFont(s32 fontId, s32 async, RelocInfo* relocInfo
     if (size) {}
 
     for (i = 0; i < gAudioContext.numUsedSamples; i++) {
-        if (gAudioContext.preloadSampleStackTop == 120) {
+        if (gAudioContext.preloadSampleStackTop == ARRAY_COUNT(gAudioContext.usedSamples) - 8) {
             break;
         }
 
@@ -2033,16 +2040,16 @@ void AudioLoad_ScriptLoad(s32 tableType, s32 id, s8* isDone) {
 
 void AudioLoad_ProcessScriptLoads(void) {
     u32 temp = 0;
-    u32 sp20 = 0; // TODO FIX
+    u32 sp20;
     s8* isDone;
 
-    //if (osRecvMesg(&sScriptLoadQueue, (OSMesg*)&sp20, OS_MESG_NOBLOCK) != -1) { TODO FIX HACK
+    if (osRecvMesg(&sScriptLoadQueue, (OSMesg*)&sp20, OS_MESG_NOBLOCK) != -1) {
         temp = sp20 >> 24;
         isDone = sScriptLoadDonePointers[temp];
         if (isDone != NULL) {
             *isDone = 0;
         }
-    //}
+    }
 }
 
 void AudioLoad_InitScriptLoads(void) {

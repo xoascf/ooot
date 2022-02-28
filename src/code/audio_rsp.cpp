@@ -529,7 +529,7 @@ void Audio_PreNMIInternal(void) {
     }
 }
 
-s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
+s8 Audio_GetScriptIO_Value(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     SequenceChannel* channel;
     if (seqPlayer->enabled) {
