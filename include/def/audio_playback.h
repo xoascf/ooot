@@ -38,4 +38,4 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target);
 void Audio_SeqLayerNoteDecay(SequenceLayer* layer);
 void Audio_SeqLayerNoteRelease(SequenceLayer* layer);
 s32 Audio_SetFontInstrument(s32 instrumentType, s32 fontId, s32 index, void* value);
-void func_800E82C0(Note* note, SequenceLayer* layer);
+void Audio_NoteReleaseAndTakeOwnership2(Note* note, SequenceLayer* layer);

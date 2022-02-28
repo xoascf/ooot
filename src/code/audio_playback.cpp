@@ -180,7 +180,7 @@ void Audio_ProcessNotes(void) {
         playbackState = &note->playbackState;
         if (playbackState->parentLayer != NO_LAYER) {
             if ((uintptr_t)playbackState->parentLayer < 0x7FFFFFFF) {
-                continue;
+                //continue;
             }
 
             if (note != playbackState->parentLayer->note && playbackState->unk_04 == 0) {
@@ -800,7 +800,7 @@ void Audio_NoteInitForLayer(Note* note, SequenceLayer* layer) {
     sub->bitField1.reverbIndex = layer->channel->reverbIndex & 3;
 }
 
-void func_800E82C0(Note* note, SequenceLayer* layer) {
+void Audio_NoteReleaseAndTakeOwnership2(Note* note, SequenceLayer* layer) {
     // similar to Audio_NoteReleaseAndTakeOwnership, hard to say what the difference is
     Audio_SeqLayerNoteRelease(note->playbackState.parentLayer);
     note->playbackState.wantedParentLayer = layer;
@@ -857,7 +857,7 @@ Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
 
     if (aPriority < rPriority) {
         Audio_AudioListRemove(&aNote->listItem);
-        func_800E82C0(aNote, layer);
+        Audio_NoteReleaseAndTakeOwnership2(aNote, layer);
         AudioSeq_AudioListPushBack(&pool->releasing, &aNote->listItem);
         aNote->playbackState.priority = layer->channel->notePriority;
         return aNote;

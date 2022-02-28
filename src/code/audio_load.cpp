@@ -396,7 +396,7 @@ SoundFontData* AudioLoad_SyncLoadSeqFonts(s32 seqId, u32* outDefaultFontId) {
     numFonts = gAudioContext.sequenceFontTable[++index];
 #else
     numFonts = gAudioContext.sequenceFontTable[index++];
-    #endif
+#endif
 
     while (numFonts > 0) {
 #ifdef LITTLE_ENDIAN
