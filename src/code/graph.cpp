@@ -337,7 +337,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         gfxCtx->fbIdx++;
     }
 
-    func_800F3054();
+    Audio_UpdateAll();
 
     {
         OSTime time = osGetTime();
