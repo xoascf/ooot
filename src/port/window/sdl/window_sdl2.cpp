@@ -14,6 +14,7 @@
 #include <chrono>
 #include <memory>
 #include "z64message.h"
+#include <cstring>
 
 
 void quit();
