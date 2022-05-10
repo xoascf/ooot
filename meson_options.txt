@@ -1,1 +1,2 @@
 option('x64', type : 'boolean', value : false, description : 'Build for x64 architecture', yield : true)
+option('buildRom', type : 'combo', choices : ['EUR_MQD', 'PAL_1.0'], value : 'EUR_MQD')
